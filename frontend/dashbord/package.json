@@ -2,11 +2,16 @@
   "name": "dashbord",
   "private": true,
   "version": "0.0.0",
+  "description": "Dashboard : Admin pour Zana Clean Car",
+  "author": "ROGERET Kevin",
+  "license": "MIT",
   "type": "module",
   "scripts": {
+    "start": "vite --port 8080 --host 0.0.0.0",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "dependencies": {
     "pinia": "^3.0.1",
@@ -15,6 +20,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "vitest": "^3.0.9"
   }
 }
