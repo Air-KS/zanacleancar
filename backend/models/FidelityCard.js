@@ -1,0 +1,28 @@
+/*
+  ./backend/models/User.js
+*/
+
+'use strict';
+
+module.exports = (sequelize, DataTypes) => {
+  const FidelityCard = sequelize.define('FidelityCard', {
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    is_completed: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+  }, {
+    tableName: 'FidelityCards',
+    underscored: true,
+    timestamps: true,
+  });
+
+  FidelityCard.associate = (models) => {
+    FidelityCard.belongsTo(models.User, { foreignKey: 'user_id' });
+  };
+
+  return FidelityCard;
+};
