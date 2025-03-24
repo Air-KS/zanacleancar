@@ -1,5 +1,5 @@
 /*
-  ./backend/models/User.js
+  ./backend/models/FidelityCard.js
 */
 
 'use strict';

@@ -36,22 +36,22 @@ module.exports = {
     }
     try {
       // vérification du token
-        const jwtToken = jwt.verify(jwttoken, process.env.JWT_SECRET);
-        if (jwtToken && jwtToken.userId) {
-          // si le token est valide, on retourne l'ID utilisateur
-          return jwtToken.userId;
-        } else {
-          // Sinon, renvoyez une erreur
-          throw new Error("User ID missing in JWT token.");
-        }
-      } catch (err) {
-        // Vérifiez si l'erreur est due à un problème de vérification
-        if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
-          throw new Error("User token verification error.");
-        }
-        // Sinon, relancez l'erreur originale
-        throw err;
+      const jwtToken = jwt.verify(jwttoken, process.env.JWT_SECRET);
+      if (jwtToken && jwtToken.userId) {
+        // si le token est valide, on retourne l'ID utilisateur
+        return jwtToken.userId;
+      } else {
+        // Sinon, renvoyez une erreur
+        throw new Error("User ID missing in JWT token.");
       }
+    } catch (err) {
+      // Vérifiez si l'erreur est due à un problème de vérification
+      if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+        throw new Error("User token verification error.");
+      }
+      // Sinon, relancez l'erreur originale
+      throw err;
+    }
   },
   generateTemporaryToken: function (userId) {
     return jwt.sign(

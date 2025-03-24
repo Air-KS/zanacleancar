@@ -1,5 +1,5 @@
 /*
-  ./backend/models/authVerify.js
+  ./backend/models/AuthVerify.js
 */
 
 'use strict';
