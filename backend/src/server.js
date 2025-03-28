@@ -3,6 +3,8 @@
 */
 
 const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const mysql = require('mysql2');
@@ -10,6 +12,7 @@ const path = require('path');
 const helmet = require('helmet');
 const { Sequelize } = require('sequelize');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+require('../config/passport');
 
 const apirouter = require('../routes/apirouter').router;
 const errorHandler = require('../config/errorHandler');
@@ -69,6 +72,20 @@ app.use(helmet({
   frameguard: false // Désactiver X-Frame-Options
 }));
 
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false, // passe à true si t’es en HTTPS
+    httpOnly: true,
+    sameSite: 'lax'
+  }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Activer CORS
 app.use(cors({
   origin: frontEndURL,
@@ -88,6 +105,34 @@ app.use(errorHandler);
 // Route de base
 app.get('/', (req, res) => {
   res.send('Test le retour du Back');
+});
+
+// Redirige vers Google
+app.get('/auth/google', passport.authenticate('google', {
+  scope: ['openid', 'email', 'profile'], // openid obligatoire
+  accessType: 'offline',
+  prompt: 'consent'
+}));
+
+// Callback après Google Auth
+app.get('/auth/google/callback', (req, res, next) => {
+  passport.authenticate('google', (err, user, info) => {
+    if (err) {
+      console.error("❌ Erreur dans /auth/google/callback :", err);
+      return res.status(500).send("Erreur d'authentification");
+    }
+    if (!user) return res.redirect(`${frontEndURL}/login`);
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      return res.redirect(`${frontEndURL}/dashboard`);
+    });
+  })(req, res, next);
+});
+
+// Route protégée (exemple)
+app.get('/dashboard', (req, res) => {
+  if (!req.isAuthenticated()) return res.status(401).send('Non autorisé');
+  res.send(`Bienvenue ${req.user.displayName}`);
 });
 
 // Exporter l'application pour supertest

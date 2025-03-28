@@ -1,0 +1,70 @@
+/*
+    ./frontend/portal/css/authPage.css
+    - La mise en page de Connexion, Inscription
+*/
+
+.auth-container {
+  display: grid;
+  grid-template-columns: 3fr;
+  gap: 1rem;
+  margin: 0 auto;
+}
+
+.auth-info-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.auth-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1f2937;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.auth-info-list {
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  list-style: none;
+  color: #4b5563;
+  line-height: 1.8;
+  text-align: left;
+}
+
+/*comment*/
+@media (min-width: 820px) {
+  .auth-container {
+    grid-template-columns: 1.1fr 1fr;
+    gap: 1rem;
+  }
+  .auth-info-list {
+    padding-left: 10px;
+  }
+}
+
+/*comment*/
+@media (min-width: 820px) and (max-width: 1400px) {
+  .auth-container {
+    width: 90%;
+  }
+
+  .auth-info-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    text-align: left;
+    margin-left: 0px;
+  }
+
+}
+
+/*comment*/
+@media (max-width: 819px) {
+  .auth-container {
+    width: 90%;
+  }
+}

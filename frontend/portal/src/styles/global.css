@@ -1,0 +1,91 @@
+/*
+  ./frontend/portal/css/global.css
+  - Styles globaux, variables CSS, resets de base
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap');
+@import "tailwindcss";
+
+/* ================================
+   Variables CSS
+   ================================ */
+:root {
+  /* === Couleurs === */
+  --color-background-header: #f0f0f0;
+  --color-background: #e4eeef;
+  --color-text: #181741;
+  --color-center-bold: rgb(68, 65, 65);
+  --color-grid-info: rgb(114, 108, 108);
+  --nav-color-hover: #58b1ec;
+  --nav-color-link: #2851c0;
+  --color-separator: #ff5252;
+  --color-border: #4687af;
+  --color-border-shadow: rgba(0, 123, 255, 0.25);
+  --color-pack-hover: rgba(248, 247, 154, 0.356);
+  --color-pack-hover-border: rgb(255, 166, 0);
+
+  /* === Typo === */
+  --font-family-body: 'Inter', 'Roboto', sans-serif;
+  --font-family-menu: 'Poppins', sans-serif;
+  --font-family-headings: 'Montserrat', 'Poppins', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --font-size-medium: 1rem;
+
+  /* === Menu header === */
+  --nav-item-font-family: var(--font-family-menu);
+  --nav-item-font-weight: var(--font-weight-bold);
+  --nav-item-font-size: var(--font-size-medium);
+  --nav-item-letter-spacing: 0.04rem;
+  --nav-item-margin: 0 0 0 2rem;
+  --transition-duration: 0.3s;
+  --transition-cubic-bezier: cubic-bezier(0.17, 0.67, 0, 1.01);
+}
+
+/* ================================
+   Reset / Normalisation
+   ================================ */
+
+*, *::before, *::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  box-sizing: border-box;
+  background: linear-gradient(to bottom, white 40%, #79acee 100%);
+
+}
+
+/* Pas de margin auto globale sur le body */
+body {
+  color: var(--color-text);
+  background: transparent;
+  line-height: 1.6;
+  font-family: var(--font-family-body);
+}
+
+html, body, #app {
+  width: 100%; /* 👈 ça prend toute la largeur de l’écran */
+  padding: 0;
+}
+
+/* ================================
+   Utilitaires
+   ================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-headings);
+}
+
+.list {
+  list-style: none;
+}
+
+.separator {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.2), transparent);
+  border: none;
+}
+

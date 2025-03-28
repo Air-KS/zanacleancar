@@ -1,0 +1,60 @@
+/*
+  ./frontend/portal/src/styles/animation.css
+  ===========================================
+  Fichier dédié aux animations globales
+  - Animations visuelles légères et fluides
+  - Utilisées principalement sur les pages Auth (Login/Register)
+  - Facilite la maintenance et la clarté
+*/
+
+/*
+  ==========================================================================
+  Animation d’étoiles tournantes (used in .starred-list)
+  ===========================================================================
+  - Donne un effet vivant aux icônes de liste
+  - Animation infinie en rotation fluide
+  - Appliquée sur ::before pour ne pas interférer avec le contenu
+*/
+@keyframes startSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.starred-list li::before {
+  content: '';
+  display: inline-block; /* permet à l’élément d’avoir taille + anim */
+  vertical-align: middle; /* aligne parfaitement l’étoile avec le texte */
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  background: url('@/assets/start.svg') no-repeat center center;
+  background-size: contain;
+  animation: startSpin 2s linear infinite; /* effet rotatif doux et continu */
+}
+
+/*
+  ==========================================================================
+  Animation d’apparition (fade + slide up)
+  ==========================================================================
+  - Utilisée pour l’entrée fluide de sections (formulaires, blocs, etc.)
+  - Apporte de la vie sans perturber la lecture
+*/
+@keyframes pageFadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: pageFadeInUp 0.6s ease-out forwards;
+}
