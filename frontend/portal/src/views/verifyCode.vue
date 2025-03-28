@@ -1,5 +1,5 @@
 <!--
-	./frontend/src/components/popup/verifyCode.vue
+	./frontend/src/views/verifyCode.vue
 -->
 
 <template>
@@ -11,25 +11,20 @@
 
       <div class="code-input-wrapper">
         <div class="code-input-group">
-          <input
-            v-for="(digit, index) in codeDigits"
-            :key="index"
-            v-model="codeDigits[index]"
-            type="text"
-            maxlength="1"
-            class="digit-input"
-            @input="handleInput($event, index)"
-            @keydown.backspace="handleBackspace($event, index)"
-            @paste="handlePaste($event)"
-            ref="digitInputs"
-          />
-          <img
-            src="@/assets/resend.svg"
-            alt="Renvoyer le code"
-            class="imageResendAbsolute"
-            @click="resendCode"
-            :class="{ disabled: isResending }"
-          />
+          <input v-for="(digit, index) in codeDigits" :key="index" v-model="codeDigits[index]" type="text" maxlength="1"
+            class="digit-input" @input="handleInput($event, index)" @keydown.backspace="handleBackspace($event, index)"
+            @paste="handlePaste($event)" ref="digitInputs" />
+
+          <!-- Icône de renvoi -->
+          <div class="resend-icon-wrapper">
+            <img title="Renvoyer le code" src="@/assets/resend.svg" alt="Renvoyer le code" class="imageResendAbsolute"
+              @click="resendCode" :class="{ disabled: isResending || resendCooldown > 0 }" />
+          </div>
+
+          <!-- Timer -->
+          <div v-if="resendCooldown > 0" class="cooldown-absolute">
+            {{ resendCooldown }}
+          </div>
         </div>
       </div>
 
@@ -55,6 +50,7 @@ export default {
       errorMessage: "",
       successMessage: "",
       isResending: false,
+      resendCooldown: 0,
     };
   },
   methods: {
@@ -80,6 +76,16 @@ export default {
         event.preventDefault();
       }
     },
+    startCooldown(seconds = 30) {
+      this.resendCooldown = seconds;
+      const interval = setInterval(() => {
+        if (this.resendCooldown > 0) {
+          this.resendCooldown--;
+        } else {
+          clearInterval(interval);
+        }
+      }, 1000);
+    },
     async verifyCode() {
       this.errorMessage = "";
       this.successMessage = "";
@@ -93,13 +99,9 @@ export default {
       try {
         const res = await axios.post(
           `http://localhost:3000/api/v1/auth/verifyCode`,
-          {
-            email: this.email,
-            code: code,
-          },
+          { email: this.email, code },
           { withCredentials: true }
         );
-
         if (res.status === 200) {
           this.successMessage = "Code vérifié avec succès.";
           this.$router.push("/dashboard");
@@ -107,11 +109,12 @@ export default {
       } catch (err) {
         console.error("Erreur de vérification :", err);
         this.errorMessage =
-          err.response?.data?.error ||
-          "Une erreur est survenue, réessaie plus tard.";
+          err.response?.data?.error || "Une erreur est survenue, réessaie plus tard.";
       }
     },
     async resendCode() {
+      if (this.resendCooldown > 0) return;
+
       this.errorMessage = "";
       this.successMessage = "";
       this.isResending = true;
@@ -124,12 +127,12 @@ export default {
         );
         if (res.status === 200) {
           this.successMessage = `Code renvoyé à ${this.email}`;
+          this.startCooldown(30);
         }
       } catch (err) {
         console.error("Erreur lors du renvoi :", err);
         this.errorMessage =
-          err.response?.data?.error ||
-          "Impossible de renvoyer le code pour le moment.";
+          err.response?.data?.error || "Impossible de renvoyer le code pour le moment.";
       } finally {
         this.isResending = false;
       }
@@ -177,11 +180,15 @@ export default {
   font-weight: bold;
 }
 
-.imageResendAbsolute {
+/* Icône de renvoi */
+.resend-icon-wrapper {
   position: absolute;
-  right: -35px;
   top: 50%;
+  right: -40px;
   transform: translateY(-50%);
+}
+
+.imageResendAbsolute {
   width: 24px;
   height: 24px;
   cursor: pointer;
@@ -191,6 +198,35 @@ export default {
 .imageResendAbsolute.disabled {
   opacity: 0.5;
   pointer-events: none;
+}
+
+/* Timer */
+.cooldown-absolute {
+  position: absolute;
+  top: 50%;
+  right: calc(-40px - 35px);
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #888;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Animation du timer */
+@keyframes pulse {
+  0% {
+    opacity: 0.7;
+    transform: translateY(-50%) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  100% {
+    opacity: 0.7;
+    transform: translateY(-50%) scale(1);
+  }
 }
 
 .successMessage {
@@ -203,6 +239,7 @@ export default {
   padding-bottom: 20px;
 }
 
+/* Responsive */
 @media (max-width: 600px) {
   .verify-container {
     width: 90%;
@@ -217,11 +254,30 @@ export default {
     height: 40px;
     font-size: 22px;
   }
+
+  .resend-icon-wrapper {
+    top: 55%;
+  }
+
+  .imageResendAbsolute {
+    width: 20px;
+  }
+
+  .cooldown-absolute {
+    font-size: 16px;
+    top: -10px;
+    right: -40px
+  }
 }
 
 @media (min-width: 601px) and (max-width: 1199px) {
   .verify-container {
-    width: 70%;
+    width: 80%;
+  }
+
+  .cooldown-absolute {
+    top: 45%;
+    right: -70px;
   }
 }
 
@@ -243,5 +299,11 @@ export default {
   .form-title {
     font-size: 2.5rem;
   }
+
+  .cooldown-absolute {
+    top: 45%;
+    right: -70px;
+  }
+
 }
 </style>
