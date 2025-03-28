@@ -178,7 +178,13 @@ export default {
   border-radius: 8px;
   color: #4b70e2;
   font-weight: bold;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
 }
+
+.digit-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-focus);
+  }
 
 /* Icône de renvoi */
 .resend-icon-wrapper {

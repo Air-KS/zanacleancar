@@ -25,18 +25,18 @@ router.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-      return res.status(400).json({ error: "Required fields are missing." });
+      return res.status(400).json({ error: "Les champs obligatoires sont manquants." });
     }
 
     // Validation d'un email
     if (!emailREGEX.test(email)) {
-      return res.status(400).json({ error: "Invalid email" });
+      return res.status(400).json({ error: "E-mail invalide" });
     }
 
     // Validation d'un Password
     if (!passwordREGEX.test(password)) {
       return res.status(400).json({
-        error: "Your password must contain:\n\nAt least 8 characters,\nOne uppercase letter,\nOne lowercase letter,\nOne number,\nOne special character",
+        error: "Votre mot de passe doit contenir :\n\nAu moins 8 caractères,\nUne lettre majuscule,\nUne lettre minuscule,\nUn chiffre,\nUn caractère spécial",
       });
     }
 
@@ -48,7 +48,7 @@ router.post('/register', async (req, res) => {
     console.log('User found:', userFound);
 
     if (userFound) {
-      return res.status(400).json({ error: "This email address is already in use." });
+      return res.status(400).json({ error: "Cette adresse e-mail est déjà utilisée." });
     }
 
     const verifyCode = crypto.randomInt(100000, 999999).toString();
@@ -68,13 +68,13 @@ router.post('/register', async (req, res) => {
     await sendVerificationEmail(email, verifyCode);
 
     res.status(201).json({
-      message: "A verification email has been sent.",
+      message: "Un e-mail de vérification a été envoyé.",
       email,
       verifyCodeExpire
     });
   } catch (error) {
     console.error("Erreur lors de l'enregistrement de l'utilisateur :", error);
-    return res.status(500).json({ error: "Unable to add this user." });
+    return res.status(500).json({ error: "Impossible d'ajouter cet utilisateur." });
   }
 });
 
@@ -86,18 +86,18 @@ router.post('/register', async (req, res) => {
 router.post('/verifyCode', async (req, res) => {
   const { email, code } = req.body;
   if (!email || !code) {
-    return res.status(400).json({ error: "Required parameters are missing." });
+    return res.status(400).json({ error: "Les paramètres requis sont manquants." });
   }
 
   try {
     const authVerifyEntry = await AuthVerify.findOne({ where: { email, verifyCode: code } });
     if (!authVerifyEntry || Date.now() > authVerifyEntry.verifyCodeExpire) {
-      return res.status(400).json({ error: "Invalid code or expired." });
+      return res.status(400).json({ error: "Code invalide ou expiré." });
     }
 
     const { name, password: hashedPassword } = authVerifyEntry;
     if (!name || !hashedPassword) {
-      return res.status(400).json({ error: "Required user information is missing." });
+      return res.status(400).json({ error: "Les informations utilisateur requises sont manquantes." });
     }
 
     const newUser = await User.create({ name, email, password: hashedPassword});
@@ -108,7 +108,7 @@ router.post('/verifyCode', async (req, res) => {
     return res.status(200).json({ message: "Vérification réussie.", token: userToken, user: { id: newUser.id, name: newUser.name, email: newUser.email } });
   } catch (error) {
     console.error("Erreur lors de la vérification :", error);
-    return res.status(500).json({ error: "Verification failed." });
+    return res.status(500).json({ error: "La vérification a échoué." });
   }
 });
 
@@ -124,7 +124,7 @@ router.post('/resend-code', async (req, res) => {
     const authVerifyEntry = await AuthVerify.findOne({ where: { email } });
 
     if (!authVerifyEntry) {
-      return res.status(400).json({ error: "No registration process found. Please restart the process." });
+      return res.status(400).json({ error: "Aucune inscription trouvée ou délai dépassé. Veuillez recommencer votre inscription." });
     }
 
     const newCode = crypto.randomInt(100000, 999999).toString(); // Nouveau code de vérification
@@ -134,10 +134,10 @@ router.post('/resend-code', async (req, res) => {
 
     await sendVerificationEmail(email, newCode);
 
-    return res.status(200).json({ message: "Verification code resent successfully." });
+    return res.status(200).json({ message: "Le code de vérification a été renvoyé avec succès." });
   } catch (error) {
     console.error("Erreur lors du renvoi du code :", error);
-    return res.status(500).json({ error: "Unable to resend the verification code." });
+    return res.status(500).json({ error: "Impossible de renvoyer le code de vérification." });
   }
 });
 
@@ -152,7 +152,7 @@ router.post('/complete-registration', async (req, res) => {
 
     const userFound = await User.findOne({ where: { email: email } });
     if (!userFound) {
-      return res.status(400).json({ error: "User not found." });
+      return res.status(400).json({ error: "Utilisateur introuvable." });
     }
 
     const bcryptedPassword = await bcrypt.hash(password, 5);
@@ -167,7 +167,7 @@ router.post('/complete-registration', async (req, res) => {
     });
   } catch (error) {
     console.error("Erreur lors de la complétion de l'inscription :", error);
-    return res.status(500).json({ error: "Unable to complete the registration." });
+    return res.status(500).json({ error: "Impossible de terminer l'inscription." });
   }
 });
 
@@ -181,7 +181,7 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: "Parameters are missing." });
+      return res.status(400).json({ error: "Les paramètres sont manquants." });
     }
 
     // Recherche de l'utilisateur dans la base de données
@@ -191,7 +191,7 @@ router.post('/login', async (req, res) => {
 
     // Vérification si l'utilisateur existe et si le mot de passe correspond
     if (!userFound || !(await bcrypt.compare(password, userFound.password))) {
-      return res.status(400).json({ error: "Email does not exist or password is incorrect." });
+      return res.status(400).json({ error: "L'E-mail n'existe pas ou le mot de passe est incorrect." });
     }
 
     // Création du token JWT après une validation réussie
@@ -203,7 +203,7 @@ router.post('/login', async (req, res) => {
     });
   } catch (error) {
     console.error("Erreur lors de la connexion de l'utilisateur :", error);
-    return res.status(500).json({ error: "Unable to log in." });
+    return res.status(500).json({ error: "Impossible de se connecter." });
   }
 });
 
