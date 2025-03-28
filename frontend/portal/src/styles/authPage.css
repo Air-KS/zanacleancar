@@ -64,37 +64,80 @@
   text-shadow: var(--shadow-light);
 }
 
-  /* ================================
+/* ================================
+   Empêche l'affichage des icônes
+   natives (afficher/effacer le mot
+   de passe) ajoutées automatiquement
+   par les navigateurs
+   ================================ */
+/* Chrome, Safari, Edge (Webkit) */
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-inner-spin-button {
+  display: none !important;
+  appearance: none;
+}
+
+/* Internet Explorer / Edge (legacy) */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none !important;
+}
+
+/* ================================
+     Afficher / Cacher mot de passe
+     ================================ */
+.eye-iconOpen,
+.eye-iconClose {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1rem;
+  color: #999;
+  transition: color 0.2s ease;
+}
+
+.eye-iconOpen:hover,
+.eye-iconClose:hover {
+  color: #333;
+}
+
+/* ================================
      Séparation ---- OU ----
      ================================ */
 .auth-separator-or {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin: 1rem 0;
-	font-size: 0.9rem;
-	color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  color: #555;
   font-weight: 600;
   letter-spacing: 0.5px;
 }
+
 /* Dégradé de Droite à Gauche */
 .auth-separator-or::before {
-	background: linear-gradient(to right, transparent, #555);
+  background: linear-gradient(to right, transparent, #555);
 }
+
 /* Dégradé de Gauche à Droite */
 .auth-separator-or::after {
-	background: linear-gradient(to left, transparent, #555);
+  background: linear-gradient(to left, transparent, #555);
 }
+
 /* Separation */
 .auth-separator-or::after,
 .auth-separator-or::before {
-	content: "";
-	flex: 1;
-	height: 2px;
-	margin: 0 10px;
+  content: "";
+  flex: 1;
+  height: 2px;
+  margin: 0 10px;
 }
 
-  /* ================================
+/* ================================
      Google
      ================================ */
 .google-button {
@@ -109,14 +152,14 @@
   color: #333;
   font-weight: 500;
   border: 1px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .google-button:hover {
   filter: brightness(0.95);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .google-button img {
@@ -124,7 +167,7 @@
   width: 20px;
 }
 
-  /* ================================
+/* ================================
      Media Query pour le Responsive
      ================================ */
 /* Tablette (>= 600px) */
@@ -132,6 +175,7 @@
   .auth-info-col {
     font-size: 1rem;
   }
+
   .google-button {
     width: 80%;
     margin: 0 auto;
@@ -151,6 +195,7 @@
   .auth-info-col {
     margin-left: 0;
   }
+
   .google-button {
     width: 100%;
     margin: 0 auto;
@@ -162,6 +207,7 @@
   .auth-container {
     width: 70%;
   }
+
   .google-button {
     width: 100%;
     margin: 0 auto;

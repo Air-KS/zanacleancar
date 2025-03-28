@@ -38,22 +38,26 @@
 
 					<!-- Mot de passe -->
 					<div class="forms-input-container">
-						<input v-model="password" type="password" autocomplete="new-password" id="password" required placeholder=" "
+						<input :type="showPassword ? 'text' : 'password'" v-model="password" id="password" required placeholder=" "
 							class="forms-input-style" />
 						<label for="password" class="forms-input-label">Mot de passe</label>
+
+						<!-- Icône toggle -->
+						<i :class="showPassword ? 'fa-solid fa-eye eye-iconOpen' : 'fa-solid fa-eye-slash eye-iconClose'"
+							@click="togglePassword"></i>
 					</div>
 
 					<!-- Confirmation -->
 					<div class="forms-input-container">
-						<input v-model="confirmPassword" type="password" id="confirmPassword" required placeholder=" "
-							class="forms-input-style" />
+						<input :type="showPassword ? 'text' : 'password'" v-model="confirmPassword" type="password"
+							id="confirmPassword" required placeholder=" " class="forms-input-style" />
 						<label for="confirmPassword" class="forms-input-label">Confirmer le Mot de passe</label>
 					</div>
 
 					<p v-if="errorMessage" class="errorMessage" v-html="formattedErrorMessage"></p>
 
 					<!-- Bouton Créer un Compte -->
-					<button type="submit" class="forms-button" :disabled="isResending">{{ isResending ? "Un instant..."
+					<button type="submit" class="forms-button" :disabled="isResending">{{ isResending ? "Inscription en cours..."
 						: "Créer ton Compte" }}</button>
 
 					<p class="auth-subtle-link">
@@ -89,6 +93,7 @@ export default {
 			email: "",
 			password: "",
 			confirmPassword: "",
+			showPassword: false,
 			errorMessage: "",
 			isResending: false,
 		};
@@ -99,6 +104,9 @@ export default {
 		}
 	},
 	methods: {
+		togglePassword() {
+			this.showPassword = !this.showPassword;
+		},
 		async handleRegister() {
 			if (this.password !== this.confirmPassword) {
 				this.errorMessage = "Les mots de passe ne correspondent pas !";
@@ -130,8 +138,9 @@ export default {
 			} catch (error) {
 				console.error("Erreur d'inscription :", error);
 				this.errorMessage = "Erreur réseau ou serveur.";
-				this.isResending = false;
-			}
+      } finally {
+        this.isResending = false;
+      }
 		},
 		loginWithGoogle() {
 			window.location.href = 'http://localhost:3000/auth/google';

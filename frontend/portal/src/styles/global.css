@@ -62,7 +62,7 @@
 
 html {
   box-sizing: border-box;
-  background: linear-gradient(to bottom, white 40%, #79acee 100%);
+  background: linear-gradient(to bottom, rgb(240, 248, 255) 40%, #79acee 100%);
   scroll-behavior: smooth;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
