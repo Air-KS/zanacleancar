@@ -16,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     tableName: 'FidelityCards',
-    underscored: true,
     timestamps: true,
   });
 

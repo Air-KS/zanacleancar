@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
     },
+    auth_provider: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      defaultValue: 'Local'
+    },
     bio: {
       type: DataTypes.TEXT,
       allowNull: true,
@@ -33,8 +38,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     tableName: 'Users',
-    underscored: true,
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   });
 
   User.associate = (models) => {
