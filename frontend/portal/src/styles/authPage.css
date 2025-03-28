@@ -45,10 +45,96 @@
   text-shadow: var(--shadow-light);
 }
 
-/* ----- Tablette (>= 600px) ----- */
+.auth-subtle-link {
+  font-size: 0.85rem;
+  color: #888;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.auth-subtle-link a {
+  color: #6a75ff;
+  font-weight: 500;
+  text-decoration: none;
+
+}
+
+.auth-subtle-link a:hover {
+  filter: brightness(0.70);
+  text-shadow: var(--shadow-light);
+}
+
+  /* ================================
+     Séparation ---- OU ----
+     ================================ */
+.auth-separator-or {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 1rem 0;
+	font-size: 0.9rem;
+	color: #555;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+/* Dégradé de Droite à Gauche */
+.auth-separator-or::before {
+	background: linear-gradient(to right, transparent, #555);
+}
+/* Dégradé de Gauche à Droite */
+.auth-separator-or::after {
+	background: linear-gradient(to left, transparent, #555);
+}
+/* Separation */
+.auth-separator-or::after,
+.auth-separator-or::before {
+	content: "";
+	flex: 1;
+	height: 2px;
+	margin: 0 10px;
+}
+
+  /* ================================
+     Google
+     ================================ */
+.google-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background-color: #fff;
+  color: #333;
+  font-weight: 500;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.google-button:hover {
+  filter: brightness(0.95);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.google-button img {
+  height: 20px;
+  width: 20px;
+}
+
+  /* ================================
+     Media Query pour le Responsive
+     ================================ */
+/* Tablette (>= 600px) */
 @media (min-width: 600px) {
   .auth-info-col {
     font-size: 1rem;
+  }
+  .google-button {
+    width: 80%;
+    margin: 0 auto;
   }
 }
 
@@ -65,11 +151,19 @@
   .auth-info-col {
     margin-left: 0;
   }
+  .google-button {
+    width: 100%;
+    margin: 0 auto;
+  }
 }
 
 /* ----- Grand écran (>= 1400px) ----- */
 @media (min-width: 1400px) {
   .auth-container {
     width: 70%;
+  }
+  .google-button {
+    width: 100%;
+    margin: 0 auto;
   }
 }

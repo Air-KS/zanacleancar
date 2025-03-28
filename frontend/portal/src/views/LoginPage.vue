@@ -36,15 +36,27 @@
 						<label for="password" class="forms-input-label">Mot de passe</label>
 					</div>
 
+					<p v-if="errorMessage" class="errorMessage" v-html="formattedErrorMessage"></p>
+
 					<!-- Bouton Créer un Compte -->
 					<button type="submit" class="forms-button">Se connecter</button>
 
-					<p class="">
+					<p class="auth-subtle-link">
 						T'as pas de Compte ?
-					<router-link to="/" class="">
+						<router-link to="/">
 							Inscris-toi
 						</router-link>
 					</p>
+
+					<!-- Séparateur OU -->
+					<div class="auth-separator-or">
+						<span>ou</span>
+					</div>
+
+					<button @click="loginWithGoogle" class="google-button">
+						<img src="@/assets/google-logo.png" alt="Google" width="20" />
+						Se connecter avec Google
+					</button>
 				</form>
 			</section>
 
@@ -60,18 +72,28 @@ export default {
 			name: '',
 			email: '',
 			password: '',
-			confirmPassword: ''
+			confirmPassword: '',
+			errorMessage: "",
 		};
+	},
+	computed: {
+		formattedErrorMessage() {
+			return this.errorMessage.replace(/\n/g, "<br>");
+		}
 	},
 	methods: {
 		handleRegister() {
 			if (this.password !== this.confirmPassword) {
-				alert("Les mots de passe ne correspondent pas !");
+				this.errorMessage = "Les mots de passe ne correspondent pas !";
 				return;
 			}
 			// Envoi du formulaire ici
 			console.log("Formulaire envoyé !");
+		},
+		loginWithGoogle() {
+			window.location.href = 'http://localhost:3000/auth/google';
 		}
 	}
+
 };
 </script>

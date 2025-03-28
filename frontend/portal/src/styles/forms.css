@@ -117,7 +117,7 @@
 
   /* Hover et active */
   .forms-button:hover {
-    filter: brightness(0.85);
+    filter: brightness(0.70);
   }
 
   .forms-button:active {

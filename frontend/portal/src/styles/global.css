@@ -83,6 +83,27 @@ html, body, #app {
 }
 
 /* ================================
+   Message interne - Server
+   ================================ */
+.successMessage {
+  color: rgb(17, 168, 17);
+  padding-bottom: 20px;
+  white-space: pre-line;
+}
+
+.errorMessage {
+  color: rgb(247, 42, 42);
+  font-weight: 500;
+  text-align: left;
+  padding-bottom: 20px;
+  white-space: pre-line;
+}
+
+.router-link:hover {
+      filter: brightness(0.85);
+}
+
+/* ================================
    Utilitaires
    ================================ */
    .list {

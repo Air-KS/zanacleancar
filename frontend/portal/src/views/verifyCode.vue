@@ -28,8 +28,8 @@
         </div>
       </div>
 
-      <p v-if="errorMessage" class="errorMessage">{{ errorMessage }}</p>
-      <p v-if="successMessage" class="successMessage">{{ successMessage }}</p>
+      <p v-if="errorMessage" class="errorMessage" v-html="formattedErrorMessage"></p>
+      <p v-if="successMessage" class="successMessage" v-html="formattedSuccessMessage"></p>
 
       <button class="forms-button" @click="verifyCode" :disabled="isResending">
         {{ isResending ? "Un instant..." : "Valider le Code" }}
@@ -53,6 +53,14 @@ export default {
       resendCooldown: 0,
     };
   },
+  computed: {
+		formattedErrorMessage() {
+			return this.errorMessage.replace(/\n/g, "<br>");
+		},
+		formattedSuccessMessage() {
+			return this.successMessage.replace(/\n/g, "<br>");
+		}
+	},
   methods: {
     handleInput(event, index) {
       const value = event.target.value.replace(/\D/g, "").charAt(0);
@@ -76,7 +84,7 @@ export default {
         event.preventDefault();
       }
     },
-    startCooldown(seconds = 30) {
+    startCooldown(seconds = 60) {
       this.resendCooldown = seconds;
       const interval = setInterval(() => {
         if (this.resendCooldown > 0) {
@@ -126,8 +134,8 @@ export default {
           { withCredentials: true }
         );
         if (res.status === 200) {
-          this.successMessage = `Code renvoyé à ${this.email}`;
-          this.startCooldown(30);
+          this.successMessage = `Code renvoyé à : \n ${this.email}`;
+          this.startCooldown(60);
         }
       } catch (err) {
         console.error("Erreur lors du renvoi :", err);
@@ -142,6 +150,7 @@ export default {
 </script>
 
 <style scoped>
+
 .verify-container {
   margin: 0 auto;
   width: 100%;
@@ -233,16 +242,6 @@ export default {
     opacity: 0.7;
     transform: translateY(-50%) scale(1);
   }
-}
-
-.successMessage {
-  color: rgb(17, 168, 17);
-  padding-bottom: 20px;
-}
-
-.errorMessage {
-  color: rgb(247, 42, 42);
-  padding-bottom: 20px;
 }
 
 /* Responsive */

@@ -36,7 +36,7 @@ router.post('/register', async (req, res) => {
     // Validation d'un Password
     if (!passwordREGEX.test(password)) {
       return res.status(400).json({
-        error: "Votre mot de passe doit contenir :\n\nAu moins 8 caractères,\nUne lettre majuscule,\nUne lettre minuscule,\nUn chiffre,\nUn caractère spécial",
+        error: "Votre mot de passe doit contenir :\n★ Au moins 8 caractères\n★ Une lettre majuscule\n★ Une lettre minuscule\n★ Un chiffre\n★ Un caractère spécial",
       });
     }
 
