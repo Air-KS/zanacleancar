@@ -12,3 +12,15 @@ Exécute des seeders précis.
 
 Supprimer une migration précise
 DELETE FROM `SequelizeMeta` WHERE name = '20240616170130-nom-migration.js';
+
+
+
+npx sequelize-cli db:drop
+npx sequelize-cli db:create
+npx sequelize-cli db:migrate
+
+voir les port pour les fermé
+lsof -i :3000
+
+Fermé les port en cours
+kill -9 PID = exemple kill -9 39464

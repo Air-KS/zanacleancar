@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     tableName: 'History',
-    underscored: true,
     timestamps: true,
   });
 

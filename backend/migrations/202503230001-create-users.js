@@ -23,6 +23,11 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      auth_provider: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
+        defaultValue: 'Local'
+      },
       bio: {
         type: Sequelize.TEXT,
         allowNull: true,

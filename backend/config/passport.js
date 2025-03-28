@@ -30,6 +30,7 @@ passport.use(new GoogleStrategy({
       name: profile.displayName,
       email: profile.emails[0].value,
       password: hashedPassword, // mot de passe bidon
+      auth_provider: 'Google',
     });
 
     return done(null, newUser);
