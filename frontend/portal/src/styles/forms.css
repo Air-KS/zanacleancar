@@ -4,102 +4,139 @@
 */
 
 /* ================================
-   Champs de formulaire (input + label flottant)
+   Variables CSS (couleurs, etc.)
    ================================ */
+   :root {
+    --color-bg: rgba(255, 255, 255, 0.8);
+    --color-blur: blur(10px);
+    --color-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 
-.form-wrapper {
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  border-radius: 1rem;
-  padding: 2rem;
-  position: relative;
-}
+    --color-text: #1f2937;
+    --color-placeholder: #6b7280;
+    --color-border: #d1d5db;
+    --color-focus: #3b82f6;
 
-.form-title {
-  text-align: center;
-  font-size: 1.875rem;
-  font-weight: 800;
-  color: #1f2937;
-  margin-bottom: 2rem;
-}
+    --color-btn-gradient-start: #6366f1;
+    --color-btn-gradient-end: #2563eb;
+    --color-white: #ffffff;
+  }
 
-.forms-input-container {
-  position: relative;
-  margin-bottom: 1.5rem;
-}
+  /* ================================
+     Conteneur général du formulaire
+     ================================ */
+  .form-wrapper {
+    background-color: var(--color-bg);
+    backdrop-filter: var(--color-blur);
+    box-shadow: var(--color-shadow);
+    border-radius: 1rem;
+    padding: 2rem;
+    position: relative;
+  }
 
-/* Champ input principal */
-.forms-input-style {
-  width: 100%;
-  padding: 1.5rem 1rem 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.75rem;
-  color: #1f2937;
-  background-color: transparent;
-  transition: box-shadow 0.4s ease, border-color 0.4s ease;
-}
+  /* ================================
+     Titre du formulaire
+     ================================ */
+  .form-title {
+    text-align: center;
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 2rem;
+  }
 
-/* Masquer le placeholder pour utiliser le label flottant */
-.forms-input-style::placeholder {
-  color: transparent;
-}
+  /* ================================
+     Champ de formulaire (input + label)
+     ================================ */
+  .forms-input-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
 
-/* Effet focus : contour bleu */
-.forms-input-style:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #3b82f6;
-}
+  .forms-input-style {
+    width: 100%;
+    padding: 1.5rem 1rem 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    color: var(--color-text);
+    background-color: transparent;
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+  }
 
-/* Label flottant (positionné au-dessus de l'input) */
-.forms-input-label {
-  position: absolute;
-  left: 1rem;
-  top: 1rem;
-  color: #6b7280;
-  font-size: 1rem;
-  pointer-events: none;
-  transition: top 0.3s ease, font-size 0.2s ease, color 0.2s ease;
-}
+  .forms-input-style::placeholder {
+    color: transparent;
+  }
 
-/* Animation du label vers le haut si l'input est focus ou rempli */
-.forms-input-style:focus+.forms-input-label,
-.forms-input-style:not(:placeholder-shown)+.forms-input-label {
-  top: 0.1rem;
-  font-size: 0.80rem;
-  color: #3b82f6;
-}
+  .forms-input-style:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-focus);
+  }
 
-/* ================================
-   Bouton principal de formulaire
-   ================================ */
-.forms-button {
-  width: 100%;
-  padding: 0.75rem 0;
-  margin: 0.75rem 0;
-  background: linear-gradient(to right, #6366f1, #2563eb);
-  color: white;
-  font-size: 1.125rem;
-  font-weight: 600;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
-  border: none;
-  cursor: pointer;
-  width: 70%;
-}
+  .forms-input-style:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
 
-/* Effet hover : bouton plus sombre */
-.forms-button:hover {
-  filter: brightness(0.7);
-}
+  /* ================================
+     Label flottant
+     ================================ */
+  .forms-input-label {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    color: var(--color-placeholder);
+    font-size: 1rem;
+    pointer-events: none;
+    transition: top 0.3s ease, font-size 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
 
-/* Effet clic : bouton légèrement rétréci */
-.forms-button:active {
-  transform: scale(0.95);
-}
+  .forms-input-style:focus + .forms-input-label,
+  .forms-input-style:not(:placeholder-shown) + .forms-input-label {
+    top: 0.1rem;
+    font-size: 0.80rem;
+    color: var(--color-focus);
+    transform: translateY(3px);
+  }
 
-.forms-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+  /* ================================
+     Bouton principal
+     ================================ */
+  .forms-button {
+    width: 100%;
+    padding: 0.75rem 0;
+    margin: 0.75rem 0;
+    background: linear-gradient(to right, var(--color-btn-gradient-start), var(--color-btn-gradient-end));
+    color: var(--color-white);
+    font-size: 1.125rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* Hover et active */
+  .forms-button:hover {
+    filter: brightness(0.85);
+  }
+
+  .forms-button:active {
+    transform: scale(0.95);
+  }
+
+  /* Désactivé */
+  .forms-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* ================================
+     Responsive bouton (facultatif)
+     ================================ */
+  @media (min-width: 768px) {
+    .forms-button {
+      width: 70%;
+      margin: 0.75rem auto;
+      display: block;
+    }
+  }

@@ -1,13 +1,23 @@
 /*
-    ./frontend/portal/css/authPage.css
-    - La mise en page de Connexion, Inscription
+  ./frontend/portal/css/authPage.css
+  - Mise en page pour Connexion / Inscription
 */
 
+/* Variables CSS (optionnel si tu veux les réutiliser partout) */
+:root {
+  --text-dark: #1f2937;
+  --text-medium: #4b5563;
+  --shadow-dark: 0 4px 6px rgba(0, 0, 0, 0.5);
+  --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ----- Base (Mobile First) ----- */
 .auth-container {
   display: grid;
-  grid-template-columns: 3fr;
+  grid-template-columns: 1fr;
   gap: 1rem;
   margin: 0 auto;
+  width: 90%;
 }
 
 .auth-info-col {
@@ -17,54 +27,49 @@
   gap: 1rem;
   text-align: left;
   margin-left: 20px;
+  font-size: 14px;
 }
 
 .auth-title {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #1f2937;
-  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  color: var(--text-dark);
+  text-shadow: var(--shadow-dark);
 }
 
 .auth-info-list {
-  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   list-style: none;
-  color: #4b5563;
+  color: var(--text-medium);
   line-height: 1.8;
   text-align: left;
+  text-shadow: var(--shadow-light);
 }
 
-/*comment*/
+/* ----- Tablette (>= 600px) ----- */
+@media (min-width: 600px) {
+  .auth-info-col {
+    font-size: 1rem;
+  }
+}
+
+/* ----- Desktop standard (>= 820px) ----- */
 @media (min-width: 820px) {
   .auth-container {
     grid-template-columns: 1.1fr 1fr;
-    gap: 1rem;
   }
+
   .auth-info-list {
     padding-left: 10px;
   }
-}
-
-/*comment*/
-@media (min-width: 820px) and (max-width: 1400px) {
-  .auth-container {
-    width: 90%;
-  }
 
   .auth-info-col {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
-    text-align: left;
-    margin-left: 0px;
+    margin-left: 0;
   }
-
 }
 
-/*comment*/
-@media (max-width: 819px) {
+/* ----- Grand écran (>= 1400px) ----- */
+@media (min-width: 1400px) {
   .auth-container {
-    width: 90%;
+    width: 70%;
   }
 }

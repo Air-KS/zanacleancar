@@ -3,25 +3,41 @@
 -->
 
 <template>
-  <div class="verify-container">
+  <div class="verify-container fade-in-up">
     <div class="form-wrapper">
       <h2 class="form-title">📨 Vérifie ton Email 📨</h2>
       <p>Un code a été envoyé à :</p>
       <p><span class="text-mail">{{ email }}</span></p>
 
       <div class="code-input-wrapper">
-        <input v-for="(digit, index) in codeDigits" :key="index" v-model="codeDigits[index]" type="text" maxlength="1"
-          class="digit-input" @input="handleInput($event, index)" @keydown.backspace="handleBackspace($event, index)"
-          @paste="handlePaste($event)" ref="digitInputs" />
-        <img src="@/assets/resend.svg" alt="Renvoyer le code" class="imageResend" @click="resendCode"
-          :class="{ disabled: isResending }" />
+        <div class="code-input-group">
+          <input
+            v-for="(digit, index) in codeDigits"
+            :key="index"
+            v-model="codeDigits[index]"
+            type="text"
+            maxlength="1"
+            class="digit-input"
+            @input="handleInput($event, index)"
+            @keydown.backspace="handleBackspace($event, index)"
+            @paste="handlePaste($event)"
+            ref="digitInputs"
+          />
+          <img
+            src="@/assets/resend.svg"
+            alt="Renvoyer le code"
+            class="imageResendAbsolute"
+            @click="resendCode"
+            :class="{ disabled: isResending }"
+          />
+        </div>
       </div>
 
-      <p v-if="errorMessage" class="text-red-600 mt-2">{{ errorMessage }}</p>
-      <p v-if="successMessage" class="text-green-600 mt-2">{{ successMessage }}</p>
+      <p v-if="errorMessage" class="errorMessage">{{ errorMessage }}</p>
+      <p v-if="successMessage" class="successMessage">{{ successMessage }}</p>
 
-      <button class="forms-button mt-4" @click="verifyCode" :disabled="isResending">
-        {{ isResending ? "Envoi..." : "Valider le Code" }}
+      <button class="forms-button" @click="verifyCode" :disabled="isResending">
+        {{ isResending ? "Un instant..." : "Valider le Code" }}
       </button>
     </div>
   </div>
@@ -45,7 +61,6 @@ export default {
     handleInput(event, index) {
       const value = event.target.value.replace(/\D/g, "").charAt(0);
       this.codeDigits[index] = value;
-
       if (value && index < 5) {
         this.$refs.digitInputs[index + 1].focus();
       }
@@ -56,16 +71,15 @@ export default {
       }
     },
     handlePaste(event) {
-  const paste = event.clipboardData.getData("text").replace(/\D/g, "");
-  if (paste.length === 6) {
-    this.codeDigits = paste.split("").slice(0, 6);
-    // focus après le dernier chiffre
-    this.$nextTick(() => {
-      this.$refs.digitInputs[5]?.focus();
-    });
-    event.preventDefault(); // Empêche le comportement par défaut
-  }
-},
+      const paste = event.clipboardData.getData("text").replace(/\D/g, "");
+      if (paste.length === 6) {
+        this.codeDigits = paste.split("").slice(0, 6);
+        this.$nextTick(() => {
+          this.$refs.digitInputs[5]?.focus();
+        });
+        event.preventDefault();
+      }
+    },
     async verifyCode() {
       this.errorMessage = "";
       this.successMessage = "";
@@ -93,7 +107,8 @@ export default {
       } catch (err) {
         console.error("Erreur de vérification :", err);
         this.errorMessage =
-          err.response?.data?.error || "Une erreur est survenue, réessaie plus tard.";
+          err.response?.data?.error ||
+          "Une erreur est survenue, réessaie plus tard.";
       }
     },
     async resendCode() {
@@ -113,7 +128,8 @@ export default {
       } catch (err) {
         console.error("Erreur lors du renvoi :", err);
         this.errorMessage =
-          err.response?.data?.error || "Impossible de renvoyer le code pour le moment.";
+          err.response?.data?.error ||
+          "Impossible de renvoyer le code pour le moment.";
       } finally {
         this.isResending = false;
       }
@@ -128,17 +144,26 @@ export default {
   width: 100%;
 }
 
+.form-title {
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
 .text-mail {
   font-weight: bold;
   color: #4b70e2;
 }
 
 .code-input-wrapper {
+  position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin: 30px 0;
+}
+
+.code-input-group {
+  position: relative;
+  display: flex;
   gap: 10px;
-  margin: 20px 0;
 }
 
 .digit-input {
@@ -152,23 +177,45 @@ export default {
   font-weight: bold;
 }
 
-.imageResend {
+.imageResendAbsolute {
+  position: absolute;
+  right: -35px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 24px;
   height: 24px;
   cursor: pointer;
   transition: 0.2s;
-  margin-left: 10px;
 }
 
-.imageResend.disabled {
+.imageResendAbsolute.disabled {
   opacity: 0.5;
   pointer-events: none;
 }
 
+.successMessage {
+  color: rgb(17, 168, 17);
+  padding-bottom: 20px;
+}
+
+.errorMessage {
+  color: rgb(247, 42, 42);
+  padding-bottom: 20px;
+}
 
 @media (max-width: 600px) {
   .verify-container {
     width: 90%;
+  }
+
+  .form-title {
+    font-size: 20px;
+  }
+
+  .digit-input {
+    width: 30px;
+    height: 40px;
+    font-size: 22px;
   }
 }
 
@@ -181,6 +228,20 @@ export default {
 @media (min-width: 1200px) {
   .verify-container {
     width: 50%;
+  }
+
+  .digit-input {
+    width: 50px;
+    height: 60px;
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1.3rem;
+  }
+
+  .form-title {
+    font-size: 2.5rem;
   }
 }
 </style>
