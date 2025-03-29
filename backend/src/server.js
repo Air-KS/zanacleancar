@@ -23,6 +23,7 @@ const PORT = process.env.PORT_BACKEND;
 // Utiliser la variable d'environnement pour l'URL de back-end
 const frontEndURL = process.env.VUE_NETLIFY;
 const backEndURL = process.env.VITE_API_URL || 'default_value';
+console.log("✅ Autorisé CORS pour :", frontEndURL);
 
 // Configuration de Sequelize uniquement si l'environnement n'est pas en test
 let sequelize;
@@ -88,7 +89,7 @@ app.use(passport.session());
 
 // Activer CORS
 app.use(cors({
-  origin: [process.env.VUE_NETLIFY, frontEndURL, 'http://127.0.0.1:8080'],
+  origin: [frontEndURL, 'https://zanacleancar.netlify.app', 'http://127.0.0.1:8080'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   optionsSuccessStatus: 200
