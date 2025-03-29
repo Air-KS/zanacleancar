@@ -131,7 +131,7 @@ export default {
 
 			try {
 				const res = await axios.post(
-					`http://localhost:3000/api/v1/auth/verifyCode`,
+					`${import.meta.env.VITE_API_URL}/api/v1/auth/verifyCode`,
 					{ email: this.email, code },
 					{ withCredentials: true }
 				);
@@ -141,8 +141,7 @@ export default {
 				}
 			} catch (err) {
 				console.error("Erreur de vérification :", err);
-				this.errorMessage =
-					err.response?.data?.error || "Une erreur est survenue, réessaie plus tard.";
+				this.errorMessage = err.response?.data?.error || "Une erreur est survenue, réessaie plus tard.";
 			}
 		},
 		async resendCode() {
@@ -154,7 +153,7 @@ export default {
 
 			try {
 				const res = await axios.post(
-					`http://localhost:3000/api/v1/auth/resend-code`,
+					`${import.meta.env.VITE_API_URL}/api/v1/auth/resend-code`,
 					{ email: this.email },
 					{ withCredentials: true }
 				);
@@ -164,8 +163,7 @@ export default {
 				}
 			} catch (err) {
 				console.error("Erreur lors du renvoi :", err);
-				this.errorMessage =
-					err.response?.data?.error || "Impossible de renvoyer le code pour le moment.";
+				this.errorMessage = err.response?.data?.error || "Impossible de renvoyer le code pour le moment.";
 			} finally {
 				this.isResending = false;
 			}

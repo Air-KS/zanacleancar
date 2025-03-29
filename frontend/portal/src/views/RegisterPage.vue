@@ -84,6 +84,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
 	name: "RegisterPage",
 	data() {
@@ -116,34 +118,27 @@ export default {
 			this.isResending = true;
 
 			try {
-				const response = await fetch("http://localhost:3000/api/v1/auth/register", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
+				console.log("API URL =", import.meta.env.VITE_API_URL);
+				const response = await axios.post(
+					`${import.meta.env.VITE_API_URL}/api/v1/auth/register`,
+					{
 						name: this.name,
 						email: this.email,
 						password: this.password,
-					}),
-				});
+					},
+					{ withCredentials: true } // important pour les cookies/session
+				);
 
-				const data = await response.json();
-
-				if (!response.ok) {
-					this.errorMessage = data.error || "Une erreur est survenue.";
-					this.isResending = false;
-					return;
-				}
-
-				this.$router.push({ path: "/verify-code", query: { email: this.email } }); // tu dois avoir une page /verifyCode
+				this.$router.push({ path: "/verify-code", query: { email: this.email } });
 			} catch (error) {
 				console.error("Erreur d'inscription :", error);
-				this.errorMessage = "Erreur réseau ou serveur.";
-      } finally {
-        this.isResending = false;
-      }
+				this.errorMessage = error.response?.data?.error || "Erreur réseau ou serveur.";
+			} finally {
+				this.isResending = false;
+			}
 		},
 		loginWithGoogle() {
-			window.location.href = 'http://localhost:3000/auth/google';
+			window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
 		}
 	}
 };

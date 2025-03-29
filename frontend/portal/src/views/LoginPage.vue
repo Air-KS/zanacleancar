@@ -99,7 +99,7 @@ export default {
       this.isResending = true;
 
       try {
-        const res = await axios.post("http://localhost:3000/api/v1/auth/login", {
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/login`, {
           email: this.email,
           password: this.password,
         }, { withCredentials: true });
@@ -122,7 +122,7 @@ export default {
     },
 
     loginWithGoogle() {
-      window.location.href = 'http://localhost:3000/auth/google';
+      window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
     }
   }
 
