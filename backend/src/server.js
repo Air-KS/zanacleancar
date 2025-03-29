@@ -18,7 +18,7 @@ const apirouter = require('../routes/apirouter').router;
 const errorHandler = require('../config/errorHandler');
 
 const app = express();
-const PORT = process.env.PORT_BACKEND;
+const PORT = process.env.PORT || 3000;
 
 // ✅ URL autorisée pour le CORS
 const frontEndURL = 'https://zanacleancar.netlify.app';
