@@ -19,6 +19,7 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -26,14 +27,17 @@
 
 .starred-list li::before {
   content: '';
-  display: inline-block; /* permet à l’élément d’avoir taille + anim */
-  vertical-align: middle; /* aligne parfaitement l’étoile avec le texte */
+  display: inline-block;
+  /* permet à l’élément d’avoir taille + anim */
+  vertical-align: middle;
+  /* aligne parfaitement l’étoile avec le texte */
   width: 20px;
   height: 20px;
   margin-left: 10px;
   background: url('@/assets/start.svg') no-repeat center center;
   background-size: contain;
-  animation: startSpin 2s linear infinite; /* effet rotatif doux et continu */
+  animation: startSpin 2s linear infinite;
+  /* effet rotatif doux et continu */
 }
 
 /*
@@ -43,6 +47,12 @@
   - Utilisée pour l’entrée fluide de sections (formulaires, blocs, etc.)
   - Apporte de la vie sans perturber la lecture
 */
+
+/* Applique une animation d’apparition fluide avec légère remontée */
+.fade-in-up {
+  animation: pageFadeInUp 0.6s ease-out forwards;
+}
+
 @keyframes pageFadeInUp {
   0% {
     opacity: 0;
@@ -53,8 +63,4 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.fade-in-up {
-  animation: pageFadeInUp 0.6s ease-out forwards;
 }
