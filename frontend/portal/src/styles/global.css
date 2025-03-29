@@ -3,9 +3,7 @@
   - Styles globaux, variables CSS, resets et utilitaires
 */
 
-/* ================================
-   Fonts
-   ================================ */
+/* === Fonts === */
    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap');
 
    /* ================================
@@ -50,9 +48,7 @@
      --transition-cubic-bezier: cubic-bezier(0.17, 0.67, 0, 1.01);
    }
 
-/* ================================
-   Reset / Normalisation
-   ================================ */
+/* === Reset / Normalisation === */
 
 *, *::before, *::after {
   box-sizing: inherit;
@@ -69,14 +65,17 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Pas de margin auto globale sur le body */
+/* === comment === */
 body {
   font-family: var(--font-family-body);
   color: var(--color-text);
   background: transparent;
   line-height: 1.6;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
+/* === comment === */
 html, body, #app {
   width: 100%;
   padding: 0;
@@ -117,7 +116,7 @@ html, body, #app {
     border: none;
   }
 
-  /* Petites classes utilitaires globales */
+  /* === Petites classes utilitaires globales === */
   .hidden {
     display: none !important;
   }

@@ -84,9 +84,9 @@ input[type="password"]::-ms-clear {
   display: none !important;
 }
 
-/* ================================
-     Afficher / Cacher mot de passe
-     ================================ */
+/*  ================================
+      Afficher / Cacher mot de passe
+    ================================ */
 .eye-iconOpen,
 .eye-iconClose {
   position: absolute;
@@ -104,9 +104,9 @@ input[type="password"]::-ms-clear {
   color: #333;
 }
 
-/* ================================
-     Séparation ---- OU ----
-     ================================ */
+/*  ================================
+      Séparation ---- OU ----
+    ================================ */
 .auth-separator-or {
   display: flex;
   align-items: center;
