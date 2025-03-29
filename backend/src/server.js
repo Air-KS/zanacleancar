@@ -73,6 +73,15 @@ app.use(helmet({
   frameguard: false // Désactiver X-Frame-Options
 }));
 
+// Activer CORS
+app.use(cors({
+  origin: [frontEndURL, 'https://zanacleancar.netlify.app', 'http://127.0.0.1:8080'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  optionsSuccessStatus: 200
+}));
+console.log("✅ Autorisé CORS pour :", frontEndURL);
+
 app.use(session({
   secret: 'secret',
   resave: false,
@@ -86,15 +95,6 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Activer CORS
-app.use(cors({
-  origin: [frontEndURL, 'https://zanacleancar.netlify.app', 'http://127.0.0.1:8080'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
-  optionsSuccessStatus: 200
-}));
-console.log("✅ Autorisé CORS pour :", frontEndURL);
 
 // Parser les corps de requête
 app.use(bodyParser.json());
