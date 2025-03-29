@@ -48,7 +48,7 @@
 
           <p class="auth-subtle-link">
             T'as pas de Compte ?
-            <router-link to="/">
+            <router-link to="/register">
               Inscris-toi
             </router-link>
           </p>
