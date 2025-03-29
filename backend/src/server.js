@@ -22,31 +22,33 @@ const PORT = process.env.PORT || 3000;
 
 console.log("🧠 ENV PORT =", process.env.PORT);
 
-// ✅ URL autorisée pour le CORS
-const frontEndURL = 'https://zanacleancar.netlify.app';
-const backEndURL = process.env.VITE_API_URL || 'default_value';
-console.log("✅ CORS autorisé pour :", frontEndURL);
+// ✅ Liste dynamique des domaines autorisés
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? ['https://zanacleancar.netlify.app']
+  : [
+      'https://zanacleancar.netlify.app',
+      'http://localhost:8080',
+      'http://127.0.0.1:8080'
+    ];
 
-// ✅ CORS doit venir en premier
+// ✅ Middleware CORS dynamique
 app.use(cors({
-  origin: frontEndURL,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.warn(`❌ Origin non autorisée : ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   optionsSuccessStatus: 200
-}));
-
-// ✅ (optionnel) gérer les requêtes OPTIONS manuellement
-app.options('*', cors({
-  origin: frontEndURL,
-  credentials: true
 }));
 
 // 🔒 Sécurité
 app.use(helmet());
-app.use(helmet({
-  xssFilter: false,
-  frameguard: false
-}));
+app.use(helmet({ xssFilter: false, frameguard: false }));
 
 // ⚙️ Session
 app.use(session({
@@ -90,10 +92,10 @@ app.get('/auth/google/callback', (req, res, next) => {
       console.error("❌ Erreur dans /auth/google/callback :", err);
       return res.status(500).send("Erreur d'authentification");
     }
-    if (!user) return res.redirect(`${frontEndURL}/login`);
+    if (!user) return res.redirect(`${allowedOrigins[0]}/login`);
     req.logIn(user, (err) => {
       if (err) return next(err);
-      return res.redirect(`${frontEndURL}/dashboard`);
+      return res.redirect(`${allowedOrigins[0]}/dashboard`);
     });
   })(req, res, next);
 });
@@ -136,7 +138,7 @@ if (process.env.NODE_ENV !== 'test') {
       } else {
         console.log("✅ Connexion au serveur MySQL réussie !");
         app.listen(PORT, () => {
-          console.log(`🚀 Serveur démarré sur ${backEndURL}`);
+          console.log(`🚀 Serveur démarré sur port ${PORT}`);
         });
       }
     });
@@ -145,5 +147,4 @@ if (process.env.NODE_ENV !== 'test') {
   connectToMySQL();
 }
 
-// 📤 Export pour les tests
 module.exports = app;
