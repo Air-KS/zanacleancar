@@ -89,7 +89,7 @@ app.use(passport.session());
 
 // Activer CORS
 app.use(cors({
-  origin: [frontEndURL, 'https://zanacleancar.netlify.app', 'http://127.0.0.1:8080'],
+  origin: ['https://zanacleancar.netlify.app', 'http://127.0.0.1:8080'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   optionsSuccessStatus: 200
