@@ -15,6 +15,11 @@ require('dotenv').config();
 const emailREGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordREGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
+/* test */
+router.get('/test', (req, res) => {
+  res.send('✅ Route test /auth/test fonctionne');
+});
+
 /*
 =========================================
   Inscription d'un nouvel utilisateur
