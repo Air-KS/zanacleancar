@@ -88,7 +88,7 @@ app.use(passport.session());
 
 // Activer CORS
 app.use(cors({
-  origin: [frontEndURL, 'http://127.0.0.1:8080'],
+  origin: [process.env.VUE_NETLIFY, frontEndURL, 'http://127.0.0.1:8080'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   optionsSuccessStatus: 200
