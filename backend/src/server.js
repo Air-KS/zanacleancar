@@ -20,12 +20,89 @@ const errorHandler = require('../config/errorHandler');
 const app = express();
 const PORT = process.env.PORT_BACKEND;
 
-// Utiliser la variable d'environnement pour l'URL de back-end
-const frontEndURL = process.env.VUE_NETLIFY || 'http://localhost:8080';
+// ✅ URL autorisée pour le CORS
+const frontEndURL = 'https://zanacleancar.netlify.app';
 const backEndURL = process.env.VITE_API_URL || 'default_value';
-console.log("✅ Autorisé CORS pour :", frontEndURL);
+console.log("✅ CORS autorisé pour :", frontEndURL);
 
-// Configuration de Sequelize uniquement si l'environnement n'est pas en test
+// ✅ CORS doit venir en premier
+app.use(cors({
+  origin: frontEndURL,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  optionsSuccessStatus: 200
+}));
+
+// ✅ (optionnel) gérer les requêtes OPTIONS manuellement
+app.options('*', cors({
+  origin: frontEndURL,
+  credentials: true
+}));
+
+// 🔒 Sécurité
+app.use(helmet());
+app.use(helmet({
+  xssFilter: false,
+  frameguard: false
+}));
+
+// ⚙️ Session
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    sameSite: 'lax'
+  }
+}));
+
+// 🔐 Auth
+app.use(passport.initialize());
+app.use(passport.session());
+
+// 📦 Body parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// 📡 Routes
+app.use("/api/v1", apirouter);
+app.use(errorHandler);
+
+// 🧪 Test route
+app.get('/', (req, res) => {
+  res.send('Test le retour du Back');
+});
+
+// 🌐 Google Auth
+app.get('/auth/google', passport.authenticate('google', {
+  scope: ['openid', 'email', 'profile'],
+  accessType: 'offline',
+  prompt: 'consent'
+}));
+
+app.get('/auth/google/callback', (req, res, next) => {
+  passport.authenticate('google', (err, user, info) => {
+    if (err) {
+      console.error("❌ Erreur dans /auth/google/callback :", err);
+      return res.status(500).send("Erreur d'authentification");
+    }
+    if (!user) return res.redirect(`${frontEndURL}/login`);
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      return res.redirect(`${frontEndURL}/dashboard`);
+    });
+  })(req, res, next);
+});
+
+// 🔒 Route protégée
+app.get('/dashboard', (req, res) => {
+  if (!req.isAuthenticated()) return res.status(401).send('Non autorisé');
+  res.send(`Bienvenue ${req.user.displayName}`);
+});
+
+// 📦 Base de données
 let sequelize;
 if (process.env.NODE_ENV !== 'test') {
   sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
@@ -55,9 +132,9 @@ if (process.env.NODE_ENV !== 'test') {
         console.error("Erreur de connexion au serveur MySQL :", err);
         setTimeout(connectToMySQL, 5000);
       } else {
-        console.log("Connexion au serveur MySQL réussie !");
+        console.log("✅ Connexion au serveur MySQL réussie !");
         app.listen(PORT, () => {
-          console.log(`Serveur démarré sur ${backEndURL}`);
+          console.log(`🚀 Serveur démarré sur ${backEndURL}`);
         });
       }
     });
@@ -66,76 +143,5 @@ if (process.env.NODE_ENV !== 'test') {
   connectToMySQL();
 }
 
-// Sécuriser les en-têtes HTTP
-app.use(helmet());
-app.use(helmet({
-  xssFilter: false,
-  frameguard: false // Désactiver X-Frame-Options
-}));
-
-// Activer CORS
-app.use(cors({
-  origin: [frontEndURL, 'https://zanacleancar.netlify.app', 'http://127.0.0.1:8080'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
-  optionsSuccessStatus: 200
-}));
-console.log("✅ Autorisé CORS pour :", frontEndURL);
-
-app.use(session({
-  secret: 'secret',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    secure: false, // passe à true si t’es en HTTPS
-    httpOnly: true,
-    sameSite: 'lax'
-  }
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Parser les corps de requête
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Utiliser le routeur API
-app.use("/api/v1", apirouter);
-app.use(errorHandler);
-
-// Route de base
-app.get('/', (req, res) => {
-  res.send('Test le retour du Back');
-});
-
-// Redirige vers Google
-app.get('/auth/google', passport.authenticate('google', {
-  scope: ['openid', 'email', 'profile'], // openid obligatoire
-  accessType: 'offline',
-  prompt: 'consent'
-}));
-
-// Callback après Google Auth
-app.get('/auth/google/callback', (req, res, next) => {
-  passport.authenticate('google', (err, user, info) => {
-    if (err) {
-      console.error("❌ Erreur dans /auth/google/callback :", err);
-      return res.status(500).send("Erreur d'authentification");
-    }
-    if (!user) return res.redirect(`${frontEndURL}/login`);
-    req.logIn(user, (err) => {
-      if (err) return next(err);
-      return res.redirect(`${frontEndURL}/dashboard`);
-    });
-  })(req, res, next);
-});
-
-// Route protégée (exemple)
-app.get('/dashboard', (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).send('Non autorisé');
-  res.send(`Bienvenue ${req.user.displayName}`);
-});
-
-// Exporter l'application pour supertest
+// 📤 Export pour les tests
 module.exports = app;
