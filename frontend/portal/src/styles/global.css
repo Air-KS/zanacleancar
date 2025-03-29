@@ -4,53 +4,55 @@
 */
 
 /* === Fonts === */
-   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap');
 
-   /* ================================
+/* ================================
       Variables CSS
       ================================ */
-   :root {
-     /* === Couleurs générales === */
-     --color-background: #e4eeef;
-     --color-background-header: #f0f0f0;
-     --color-text: #181741;
-     --color-separator: #ff5252;
-     --color-border: #4687af;
-     --color-border-shadow: rgba(0, 123, 255, 0.25);
+:root {
+  /* === Couleurs générales === */
+  --color-background: #e4eeef;
+  --color-background-header: #f0f0f0;
+  --color-text: #181741;
+  --color-separator: #ff5252;
+  --color-border: #4687af;
+  --color-border-shadow: rgba(0, 123, 255, 0.25);
 
-     /* === Couleurs spécifiques === */
-     --color-center-bold: rgb(68, 65, 65);
-     --color-grid-info: rgb(114, 108, 108);
-     --color-pack-hover: rgba(248, 247, 154, 0.356);
-     --color-pack-hover-border: rgb(255, 166, 0);
+  /* === Couleurs spécifiques === */
+  --color-center-bold: rgb(68, 65, 65);
+  --color-grid-info: rgb(114, 108, 108);
+  --color-pack-hover: rgba(248, 247, 154, 0.356);
+  --color-pack-hover-border: rgb(255, 166, 0);
 
-     /* === Navigation === */
-     --nav-color-hover: #58b1ec;
-     --nav-color-link: #2851c0;
+  /* === Navigation === */
+  --nav-color-hover: #58b1ec;
+  --nav-color-link: #2851c0;
 
-     /* === Typographie === */
-     --font-family-body: 'Inter', 'Roboto', sans-serif;
-     --font-family-menu: 'Poppins', sans-serif;
-     --font-family-headings: 'Montserrat', 'Poppins', sans-serif;
-     --font-weight-normal: 400;
-     --font-weight-bold: 700;
-     --font-size-medium: 1rem;
+  /* === Typographie === */
+  --font-family-body: 'Inter', 'Roboto', sans-serif;
+  --font-family-menu: 'Poppins', sans-serif;
+  --font-family-headings: 'Montserrat', 'Poppins', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --font-size-medium: 1rem;
 
-     /* === Menu Header === */
-     --nav-item-font-family: var(--font-family-menu);
-     --nav-item-font-weight: var(--font-weight-bold);
-     --nav-item-font-size: var(--font-size-medium);
-     --nav-item-letter-spacing: 0.04rem;
-     --nav-item-margin: 0 0 0 2rem;
+  /* === Menu Header === */
+  --nav-item-font-family: var(--font-family-menu);
+  --nav-item-font-weight: var(--font-weight-bold);
+  --nav-item-font-size: var(--font-size-medium);
+  --nav-item-letter-spacing: 0.04rem;
+  --nav-item-margin: 0 0 0 2rem;
 
-     /* === Transitions === */
-     --transition-duration: 0.3s;
-     --transition-cubic-bezier: cubic-bezier(0.17, 0.67, 0, 1.01);
-   }
+  /* === Transitions === */
+  --transition-duration: 0.3s;
+  --transition-cubic-bezier: cubic-bezier(0.17, 0.67, 0, 1.01);
+}
 
 /* === Reset / Normalisation === */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: inherit;
   margin: 0;
   padding: 0;
@@ -73,10 +75,20 @@ body {
   line-height: 1.6;
   min-width: 320px;
   min-height: 100vh;
+  margin: 0;
+  display: flex;
+  place-items: center;
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 /* === comment === */
-html, body, #app {
+html,
+body,
+#app {
   width: 100%;
   padding: 0;
 }
@@ -99,32 +111,54 @@ html, body, #app {
 }
 
 .router-link:hover {
-      filter: brightness(0.85);
+  filter: brightness(0.85);
 }
 
 /* ================================
    Utilitaires
    ================================ */
-   .list {
-    list-style: none;
-  }
 
-  .separator {
-    height: 1px;
-    width: 100%;
-    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.2), transparent);
-    border: none;
-  }
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+button:hover {
+  border-color: #646cff;
+  filter: brightness(0.70);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+  transform: scale(0.95);
+}
 
-  /* === Petites classes utilitaires globales === */
-  .hidden {
-    display: none !important;
-  }
+.list {
+  list-style: none;
+}
 
-  .text-center {
-    text-align: center !important;
-  }
+.separator {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.2), transparent);
+  border: none;
+}
 
-  .full-width {
-    width: 100% !important;
-  }
+/* === Petites classes utilitaires globales === */
+.hidden {
+  display: none !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.full-width {
+  width: 100% !important;
+}

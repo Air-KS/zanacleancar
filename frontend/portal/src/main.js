@@ -9,7 +9,6 @@ import App from './App.vue'
 import router from './router'
 
 // Fichier d'import de styles
-import './style.css'
 import './styles/global.css';
 import './styles/authPage.css';
 import './styles/forms.css';
