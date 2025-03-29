@@ -20,6 +20,8 @@ const errorHandler = require('../config/errorHandler');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+console.log("🧠 ENV PORT =", process.env.PORT);
+
 // ✅ URL autorisée pour le CORS
 const frontEndURL = 'https://zanacleancar.netlify.app';
 const backEndURL = process.env.VITE_API_URL || 'default_value';
