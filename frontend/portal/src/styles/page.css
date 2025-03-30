@@ -1,0 +1,66 @@
+/*
+  ./frontend/portal/page.css
+*/
+
+/* Petit écran */
+.page-container {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 90%;
+  background-color: var(--color-bg);
+  box-shadow: 0 0 100px var(--color-border-shadow);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+h1.welcome {
+  font-size: 35px;
+  text-align: center;
+}
+
+h2.sub-title {
+  text-align: center;
+}
+
+p.description {
+  margin: 0px;
+}
+
+.center-bold {
+  display: block;
+  font-weight: bold;
+  text-align: center;
+  color: var(--color-center-bold);
+}
+
+.separator-page {
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid var(--color-separator);
+  margin: 30px 0px 30px 0;
+}
+
+@media (min-width: 600px) and (max-width:1199px) {
+  .page-container {
+    width: 70%;
+  }
+
+  p.description {
+    padding: 0 20px 0 20px
+  }
+}
+
+@media (min-width: 1200px) {
+  body {
+    padding-top: 50px;
+  }
+  .page-container {
+    width: 60%;
+  }
+
+  p.description {
+    padding: 0 50px 0 50px;
+  }
+}

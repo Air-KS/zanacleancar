@@ -12,9 +12,18 @@ import router from './router'
 import './styles/global.css';
 import './styles/authPage.css';
 import './styles/forms.css';
+import './styles/page.css';
 
 // Fichier d'import animation
 import './styles/animations/auth-animation.css';
+
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+
+	AOS.init({
+		duration: 800,
+		once: true
+	})
 
 // Création et montage de l'application Vue
 const app = createApp(App);

@@ -11,7 +11,7 @@
       ================================ */
 :root {
   /* === Couleurs générales === */
-  --color-background: #e4eeef;
+  --color-bg: rgba(255, 255, 255, 0.8);
   --color-background-header: #f0f0f0;
   --color-text: #181741;
   --color-separator: #ff5252;
@@ -23,6 +23,9 @@
   --color-grid-info: rgb(114, 108, 108);
   --color-pack-hover: rgba(248, 247, 154, 0.356);
   --color-pack-hover-border: rgb(255, 166, 0);
+  --color-border-input: #d1d5db;
+  --color-placeholder: #6b7280;
+  --color-focus: #3b82f6;
 
   /* === Navigation === */
   --nav-color-hover: #58b1ec;
@@ -88,7 +91,6 @@ html,
 body,
 #app {
   width: 100%;
-  padding-top: 50px;
 }
 
 /* ================================
@@ -141,11 +143,24 @@ button:focus-visible {
   list-style: none;
 }
 
-.separator {
-  height: 1px;
+.separator-line {
+  display: block;
   width: 100%;
-  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.2), transparent);
-  border: none;
+  border-bottom: 1px solid var(--color-separator);
+  margin: 30px 0px 30px 0;
+}
+
+.separator-gradient {
+  height: 2px;
+  margin: 100px;
+  margin: 30px auto;
+  width: 80%;
+  background: linear-gradient(to right,
+      transparent 0%,
+      var(--color-separator) 20%,
+      var(--color-separator) 80%,
+      transparent 100%);
+  opacity: 0.9;
 }
 
 /* === Petites classes utilitaires globales === */
@@ -159,4 +174,20 @@ button:focus-visible {
 
 .full-width {
   width: 100% !important;
+}
+
+@media (max-width: 819px) {
+  html,
+  body,
+  #app {
+    padding-top: 30px;
+  }
+}
+
+@media (min-width: 820px) {
+  html,
+  body,
+  #app {
+    padding-top: 50px;
+  }
 }

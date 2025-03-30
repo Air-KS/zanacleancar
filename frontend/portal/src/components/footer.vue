@@ -8,7 +8,7 @@
 <footer class="footer-container">
   <div class="footer-banner"></div>
   <div class="footer-content">
-    <img class="footer-image" data-src="produit-footer.png" alt="Car" />
+    <img src="@/assets/produit-footer.png" class="footer-image" alt="car" loading="lazy" />
     <div class="footer-links-container">
       <div class="footer-links">
         <div class="footer-section">
@@ -64,13 +64,12 @@
 .footer-banner {
   width: 100%;
   background: #000000;
-  color: var(--color-background);
+  color: var(--color-bg);
   padding: 30px 0;
   position: absolute;
   top: 0;
   left: 0;
   text-align: center;
-  font-size: 20px;
   font-weight: bold;
 }
 
@@ -97,13 +96,13 @@
   flex-direction: column;
   justify-content: space-around;
   width: 100%;
-  border-top: 1px solid var(--color-background);
+  border-top: 1px solid var(--color-bg);
   padding: 20px 0;
   text-decoration: none;
 }
 
 .footer-link {
-  color: var(--color-background);
+  color: var(--color-bg);
   text-decoration: none;
 }
 
@@ -115,7 +114,7 @@
 .footer-section {
   width: 100%;
   text-align: center;
-  border-bottom: 1px solid var(--color-background);
+  border-bottom: 1px solid var(--color-bg);
   /* Ajouter une bordure horizontale par défaut */
   margin-bottom: 10px;
 }
@@ -124,7 +123,7 @@
   margin-top: 0px;
   margin-bottom: 5px;
   font-size: 30px;
-  color: var(--color-background);
+  color: var(--color-bg);
   text-shadow: 2px 2px 4px #fd0000;
 }
 
@@ -139,8 +138,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 20px;
-  border-top: 1px solid var(--color-background);
-  padding: 30px 0px 30px 0px;
+  border-top: 1px solid var(--color-bg);
 }
 
 .footer-icons {
@@ -170,6 +168,7 @@
   background: #000000;
   right: 0;
   align-items: center;
+  padding: 20px;
 }
 
 /* Responsiveness */
@@ -183,7 +182,7 @@
     text-align: center;
     margin-bottom: 0;
     border-bottom: none;
-    border-left: 1px solid var(--color-background);
+    border-left: 1px solid var(--color-bg);
   }
 
   .footer-section:first-child {
@@ -191,7 +190,7 @@
   }
 
   .footer-links .footer-section:not(:last-child) {
-    border-right: 1px solid var(--color-background);
+    border-right: 1px solid var(--color-bg);
   }
 
   .footer-bottom {

@@ -2,135 +2,123 @@
 	./frontend/portal/src/components/header.vue
 -->
 
+
 <template>
 	<header class="header">
-		<div class="container">
+	  <div class="header-line"></div>
 
+	  <div class="header-inner">
 		<nav class="nav-links">
-		<ul class="nav-menu">
-			<li class="nav-menu-item">
-				<router-link to="/" class="nav-menu-link">
-					Home
-				</router-link>
-				</li>
-				<li class="nav-menu-item">
-				<route-link to="/register" class="nav-menu-link">
-					Lien 2
-				</route-link>
-			</li>
-			<li class="nav-menu-item">
-				<route-link to="/register" class="nav-menu-link">
-					Lien 3
-				</route-link>
-			</li>
-			<li class="nav-menu-item">
-				<router-link to="/register" class="nav-menu-link">
-					Connectez-vous
-				</router-link>
-			</li>
-		</ul>
+		  <ul class="menu-list">
+			<li><router-link to="/">Home</router-link></li>
+			<li><router-link to="/register">Connectez-vous</router-link></li>
+		  </ul>
 		</nav>
-	</div>
+	  </div>
 
+	  <div class="header-line"></div>
 	</header>
-</template>
+  </template>
 
 <script>
-
+export default {
+	name: "Header",
+	mounted() {
+		window.addEventListener("scroll", this.handleScroll);
+	},
+	unmounted() {
+		window.removeEventListener("scroll", this.handleScroll);
+	},
+	methods: {
+		handleScroll() {
+			const header = document.querySelector(".header");
+			if (window.scrollY > 20) {
+				header.classList.add("scrolled");
+			} else {
+				header.classList.remove("scrolled");
+			}
+		}
+	}
+};
 </script>
 
 <style scoped>
 .header {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	background-color: #ffffff;
-	border-bottom: 1px solid #ccc;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	padding: 0;
-	z-index: 5;
-}
-
-/* Container principal */
-.container {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	max-width: 1200px;
-	height: 70px;
-	margin: 0 auto;
-	padding: 0 20px;
-	position: relative;
-}
-
-/* Menu de navigation */
-.nav-menu {
+  position: fixed;
+  top: 20px;
+  width: 100%;
+  z-index: 5;
   display: flex;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-menu .nav-menu-item:not(:last-child) {
-  border-right: 3px solid #ccc;
-  /* Séparateur entre les éléments */
-}
-
-.nav-menu-item {
-  font-family: var(--nav-item-font-family);
-  font-weight: var(--nav-item-font-weight);
-  font-size: 1.1rem;
-  padding: 0 20px;
-  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
-.nav-menu-link {
-  display: block;
-  padding: 0.5rem 0;
+
+
+/* Barre horizontale */
+.header-line {
+  height: 2px;
+  width: 80%;
+  margin: 0 auto;
+  background: linear-gradient(to right,
+      transparent 0%,
+      #000000 20%,
+      #000000 80%,
+      transparent 100%);
+  opacity: 0.9;
+}
+
+/* Conteneur du menu */
+.header-inner {
+  width: 80%;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  color: var(--color-text-dark);
-  text-decoration: none;
-  cursor: pointer;
 }
 
-.nav-menu-link:hover {
-  color: var(--nav-color-hover);
-  text-decoration: none;
-  transition: background-color 0.5s, color 0.5s;
-}
-
-/* Ajoute une barre horizontale au-dessus du lien avec un effet de transition */
-.nav-menu-link::before {
+/* Le fond dégradé toujours présent mais invisible au départ */
+.header-inner::before {
   content: "";
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  /* Commence au centre */
-  width: 0;
-  height: 3px;
-  background-color: var(--nav-color-link);
-  /* La couleur de la barre */
-  transition: width 0.4s ease, transform 0.4s ease;
-  /* Transition pour l'animation */
-  transform: translateX(-50%);
-  /* Centrer la barre par rapport au lien */
+  inset: 0;
+  background: linear-gradient(to right,
+    transparent 0%,
+    #ffffff 20%,
+    #ffffff 80%,
+    transparent 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 10px;
 }
 
-/* Animation lors du survol */
-.nav-menu-link:hover::before {
-  width: 100%;
-  /* S'étend à 100% de la largeur du lien */
-  transform: translateX(-50%) scaleX(1);
-  /* Barre centrée et étendue symétriquement */
+/* Quand on scroll, on rend le fond visible en fondu */
+.header.scrolled .header-inner::before {
+  opacity: 1;
 }
 
-/* Réinitialisation du transform au départ */
-.nav-menu-link::before {
-  transform: translateX(-50%) scaleX(0);
-  /* La barre est cachée initialement, avec une échelle de 0 */
+/* Menu */
+.menu-list {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  padding: 0;
+  margin: 0;
 }
 
+.menu-list li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.menu-list li a:hover {
+  color: #007bff;
+}
 </style>
