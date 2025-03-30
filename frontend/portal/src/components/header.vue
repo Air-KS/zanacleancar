@@ -49,10 +49,13 @@ export default {
 			showFullMenu: true,
 			showFloatMenu: false,
 			lastScrollY: 0,
+			isMobile: false,
 		};
 	},
 	mounted() {
 		window.addEventListener("scroll", this.handleScroll);
+		window.addEventListener("resize", this.checkIsMobile);
+		this.checkIsMobile();
 	},
 	unmounted() {
 		window.removeEventListener("scroll", this.handleScroll);
@@ -60,6 +63,15 @@ export default {
 	methods: {
 		handleScroll() {
 			const currentY = window.scrollY;
+
+			if (this.isMobile) {
+		// Sur mobile, on garde le menu visible tout le temps
+		this.showFullMenu = true;
+		this.showFloatMenu = false;
+		this.lastScrollY = currentY;
+		return;
+	}
+
 
 			const scrollingDown = currentY > this.lastScrollY;
 			const scrollingUp = currentY < this.lastScrollY;
@@ -86,6 +98,9 @@ export default {
 					hoverBg.style.opacity = 1;
 				}
 			});
+		},
+		checkIsMobile() {
+			this.isMobile = window.innerWidth <= 768;
 		},
 	}
 };
@@ -123,6 +138,7 @@ export default {
 	flex-direction: column;
 	align-items: center;
 }
+
 .header-inner {
 	width: 100%;
 	height: auto;
@@ -145,6 +161,7 @@ export default {
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 	border-bottom: solid 2px white;
 }
+
 .nav-menu {
 	display: flex;
 	align-items: center;
@@ -152,19 +169,23 @@ export default {
 	margin: 0;
 	padding: 0;
 }
+
 .nav-menu a {
 	color: #1a1a3a;
 	font-weight: 600;
 	text-decoration: none;
 }
+
 .nav-menu a:hover {
 	color: var(--nav-color-hover);
 	text-decoration: none;
 	transition: background-color 0.5s, color 0.5s;
 }
+
 .nav-menu .nav-menu-item:not(:last-child) {
 	border-right: 3px solid #ccc;
 }
+
 .nav-menu-item {
 	font-family: var(--nav-item-font-family);
 	font-weight: var(--nav-item-font-weight);
@@ -173,6 +194,7 @@ export default {
 	display: flex;
 	align-items: center;
 }
+
 /* Ajoute une barre horizontale au-dessus du lien avec un effet de transition */
 .nav-menu-link::before {
 	content: "";
@@ -185,6 +207,7 @@ export default {
 	transition: width 0.4s ease, transform 0.4s ease;
 	transform: translateX(-50%);
 }
+
 .nav-menu-link {
 	display: block;
 	padding: 0.5rem 0;
@@ -193,6 +216,7 @@ export default {
 	text-decoration: none;
 	cursor: pointer;
 }
+
 /* Animation lors du survol */
 .nav-menu-link:hover::before {
 	width: 100%;
@@ -215,6 +239,7 @@ export default {
 	z-index: 1;
 	border: 2px solid rgba(255, 255, 255, 0.5);
 }
+
 .pill-menu {
 	display: flex;
 	list-style: none;
@@ -223,12 +248,14 @@ export default {
 	padding: 0;
 	position: relative;
 }
+
 .pill-menu li {
 	position: relative;
 	padding: 6px 12px;
 	border-radius: 9999px;
 	z-index: 1;
 }
+
 .pill-menu li a {
 	position: relative;
 	font-weight: 500;
@@ -240,6 +267,7 @@ export default {
 	line-height: 1.5rem;
 	/* ← centrage vertical du texte */
 }
+
 .pill-menu li a::before,
 .pill-menu li a::after {
 	content: attr(data-label);
@@ -250,27 +278,33 @@ export default {
 	transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 	pointer-events: none;
 }
+
 .pill-menu li a::after {
 	top: -2px;
 	color: #a0dcff;
 	transform: translateY(100%);
 	opacity: 0;
 }
+
 /* Hover effet saut vers le haut */
 .pill-menu li:hover a::before {
 	transform: translateY(-100%);
 	opacity: 0;
 }
+
 .pill-menu li:hover a::after {
 	transform: translateY(0);
 	opacity: 1;
 }
+
 .pill-menu li:hover a {
 	color: transparent;
 }
+
 .pill-menu li:hover {
 	background-color: rgba(255, 255, 255, 0.1);
 }
+
 /* Hover animé */
 .hover-bg {
 	position: absolute;
@@ -297,6 +331,7 @@ export default {
 	top: 50%;
 	transform: translateY(-50%);
 }
+
 .account-button {
 	display: flex;
 	align-items: center;
@@ -306,12 +341,45 @@ export default {
 	text-decoration: none;
 	transition: color 0.3s ease;
 }
+
 .account-button:hover {
 	color: var(--nav-color-hover);
 	transform: scale(1.05);
 }
+
 .account-button i {
 	font-size: 1.3rem;
 }
 
+/* ================================
+      Menu Humburger
+      ================================ */
+.hamburger {
+	position: absolute;
+	left: 1rem;
+	top: 50%;
+	transform: translateY(-50%);
+	background: none;
+	border: none;
+	font-size: 1.8rem;
+	color: var(--color-text-dark);
+	cursor: pointer;
+	display: none;
+	/* par défaut caché */
+	z-index: 101;
+}
+
+@media (max-width: 768px) {
+	.hamburger {
+		display: block;
+	}
+
+	.nav-menu-link {
+		display: none;
+	}
+
+	.nav-full {
+		padding: 40px;
+	}
+}
 </style>
