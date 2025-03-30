@@ -5,30 +5,30 @@
 
 <template>
 	<header class="header">
-	  <transition name="fade-menu">
-		<div class="header-inner" v-if="showFullMenu">
-		  <nav class="nav-full" aria-label="Navigation principale">
-			<ul class="full-menu">
-			  <li v-for="(item, index) in menuItems" :key="index">
-				<router-link :to="item.link">{{ item.label }}</router-link>
-			  </li>
-			</ul>
-		  </nav>
-		</div>
-	  </transition>
+		<transition name="fade-menu">
+			<div class="header-inner" v-if="showFullMenu">
+				<nav class="nav-full" aria-label="Navigation principale">
+					<ul class="nav-menu">
+						<li class="nav-menu-item" v-for="(item, index) in menuItems" :key="index">
+							<router-link class="nav-menu-link" :to="item.link">{{ item.label }}</router-link>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</transition>
 
-	  <transition name="fade-menu">
-		<nav v-if="showFloatMenu" class="nav-float" aria-label="Navigation secondaire">
-		  <ul class="pill-menu">
-			<span class="hover-bg" ref="hoverBg"></span>
-			<li v-for="(item, index) in menuItems" :key="index" @mouseenter="moveHover(index)">
-				<router-link :to="item.link" :data-label="item.label">{{ item.label }}</router-link>
-			</li>
-		  </ul>
-		</nav>
-	  </transition>
+		<transition name="fade-menu">
+			<nav v-if="showFloatMenu" class="nav-float" aria-label="Navigation secondaire">
+				<ul class="pill-menu">
+					<span class="hover-bg" ref="hoverBg"></span>
+					<li v-for="(item, index) in menuItems" :key="index" @mouseenter="moveHover(index)">
+						<router-link :to="item.link" :data-label="item.label">{{ item.label }}</router-link>
+					</li>
+				</ul>
+			</nav>
+		</transition>
 	</header>
-  </template>
+</template>
 
 <script>
 export default {
@@ -57,19 +57,19 @@ export default {
 	},
 	methods: {
 		handleScroll() {
-  const currentY = window.scrollY;
+			const currentY = window.scrollY;
 
-  const scrollingDown = currentY > this.lastScrollY;
-  const scrollingUp = currentY < this.lastScrollY;
+			const scrollingDown = currentY > this.lastScrollY;
+			const scrollingUp = currentY < this.lastScrollY;
 
-  // Cacher le menu complet dès qu’on scroll vers le bas
-  this.showFullMenu = currentY <= 250;
+			// Cacher le menu complet dès qu’on scroll vers le bas
+			this.showFullMenu = currentY <= 250;
 
-  // Afficher le menu flottant uniquement si on remonte et qu’on a dépassé 250px
-  this.showFloatMenu = scrollingUp && currentY > 250;
+			// Afficher le menu flottant uniquement si on remonte et qu’on a dépassé 250px
+			this.showFloatMenu = scrollingUp && currentY > 250;
 
-  this.lastScrollY = currentY;
-},
+			this.lastScrollY = currentY;
+		},
 		moveHover(index) {
 			this.$nextTick(() => {
 				const listItems = this.$el.querySelectorAll(".pill-menu li");
@@ -121,7 +121,6 @@ export default {
 
 .header-inner {
 	width: 100%;
-	/* au lieu de 80% */
 	height: auto;
 	display: flex;
 	justify-content: center;
@@ -129,6 +128,9 @@ export default {
 	position: relative;
 }
 
+/* ================================
+      Menu Full
+      ================================ */
 /* Menu principal */
 .nav-full {
 	background: #f2f2f2;
@@ -137,23 +139,82 @@ export default {
 	display: flex;
 	justify-content: center;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-	border-bottom: solid 2px white ;
+	border-bottom: solid 2px white;
 }
 
-.full-menu {
-	list-style: none;
+.nav-menu {
 	display: flex;
-	gap: 40px;
-	padding: 0;
+	align-items: center;
+	list-style: none;
 	margin: 0;
+	padding: 0;
 }
 
-.full-menu li a {
+.nav-menu a {
 	color: #1a1a3a;
 	font-weight: 600;
 	text-decoration: none;
 }
 
+.nav-menu a:hover {
+	color: var(--nav-color-hover);
+	text-decoration: none;
+	transition: background-color 0.5s, color 0.5s;
+}
+
+.nav-menu .nav-menu-item:not(:last-child) {
+	border-right: 3px solid #ccc;
+	/* Séparateur entre les éléments */
+}
+
+.nav-menu-item {
+	font-family: var(--nav-item-font-family);
+	font-weight: var(--nav-item-font-weight);
+	font-size: 1.1rem;
+	padding: 0 20px;
+	display: flex;
+	align-items: center;
+}
+
+
+/* Ajoute une barre horizontale au-dessus du lien avec un effet de transition */
+.nav-menu-link::before {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	/* Commence au centre */
+	width: 0;
+	height: 3px;
+	background-color: var(--nav-color-link);
+	/* La couleur de la barre */
+	transition: width 0.4s ease, transform 0.4s ease;
+	/* Transition pour l'animation */
+	transform: translateX(-50%);
+	/* Centrer la barre par rapport au lien */
+}
+
+.nav-menu-link {
+	display: block;
+	padding: 0.5rem 0;
+	position: relative;
+	color: var(--color-text-dark);
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* Animation lors du survol */
+.nav-menu-link:hover::before {
+	width: 100%;
+	/* S'étend à 100% de la largeur du lien */
+	transform: translateX(-50%) scaleX(1);
+	/* Barre centrée et étendue symétriquement */
+}
+
+
+/* ================================
+      Menu Float
+      ================================ */
 /* Menu flottant */
 .nav-float {
 	position: fixed;
@@ -186,47 +247,48 @@ export default {
 }
 
 .pill-menu li a {
-  position: relative;
-  font-weight: 500;
-  text-decoration: none;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
-  color: rgb(255, 255, 255);
-  transition: color 0.3s ease;
+	position: relative;
+	font-weight: 500;
+	text-decoration: none;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+	color: rgb(255, 255, 255);
+	transition: color 0.3s ease;
 
-  line-height: 1.5rem;       /* ← centrage vertical du texte */
+	line-height: 1.5rem;
+	/* ← centrage vertical du texte */
 }
 
 .pill-menu li a::before,
 .pill-menu li a::after {
-  content: attr(data-label);
-  position: absolute;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  pointer-events: none;
+	content: attr(data-label);
+	position: absolute;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+	pointer-events: none;
 }
 
 .pill-menu li a::after {
-  top: -2px;
-  color: #a0dcff;
-  transform: translateY(100%);
-  opacity: 0;
+	top: -2px;
+	color: #a0dcff;
+	transform: translateY(100%);
+	opacity: 0;
 }
 
 /* Hover effet saut vers le haut */
 .pill-menu li:hover a::before {
-  transform: translateY(-100%);
-  opacity: 0;
+	transform: translateY(-100%);
+	opacity: 0;
 }
 
 .pill-menu li:hover a::after {
-  transform: translateY(0);
-  opacity: 1;
+	transform: translateY(0);
+	opacity: 1;
 }
 
 .pill-menu li:hover a {
-  color: transparent;
+	color: transparent;
 }
 
 .pill-menu li:hover {
