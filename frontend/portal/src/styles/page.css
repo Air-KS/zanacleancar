@@ -53,9 +53,6 @@ p.description {
 }
 
 @media (min-width: 1200px) {
-  body {
-    padding-top: 50px;
-  }
   .page-container {
     width: 60%;
   }

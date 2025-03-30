@@ -1,9 +1,7 @@
 <template>
-	<div class="before-after-container"
-		@mousemove="drag && moveSlider($event)"
-		@mousedown="drag = true"
-		@mouseup="drag = false"
-		@mouseleave="drag = false">
+	<div class="before-after-container" @mousemove="drag && moveSlider($event)" @mousedown="drag = true"
+		@mouseup="drag = false" @mouseleave="drag = false" @touchstart="drag = true"
+		@touchmove="drag && moveSlider($event, true)" @touchend="drag = false">
 		<img :src="after" class="img full" alt="Après" />
 		<div class="overlay" :style="{ '--slider-x': sliderX + '%' }">
 			<img :src="before" class="img full" alt="Avant" />
@@ -27,9 +25,10 @@ export default {
 		};
 	},
 	methods: {
-		moveSlider(e) {
+		moveSlider(e, isTouch = false) {
 			const rect = e.currentTarget.getBoundingClientRect();
-			const x = ((e.clientX - rect.left) / rect.width) * 100;
+			const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+			const x = ((clientX - rect.left) / rect.width) * 100;
 			this.sliderX = Math.min(100, Math.max(0, x));
 		},
 	},
@@ -104,15 +103,18 @@ export default {
 .beforeAfter {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 20px; /* espace entre les blocs */
-	justify-content: center; /* centre le tout */
+	gap: 20px;
+	/* espace entre les blocs */
+	justify-content: center;
+	/* centre le tout */
 }
 
 /* Responsive - plus petit écran */
 @media (max-width: 600px) {
 	.before-after-container {
 		max-width: 100%;
-		aspect-ratio: 4 / 4; /* carré par exemple */
+		aspect-ratio: 4 / 4;
+		/* carré par exemple */
 	}
 }
 </style>

@@ -4,7 +4,6 @@
   <div class="auth-container">
     <!-- Colonne gauche : Infos -->
     <div class="auth-info-col">
-      <div class="separator"></div>
       <h2 class="auth-title">Pourquoi se Connecter ?</h2>
       <ul class="auth-info-list starred-list">
         <li> 🔐 Accéder à ton espace personnel </li>
@@ -12,7 +11,6 @@
         <li> 💎 Utiliser tes points de fidélité </li>
         <li> ✨ Profiter de tes avantages exclusifs </li>
       </ul>
-      <div class="separator"></div>
     </div>
 
     <!-- Colonne droite : Formulaire -->

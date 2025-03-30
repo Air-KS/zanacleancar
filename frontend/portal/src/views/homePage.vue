@@ -25,11 +25,11 @@
 		<h2 class="sub-title">Avant / Après</h2>
 		<div class="beforeAfter">
 			<div v-for="(item, index) in photos" :key="index">
-				<BeforeAfter :before="item.avant" :after="item.apres" size="medium"/>
+				<BeforeAfter :before="item.avant1" :after="item.apres1" />
 			</div>
 
 			<div v-for="(item, index) in photos" :key="index">
-				<BeforeAfter :before="item.avant" :after="item.apres" />
+				<BeforeAfter :before="item.avant2" :after="item.apres2" />
 			</div>
 		</div>
 
@@ -39,7 +39,7 @@
 
 		<!-- Info section-->
 		<div class="grid-home-info">
-			<div class="grid-info-section" id="pick">
+			<div class="grid-info-section" id="pick" data-aos="zoom-in">
 				<div class="grid-info">
 					<div class="grid-icon"></div>
 					<h3>Choisissez !</h3>
@@ -51,7 +51,7 @@
 
 			<div class="grid-separator"></div>
 
-			<div class="grid-info-section" id="book">
+			<div class="grid-info-section" id="book" data-aos="zoom-in">
 				<div class="grid-info">
 					<div class="grid-icon"></div>
 					<h3>Réservez !</h3>
@@ -63,7 +63,7 @@
 
 			<div class="grid-separator"></div>
 
-			<div class="grid-info-section" id="clean">
+			<div class="grid-info-section" id="clean" data-aos="zoom-in">
 				<div class="grid-info">
 					<div class="grid-icon"></div>
 					<h3>Néttoyez !</h3>
@@ -166,6 +166,8 @@
 import BeforeAfter from "@/components/beforeAfter.vue";
 import Before1 from "@/assets/beforeAfter/before1.jpg";
 import After1 from "@/assets/beforeAfter/after1.jpg";
+import Before2 from "@/assets/beforeAfter/before2.jpg";
+import After2 from "@/assets/beforeAfter/after2.jpg";
 
 export default {
 	name: "HomePage",
@@ -176,17 +178,20 @@ export default {
 		return {
 			photos: [
 				{
-					avant: Before1,
-					apres: After1,
+					avant1: Before1,
+					apres1: After1,
+					avant2: Before2,
+					apres2: After2,
 				},
 			],
 		};
 	},
-};
+}
 
 </script>
 
 <style scoped>
+
 .img-bancar {
 	width: 100%;
 	display: flex;
@@ -202,7 +207,6 @@ export default {
 	flex-direction: row;
 	justify-content: space-between;
 	width: 100%;
-	max-width: 1000px;
 	border-radius: 20px;
 	overflow: hidden;
 	margin: 0 auto;

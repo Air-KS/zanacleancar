@@ -24,7 +24,6 @@
 .auth-info-col {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 1rem;
   text-align: left;
   margin-left: 20px;
