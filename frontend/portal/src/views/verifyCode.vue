@@ -135,7 +135,7 @@ export default {
         );
         if (res.status === 200) {
           this.successMessage = "Code vérifié avec succès.";
-          this.$router.push("/dashboard");
+          this.$router.push("/");
         }
       } catch (err) {
         console.error("Erreur de vérification :", err);

@@ -109,7 +109,7 @@ export default {
           localStorage.setItem("token", token);
 
           // Redirection vers le tableau de bord
-          this.$router.push("/dashboard");
+          this.$router.push("/");
         }
       } catch (err) {
         console.error("Erreur de connexion :", err);
