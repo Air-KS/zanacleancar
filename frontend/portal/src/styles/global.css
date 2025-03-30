@@ -17,6 +17,8 @@
   --color-separator: #ff5252;
   --color-border: #4687af;
   --color-border-shadow: rgba(0, 123, 255, 0.25);
+  --nav-float: #629cbdb0;
+  --nav-float-text: #848688e0;
 
   /* === Couleurs spécifiques === */
   --color-center-bold: rgb(68, 65, 65);
