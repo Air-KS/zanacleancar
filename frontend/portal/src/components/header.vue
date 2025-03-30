@@ -22,7 +22,7 @@
 		  <ul class="pill-menu">
 			<span class="hover-bg" ref="hoverBg"></span>
 			<li v-for="(item, index) in menuItems" :key="index" @mouseenter="moveHover(index)">
-			  <router-link :to="item.link">{{ item.label }}</router-link>
+				<router-link :to="item.link" :data-label="item.label">{{ item.label }}</router-link>
 			</li>
 		  </ul>
 		</nav>
@@ -38,6 +38,11 @@ export default {
 			menuItems: [
 				{ label: "Home", link: "/" },
 				{ label: "Connectez-vous", link: "/register" },
+				{ label: "Test 1", link: "/register" },
+				{ label: "Test 2", link: "/register" },
+				{ label: "Test 3", link: "/register" },
+				{ label: "Test 4", link: "/register" },
+				{ label: "Test 5", link: "/register" },
 			],
 			showFullMenu: true,
 			showFloatMenu: false,
@@ -181,10 +186,47 @@ export default {
 }
 
 .pill-menu li a {
-	font-weight: 500;
-	text-decoration: none;
-	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
-	color: white;
+  position: relative;
+  font-weight: 500;
+  text-decoration: none;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  color: rgb(255, 255, 255);
+  transition: color 0.3s ease;
+
+  line-height: 1.5rem;       /* ← centrage vertical du texte */
+}
+
+.pill-menu li a::before,
+.pill-menu li a::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+.pill-menu li a::after {
+  top: -2px;
+  color: #a0dcff;
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+/* Hover effet saut vers le haut */
+.pill-menu li:hover a::before {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.pill-menu li:hover a::after {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.pill-menu li:hover a {
+  color: transparent;
 }
 
 .pill-menu li:hover {
@@ -198,7 +240,9 @@ export default {
 	left: 0;
 	width: 0;
 	height: 0;
-	background-color: rgba(255, 255, 255, 0.1);
+	background-color: rgba(255, 255, 255, 0.199);
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+	border: 2px solid rgba(255, 255, 255, 0.5);
 	border-radius: 9999px;
 	transition: all 0.3s ease;
 	pointer-events: none;
