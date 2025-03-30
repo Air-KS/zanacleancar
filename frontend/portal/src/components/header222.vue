@@ -9,10 +9,17 @@
 			<div class="header-inner" v-if="showFullMenu">
 				<nav class="nav-full" aria-label="Navigation principale">
 					<ul class="nav-menu">
-						<li class="nav-menu-item" v-for="(item, index) in menuItems" :key="index">
+						<li class="nav-menu-item" v-for="(item, index) in menuItems.filter(i => i.link !== '/login')"
+							:key="index">
 							<router-link class="nav-menu-link" :to="item.link">{{ item.label }}</router-link>
 						</li>
 					</ul>
+					<div class="account-section">
+						<router-link to="/login" class="account-button">
+							<i class="fas fa-user-circle"></i>
+							<span>Mon compte</span>
+						</router-link>
+					</div>
 				</nav>
 			</div>
 		</transition>
@@ -36,8 +43,8 @@ export default {
 	data() {
 		return {
 			menuItems: [
-				{ label: "Home", link: "/" },
-				{ label: "Connectez-vous", link: "/register" },
+				{ label: "Accueil", link: "/" },
+				{ label: "Services", link: "/register" },
 			],
 			showFullMenu: true,
 			showFloatMenu: false,
@@ -104,6 +111,9 @@ export default {
 	transform: translateY(-10px);
 }
 
+/* ================================
+      Header Container
+      ================================ */
 .header {
 	position: fixed;
 	top: 0;
@@ -113,7 +123,6 @@ export default {
 	flex-direction: column;
 	align-items: center;
 }
-
 .header-inner {
 	width: 100%;
 	height: auto;
@@ -136,7 +145,6 @@ export default {
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 	border-bottom: solid 2px white;
 }
-
 .nav-menu {
 	display: flex;
 	align-items: center;
@@ -144,24 +152,19 @@ export default {
 	margin: 0;
 	padding: 0;
 }
-
 .nav-menu a {
 	color: #1a1a3a;
 	font-weight: 600;
 	text-decoration: none;
 }
-
 .nav-menu a:hover {
 	color: var(--nav-color-hover);
 	text-decoration: none;
 	transition: background-color 0.5s, color 0.5s;
 }
-
 .nav-menu .nav-menu-item:not(:last-child) {
 	border-right: 3px solid #ccc;
-	/* Séparateur entre les éléments */
 }
-
 .nav-menu-item {
 	font-family: var(--nav-item-font-family);
 	font-weight: var(--nav-item-font-weight);
@@ -170,25 +173,18 @@ export default {
 	display: flex;
 	align-items: center;
 }
-
-
 /* Ajoute une barre horizontale au-dessus du lien avec un effet de transition */
 .nav-menu-link::before {
 	content: "";
 	position: absolute;
 	bottom: 0;
 	left: 50%;
-	/* Commence au centre */
 	width: 0;
 	height: 3px;
 	background-color: var(--nav-color-link);
-	/* La couleur de la barre */
 	transition: width 0.4s ease, transform 0.4s ease;
-	/* Transition pour l'animation */
 	transform: translateX(-50%);
-	/* Centrer la barre par rapport au lien */
 }
-
 .nav-menu-link {
 	display: block;
 	padding: 0.5rem 0;
@@ -197,20 +193,15 @@ export default {
 	text-decoration: none;
 	cursor: pointer;
 }
-
 /* Animation lors du survol */
 .nav-menu-link:hover::before {
 	width: 100%;
-	/* S'étend à 100% de la largeur du lien */
 	transform: translateX(-50%) scaleX(1);
-	/* Barre centrée et étendue symétriquement */
 }
-
 
 /* ================================
       Menu Float
       ================================ */
-/* Menu flottant */
 .nav-float {
 	position: fixed;
 	top: 20px;
@@ -224,7 +215,6 @@ export default {
 	z-index: 1;
 	border: 2px solid rgba(255, 255, 255, 0.5);
 }
-
 .pill-menu {
 	display: flex;
 	list-style: none;
@@ -233,14 +223,12 @@ export default {
 	padding: 0;
 	position: relative;
 }
-
 .pill-menu li {
 	position: relative;
 	padding: 6px 12px;
 	border-radius: 9999px;
 	z-index: 1;
 }
-
 .pill-menu li a {
 	position: relative;
 	font-weight: 500;
@@ -252,7 +240,6 @@ export default {
 	line-height: 1.5rem;
 	/* ← centrage vertical du texte */
 }
-
 .pill-menu li a::before,
 .pill-menu li a::after {
 	content: attr(data-label);
@@ -263,33 +250,27 @@ export default {
 	transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 	pointer-events: none;
 }
-
 .pill-menu li a::after {
 	top: -2px;
 	color: #a0dcff;
 	transform: translateY(100%);
 	opacity: 0;
 }
-
 /* Hover effet saut vers le haut */
 .pill-menu li:hover a::before {
 	transform: translateY(-100%);
 	opacity: 0;
 }
-
 .pill-menu li:hover a::after {
 	transform: translateY(0);
 	opacity: 1;
 }
-
 .pill-menu li:hover a {
 	color: transparent;
 }
-
 .pill-menu li:hover {
 	background-color: rgba(255, 255, 255, 0.1);
 }
-
 /* Hover animé */
 .hover-bg {
 	position: absolute;
@@ -306,4 +287,31 @@ export default {
 	opacity: 0;
 	z-index: 0;
 }
+
+/* ================================
+      Section mon Compte
+      ================================ */
+.account-section {
+	position: absolute;
+	right: 2rem;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.account-button {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-weight: 600;
+	color: var(--color-text-dark);
+	text-decoration: none;
+	transition: color 0.3s ease;
+}
+.account-button:hover {
+	color: var(--nav-color-hover);
+	transform: scale(1.05);
+}
+.account-button i {
+	font-size: 1.3rem;
+}
+
 </style>
