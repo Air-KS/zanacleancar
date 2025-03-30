@@ -1,0 +1,4 @@
+<div data-aos="fade-up">Contenu qui monte doucement</div>
+<div data-aos="zoom-in">Zoom in au scroll</div>
+<div data-aos="fade-left">Texte qui vient de la gauche</div>
+<div data-aos="fade-right">Texte qui vient de la groite</div>
