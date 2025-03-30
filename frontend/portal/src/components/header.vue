@@ -38,11 +38,6 @@ export default {
 			menuItems: [
 				{ label: "Home", link: "/" },
 				{ label: "Connectez-vous", link: "/register" },
-				{ label: "Test 1", link: "/register" },
-				{ label: "Test 2", link: "/register" },
-				{ label: "Test 3", link: "/register" },
-				{ label: "Test 4", link: "/register" },
-				{ label: "Test 5", link: "/register" },
 			],
 			showFullMenu: true,
 			showFloatMenu: false,
