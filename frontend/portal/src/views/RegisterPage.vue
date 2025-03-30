@@ -4,7 +4,6 @@
   <div class="auth-container">
     <!-- Colonne gauche : Infos -->
     <div class="auth-info-col">
-      <div class="separator"></div>
       <h2 class="auth-title">Pourquoi S'inscrire ?</h2>
       <ul class="auth-info-list starred-list">
         <li> 🧾 Avoir un compte chez nous </li>
@@ -12,7 +11,6 @@
         <li> 💎 Obtenir des points de loyauté </li>
         <li> 🎉 C’est gratuit, rapide et sans engagement </li>
       </ul>
-      <div class="separator"></div>
     </div>
 
     <!-- Colonne droite : Formulaire -->

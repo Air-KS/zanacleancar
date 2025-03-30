@@ -14,6 +14,7 @@
 		"test": "vitest"
 	},
 	"dependencies": {
+		"aos": "^2.3.4",
 		"axios": "^1.8.4",
 		"pinia": "^3.0.1",
 		"vue": "^3.5.13",

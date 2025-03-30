@@ -6,12 +6,14 @@
 // Importation des outils de routing de Vue Router et des pages
 import { createRouter, createWebHistory } from 'vue-router';
 import RegisterPage from '@/views/RegisterPage.vue';
+import HomePage from '@/views/homePage.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import VerifyCode from '@/views/verifyCode.vue';
 
 // Déclaration des routes avec leur composant associé
 const routes = [
-  { path: '/', name: 'Register', component: RegisterPage },
+  { path: '/', name: 'Home', component: HomePage },
+  { path: '/register', name: 'Register', component: RegisterPage },
   { path: '/login', name: 'Login', component: LoginPage },
   { path: '/verify-code', name: 'VerifyCode', component: VerifyCode },
   // autres routes ici...
