@@ -46,8 +46,14 @@ passport.use(new GoogleStrategy({
 
 // Sérialisation / désérialisation de l'utilisateur pour la session
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id);
 });
-passport.deserializeUser((user, done) => {
-  done(null, user);
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findByPk(id);
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
 });

@@ -31,8 +31,8 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
   ? ['https://zanacleancar.netlify.app']
   : [
       'https://zanacleancar.netlify.app',
-      'http://localhost:8080',
-      'http://127.0.0.1:8080'
+      'http://127.0.0.1:8080',
+      'http://localhost:8080'
     ];
 
 // ✅ Middleware CORS dynamique
@@ -60,7 +60,7 @@ app.use(helmet({ xssFilter: false, frameguard: false }));
 app.use(session({
   secret: 'secret',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     secure: false,
     httpOnly: true,

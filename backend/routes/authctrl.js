@@ -208,7 +208,7 @@ router.post('/complete-registration', async (req, res) => {
   Connexion de l'utilisateur
 =========================================
 */
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
   // Vérification des identifiants de connexion
   try {
     const { email, password } = req.body;
@@ -228,18 +228,66 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: "L'E-mail n'existe pas ou le mot de passe est incorrect." });
     }
 
-    // Génération du token JWT
-    const token = jwt.sign({ userId: userFound.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    return res.status(200).json({
-      userId: userFound.id,
-      token: token,
-    });
+    // Authentifie l'utilisateur via Passport (session/cookie)
+    req.login(userFound, (err) => {
+      if (err) return next(err);
 
-    // Fin login
+      // Réponse en JSON avec utilisateur
+      res.status(200).json({
+        user: {
+          id: userFound.id,
+          name: userFound.name,
+          email: userFound.email
+        }
+      });
+    });
   } catch (error) {
-    console.error("Erreur lors de la connexion de l'utilisateur :", error);
-    return res.status(500).json({ error: "Impossible de se connecter." });
+    console.error("Erreur login :", error);
+    res.status(500).json({ error: "Erreur interne lors du login." });
+  }
+});
+
+/*
+=========================================
+  Session Utilisateur
+=========================================
+*/
+// Vérifie la session utilisateur via Passport
+router.get('/checkSession', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.status(200).json({
+      user: {
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email
+      }
+    });
+  } else {
+    res.status(200).json({ user: null });
   }
 });
 
 module.exports = router;
+
+/*
+=========================================
+  LogOut Utilisateur
+=========================================
+*/
+router.get('/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).json({ error: "Erreur lors de la déconnexion" });
+    }
+
+    req.session.destroy(() => {
+      res.clearCookie('connect.sid', {
+        path: '/',
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax'
+      });
+      res.json({ message: "Déconnexion réussie" });
+    });
+  });
+});
