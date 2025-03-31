@@ -36,6 +36,6 @@ app.use(pinia)
 app.use(router);
 
 const userStore = useUserStore();
-userStore.checkLoginState();
+await userStore.checkLoginState()
 
 app.mount('#app');

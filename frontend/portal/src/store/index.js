@@ -1,72 +1,49 @@
 /*
   ./frontend/src/stores/index.js
+  (Gestion sessions via cookies Passport)
 */
 
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
-function getUserFromLocalStorage() {
-  try {
-    const user = localStorage.getItem('user');
-    if (user && user !== 'undefined') {
-      return JSON.parse(user);
-    }
-    return null;
-  } catch (error) {
-    console.error('Erreur de parsing user', error);
-    return null;
-  }
-}
-
 export const useUserStore = defineStore('user', {
   state: () => ({
-    isLoggedIn: !!localStorage.getItem('token'),
-    user: getUserFromLocalStorage(),
+    isLoggedIn: false,
+    user: null,
   }),
 
   actions: {
-    async login(user, token) {
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
+    async login(user) {
+      this.user = user;
       this.isLoggedIn = true;
-      this.user = { ...user, token };
+    },
 
+    async logout() {
+      this.isLoggedIn = false;
+      this.user = null;
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/profile/${user.id}`);
-        const userInfo = response.data;
-        this.user = { ...user, ...userInfo, token };
+        await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/auth/logout`, { withCredentials: true });
       } catch (error) {
-        console.error("Erreur lors de la récupération du profil :", error);
+        console.error("Erreur déconnexion :", error);
       }
     },
 
-    logout() {
-      this.isLoggedIn = false;
-      this.user = null;
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-      delete axios.defaults.headers.common['Authorization'];
-    },
-
     async checkLoginState() {
-      const token = localStorage.getItem('token');
-      const user = getUserFromLocalStorage();
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/auth/checkSession`, { withCredentials: true });
 
-      if (token && user) {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-        try {
-          const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/profile/${user.id}`);
-          const userInfo = response.data;
+        if (response.data.user) {
+          this.user = response.data.user;
           this.isLoggedIn = true;
-          this.user = { ...user, ...userInfo, token };
-        } catch (error) {
-          console.error("Erreur de vérification du profil :", error);
+        } else {
+          this.user = null;
+          this.isLoggedIn = false;
+          console.info("✅ Aucune session active côté serveur.");
         }
-      } else {
-        this.logout();
+      } catch (error) {
+        console.error("🚨 Erreur inattendue côté serveur :", error);
+        this.user = null;
+        this.isLoggedIn = false;
       }
     },
   },
