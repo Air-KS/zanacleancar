@@ -48,7 +48,7 @@
     </button>
 
     <!-- Mon Compte / Profile -->
-    <div class="account-section" ref="accountDropdown">
+    <div class="account-section" ref="accountDropdown" v-if="showFullMenu">
       <template v-if="userStore.isLoggedIn">
         <button @click="toggleDropdown" class="account-button">
           <img src="@/assets/profile-circle.svg" alt="Profile" class="avatar-icon" />
@@ -120,7 +120,6 @@ function closeDropdown() {
 function handleScroll() {
   const currentY = window.scrollY;
 
-
   if (isMobile.value) {
     showFullMenu.value = true;
     showFloatMenu.value = false;
@@ -133,6 +132,7 @@ function handleScroll() {
   showFloatMenu.value = scrollingUp && currentY > 250;
 
   lastScrollY.value = currentY;
+  showDropdown.value = false;
 }
 
 function checkIsMobile() {
@@ -419,7 +419,7 @@ onUnmounted(() => {
 ================================ */
 .account-section {
   position: absolute;
-  right: 15%;
+  right: 150px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 20;
@@ -452,16 +452,15 @@ onUnmounted(() => {
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 10px);
-  /* 10px d'espace pour être bien visible sous le header */
-  right: 0;
+  right: 120px;
   background: #c8ddebe0;
   backdrop-filter: blur(5px);
   padding: 10px 20px;
-  border-radius: 0 0 0 10px;
+  border-radius: 0 0px 25px 25px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   border: solid 2px white;
   list-style: none;
-  margin-top: -15px;
+  margin: -15px 0 0px 0px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -480,6 +479,7 @@ onUnmounted(() => {
   font-weight: 600;
   cursor: pointer;
   padding: 8px;
+  text-align: center;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -595,6 +595,15 @@ onUnmounted(() => {
     transform: translateY(-12px) rotate(-45deg);
   }
 
+  .account-section,
+  .dropdown-menu {
+    right: 0
+  }
+
+  .account-button {
+    padding: 50px;
+  }
+
   .dropdown-menu {
     border-radius: 0 0 0 999px;
     border: solid 2px white;
@@ -608,11 +617,7 @@ onUnmounted(() => {
     cursor: pointer;
     padding: 1rem;
     transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  /* uniquement pour le dernier item */
-  .dropdown-item:last-child {
-    padding-bottom: 50px;
+    text-align: right;
   }
 
   .dropdown-item:hover {
@@ -626,10 +631,21 @@ onUnmounted(() => {
   }
 }
 
+@media (min-width: 769px) and (max-width: 1200px) {
 
-@media (max-width: 1000px) {
-  .account-section {
-    right: 5%;
+  .account-section,
+  .dropdown-menu, .dropdown-item {
+    right: 0px;
+    border-radius: 0 0 0 10px;
+    text-align: right;
+  }
+  .account-button {
+    padding: 50px;
+  }
+  .slide-dropdown-enter-from,
+  .slide-dropdown-leave-to {
+    transform: translateX(100%);
+    opacity: 0;
   }
 }
 </style>
