@@ -11,34 +11,9 @@
               <router-link class="nav-menu-link" :to="item.link">{{ item.label }}</router-link>
             </li>
           </ul>
-
         </nav>
       </div>
     </transition>
-
-    <!-- Mon Compte / Profile -->
-    <div class="account-section">
-      <template v-if="userStore.isLoggedIn">
-        <router-link to="/" class="account-button">
-          <img src="@/assets/profile-circle.svg" alt="Profile" class="avatar-icon" />
-        </router-link>
-        <button @click="handleLogout" class="account-button">
-          Déconnexion
-        </button>
-      </template>
-      <template v-else>
-        <router-link to="/login" class="account-button">
-          <i class="fas fa-user-circle"></i>
-          <span>Mon compte</span>
-        </router-link>
-      </template>
-    </div>
-
-    <!-- DEBUG -->
-    <div style="position: fixed; bottom: 10px; right: 10px; background: white; padding: 10px; z-index: 9999;">
-      isLoggedIn : {{ userStore.isLoggedIn }}<br />
-      user : {{ userStore.user }}
-    </div>
 
     <!-- Menu flottant (PC en scroll) -->
     <transition name="fade-menu">
@@ -71,6 +46,38 @@
       <span class="menu-toggle-bar middle-bar"></span>
       <span class="menu-toggle-bar bottom-bar"></span>
     </button>
+
+    <!-- Mon Compte / Profile -->
+    <div class="account-section" ref="accountDropdown">
+      <template v-if="userStore.isLoggedIn">
+        <button @click="toggleDropdown" class="account-button">
+          <img src="@/assets/profile-circle.svg" alt="Profile" class="avatar-icon" />
+        </button>
+      </template>
+
+      <template v-else>
+        <router-link to="/login" class="account-button">
+          <i class="fas fa-user-circle"></i>
+          <span>Mon compte</span>
+        </router-link>
+      </template>
+    </div>
+
+    <!-- DEBUG -->
+    <div style="position: fixed; bottom: 10px; right: 10px; background: white; padding: 10px; z-index: 9999;">
+      isLoggedIn : {{ userStore.isLoggedIn }}<br />
+      user : {{ userStore.user }}
+    </div>
+
+    <!-- Dropdown déplacé ici pour être indépendant du header-inner -->
+    <transition name="slide-dropdown">
+      <ul v-if="showDropdown" class="dropdown-menu">
+        <li class="dropdown-item">Profil</li>
+        <li class="dropdown-item" @click="handleLogout">Déconnexion</li>
+
+      </ul>
+    </transition>
+
   </header>
 </template>
 
@@ -95,13 +102,24 @@ const showMobileMenu = ref(false);
 const hoverBg = ref(null);
 const mobileMenu = ref(null);
 
+const showDropdown = ref(false);
+const accountDropdown = ref(null);
+
 async function handleLogout() {
   await userStore.logout();
   window.location.href = "/";
 }
 
+function toggleDropdown() {
+  showDropdown.value = !showDropdown.value;
+}
+
+function closeDropdown() {
+  showDropdown.value = false;
+}
 function handleScroll() {
   const currentY = window.scrollY;
+
 
   if (isMobile.value) {
     showFullMenu.value = true;
@@ -130,13 +148,20 @@ function closeMobileMenu() {
 }
 
 function handleClickOutside(event) {
-  if (
-    showMobileMenu.value &&
+  // Fermer menu mobile si clique extérieur
+  if (showMobileMenu.value &&
     mobileMenu.value &&
-    !mobileMenu.value.contains(event.target) &&
-    !event.target.closest('.menu-toggle')
-  ) {
+    !mobileMenu.value.contains(event.target)
+    && !event.target.closest('.menu-toggle')) {
     closeMobileMenu();
+  }
+
+  // Fermer dropdown utilisateur si clique extérieur
+  if (showDropdown.value &&
+    accountDropdown.value &&
+    !accountDropdown.value.contains(event.target)
+    && !event.target.closest('.dropdown-menu')) {
+    closeDropdown();
   }
 }
 
@@ -179,11 +204,12 @@ onUnmounted(() => {
 */
 
 .avatar-icon {
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
   border-radius: 9999px;
   object-fit: cover;
 }
+
 
 /* ================================
    Transitions
@@ -206,7 +232,8 @@ onUnmounted(() => {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 1000;
+  /* Augmenté ici pour passer devant */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -218,6 +245,7 @@ onUnmounted(() => {
   justify-content: center;
   align-items: center;
   position: relative;
+  z-index: 10;
 }
 
 /* ================================
@@ -391,9 +419,10 @@ onUnmounted(() => {
 ================================ */
 .account-section {
   position: absolute;
-  right: 2rem;
+  right: 15%;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 20;
 }
 
 .account-button {
@@ -404,6 +433,11 @@ onUnmounted(() => {
   color: var(--color-text-dark);
   text-decoration: none;
   transition: color 0.3s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
 }
 
 .account-button:hover {
@@ -415,6 +449,56 @@ onUnmounted(() => {
   font-size: 1.3rem;
 }
 
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  /* 10px d'espace pour être bien visible sous le header */
+  right: 0;
+  background: #c8ddebe0;
+  backdrop-filter: blur(5px);
+  padding: 10px 20px;
+  border-radius: 0 0 0 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border: solid 2px white;
+  list-style: none;
+  margin-top: -15px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 1;
+  /* Inférieur à header, mais supérieur à tout le reste */
+}
+
+.dropdown-menu.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.dropdown-item {
+  color: #1a1a3a;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+}
+
+/* Transition (glissement droite -> gauche) */
+.slide-dropdown-enter-active,
+.slide-dropdown-leave-active {
+  transition: transform 0.3s ease-out, opacity 0.3s ease;
+}
+
+.slide-dropdown-enter-from,
+.slide-dropdown-leave-to {
+  transform: translateY(-100%);
+  opacity: 0;
+}
 
 
 /* ================================
@@ -509,6 +593,43 @@ onUnmounted(() => {
 
   .menu-toggle.active .bottom-bar {
     transform: translateY(-12px) rotate(-45deg);
+  }
+
+  .dropdown-menu {
+    border-radius: 0 0 0 999px;
+    border: solid 2px white;
+    text-align: right;
+    width: 50%;
+  }
+
+  .dropdown-item {
+    color: #1a1a3a;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* uniquement pour le dernier item */
+  .dropdown-item:last-child {
+    padding-bottom: 50px;
+  }
+
+  .dropdown-item:hover {
+    background-color: transparent;
+  }
+
+  .slide-dropdown-enter-from,
+  .slide-dropdown-leave-to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+
+@media (max-width: 1000px) {
+  .account-section {
+    right: 5%;
   }
 }
 </style>
