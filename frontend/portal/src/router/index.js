@@ -9,6 +9,7 @@ import RegisterPage from '@/views/RegisterPage.vue';
 import HomePage from '@/views/homePage.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import VerifyCode from '@/views/verifyCode.vue';
+import ProfilPage from '@/views/profilPage.vue';
 
 // Déclaration des routes avec leur composant associé
 const routes = [
@@ -16,6 +17,7 @@ const routes = [
   { path: '/register', name: 'Register', component: RegisterPage },
   { path: '/login', name: 'Login', component: LoginPage },
   { path: '/verify-code', name: 'VerifyCode', component: VerifyCode },
+  { path: '/profilPage', name: 'Profil', component: ProfilPage },
   // autres routes ici...
 ];
 

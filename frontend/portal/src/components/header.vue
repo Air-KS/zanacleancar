@@ -89,8 +89,10 @@
 	  ============================================== -->
     <transition name="slide-dropdown">
       <ul v-if="showDropdown" class="dropdown-menu">
-        <li class="dropdown-item">Profil</li>
-        <li class="dropdown-item" @click="handleLogout">Déconnexion</li>
+        <li class="dropdown-item">
+          <router-link to="/profil" @click="closeDropdown">Profil</router-link>
+        </li>
+        <li class="dropdown-item" @click="() => { handleLogout(); closeDropdown(); }">Déconnexion</li>
       </ul>
     </transition>
 
