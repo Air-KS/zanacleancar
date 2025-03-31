@@ -5,6 +5,7 @@
 
 // Importation de Vue, du composant principal et des styles globaux
 import { createApp } from 'vue'
+import { createPinia } from 'pinia';
 import App from './App.vue'
 import router from './router'
 
@@ -20,6 +21,8 @@ import './styles/animations/auth-animation.css';
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
+import { useUserStore } from '@/store/index.js';
+
 	AOS.init({
 		duration: 800,
 		once: true
@@ -27,5 +30,12 @@ import 'aos/dist/aos.css'
 
 // Création et montage de l'application Vue
 const app = createApp(App);
+const pinia = createPinia();
+
+app.use(pinia)
 app.use(router);
+
+const userStore = useUserStore();
+await userStore.checkLoginState()
+
 app.mount('#app');

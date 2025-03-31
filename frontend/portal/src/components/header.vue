@@ -11,15 +11,34 @@
               <router-link class="nav-menu-link" :to="item.link">{{ item.label }}</router-link>
             </li>
           </ul>
-          <div class="account-section">
-            <router-link to="/login" class="account-button">
-              <i class="fas fa-user-circle"></i>
-              <span>Mon compte</span>
-            </router-link>
-          </div>
+
         </nav>
       </div>
     </transition>
+
+    <!-- Mon Compte / Profile -->
+    <div class="account-section">
+      <template v-if="userStore.isLoggedIn">
+        <router-link to="/" class="account-button">
+          <img src="@/assets/profile-circle.svg" alt="Profile" class="avatar-icon" />
+        </router-link>
+        <button @click="handleLogout" class="account-button">
+          Déconnexion
+        </button>
+      </template>
+      <template v-else>
+        <router-link to="/login" class="account-button">
+          <i class="fas fa-user-circle"></i>
+          <span>Mon compte</span>
+        </router-link>
+      </template>
+    </div>
+
+    <!-- DEBUG -->
+    <div style="position: fixed; bottom: 10px; right: 10px; background: white; padding: 10px; z-index: 9999;">
+      isLoggedIn : {{ userStore.isLoggedIn }}<br />
+      user : {{ userStore.user }}
+    </div>
 
     <!-- Menu flottant (PC en scroll) -->
     <transition name="fade-menu">
@@ -55,95 +74,99 @@
   </header>
 </template>
 
-<script>
-export default {
-  name: "Header",
-  data() {
-    return {
-      menuItems: [
-        { label: "Accueil", link: "/" },
-        { label: "Services", link: "/register" },
-      ],
-      showFullMenu: true,
-      showFloatMenu: false,
-      lastScrollY: 0,
-      isMobile: false,
-      showMobileMenu: false,
-    };
-  },
-  mounted() {
-    window.addEventListener("scroll", this.handleScroll);
-    window.addEventListener("resize", this.checkIsMobile);
-    document.addEventListener("click", this.handleClickOutside);
-    this.checkIsMobile();
-  },
-  unmounted() {
-    window.removeEventListener("scroll", this.handleScroll);
-    window.removeEventListener("resize", this.checkIsMobile);
-    document.removeEventListener("click", this.handleClickOutside);
-  },
-  methods: {
-    // Gère l'affichage du menu principal/flottant selon le scroll
-    handleScroll() {
-      const currentY = window.scrollY;
+<script setup>
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+import { useUserStore } from '@/store';
+import { useRouter } from 'vue-router';
 
-      if (this.isMobile) {
-        this.showFullMenu = true;
-        this.showFloatMenu = false;
-        this.lastScrollY = currentY;
-        return;
-      }
+const router = useRouter();
+const userStore = useUserStore();
 
-      const scrollingUp = currentY < this.lastScrollY;
-      this.showFullMenu = currentY <= 250;
-      this.showFloatMenu = scrollingUp && currentY > 250;
+const menuItems = ref([
+  { label: 'Accueil', link: '/' },
+  { label: 'Services', link: '/register' },
+]);
 
-      this.lastScrollY = currentY;
-    },
+const showFullMenu = ref(true);
+const showFloatMenu = ref(false);
+const lastScrollY = ref(0);
+const isMobile = ref(false);
+const showMobileMenu = ref(false);
+const hoverBg = ref(null);
+const mobileMenu = ref(null);
 
-    // Animation du fond sur hover menu flottant
-    moveHover(index) {
-      this.$nextTick(() => {
-        const listItems = this.$el.querySelectorAll(".pill-menu li");
-        const hoverBg = this.$refs.hoverBg;
-        const target = listItems[index];
+async function handleLogout() {
+  await userStore.logout();
+  window.location.href = "/";
+}
 
-        if (target && hoverBg) {
-          const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = target;
-          hoverBg.style.transform = `translate(${offsetLeft}px, ${offsetTop}px)`;
-          hoverBg.style.width = `${offsetWidth}px`;
-          hoverBg.style.height = `${offsetHeight}px`;
-          hoverBg.style.opacity = 1;
-        }
-      });
-    },
+function handleScroll() {
+  const currentY = window.scrollY;
 
-    // Détection du mode mobile selon la taille
-    checkIsMobile() {
-      this.isMobile = window.innerWidth <= 768;
-    },
+  if (isMobile.value) {
+    showFullMenu.value = true;
+    showFloatMenu.value = false;
+    lastScrollY.value = currentY;
+    return;
+  }
 
-    toggleMobileMenu() {
-      this.showMobileMenu = !this.showMobileMenu;
-    },
+  const scrollingUp = currentY < lastScrollY.value;
+  showFullMenu.value = currentY <= 250;
+  showFloatMenu.value = scrollingUp && currentY > 250;
 
-    closeMobileMenu() {
-      this.showMobileMenu = false;
-    },
+  lastScrollY.value = currentY;
+}
 
-    // Fermer le menu mobile si clic en dehors
-    handleClickOutside(event) {
-      if (
-        this.showMobileMenu &&
-        this.$refs.mobileMenu &&
-        !this.$refs.mobileMenu.contains(event.target) &&
-        !event.target.closest(".menu-toggle")
-      ) {
-        this.closeMobileMenu();
-      }
-    },
-  },
-};
+function checkIsMobile() {
+  isMobile.value = window.innerWidth <= 768;
+}
+
+function toggleMobileMenu() {
+  showMobileMenu.value = !showMobileMenu.value;
+}
+
+function closeMobileMenu() {
+  showMobileMenu.value = false;
+}
+
+function handleClickOutside(event) {
+  if (
+    showMobileMenu.value &&
+    mobileMenu.value &&
+    !mobileMenu.value.contains(event.target) &&
+    !event.target.closest('.menu-toggle')
+  ) {
+    closeMobileMenu();
+  }
+}
+
+function moveHover(index) {
+  nextTick(() => {
+    const listItems = document.querySelectorAll('.pill-menu li');
+    const target = listItems[index];
+    if (target && hoverBg.value) {
+      const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = target;
+      hoverBg.value.style.transform = `translate(${offsetLeft}px, ${offsetTop}px)`;
+      hoverBg.value.style.width = `${offsetWidth}px`;
+      hoverBg.value.style.height = `${offsetHeight}px`;
+      hoverBg.value.style.opacity = 1;
+    }
+  });
+}
+
+onMounted(() => {
+  userStore.checkLoginState();
+  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('resize', checkIsMobile);
+  document.addEventListener('click', handleClickOutside);
+  checkIsMobile();
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('resize', checkIsMobile);
+  document.removeEventListener('click', handleClickOutside);
+});
 </script>
 
 <style scoped>
@@ -155,6 +178,13 @@ export default {
 }
 */
 
+.avatar-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
 /* ================================
    Transitions
 ================================ */
@@ -162,6 +192,7 @@ export default {
 .fade-menu-leave-active {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
 .fade-menu-enter-from,
 .fade-menu-leave-to {
   opacity: 0;
@@ -326,13 +357,16 @@ export default {
   transform: translateY(-100%);
   opacity: 0;
 }
+
 .pill-menu li:hover a::after {
   transform: translateY(0);
   opacity: 1;
 }
+
 .pill-menu li:hover a {
   color: transparent;
 }
+
 .pill-menu li:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
