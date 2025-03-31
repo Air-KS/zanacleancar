@@ -23,6 +23,7 @@ const errorHandler = require('../config/errorHandler');
 // Création de l’app Express et définition du port
 const app = express();
 const PORT = process.env.PORT || 3000;
+app.set('trust proxy', 1);
 
 console.log("🧠 ENV PORT =", process.env.PORT);
 
