@@ -120,11 +120,17 @@ app.get('/auth/google/callback', (req, res, next) => {
       console.error("❌ Erreur dans /auth/google/callback :", err);
       return res.status(500).send("Erreur d'authentification");
     }
-    // Redirection selon l’état d’authentification
+
     if (!user) return res.redirect(`${allowedOrigins[0]}/login`);
+
     req.logIn(user, (err) => {
       if (err) return next(err);
-      return res.redirect(`${allowedOrigins[0]}/dashboard`);
+
+      // 🔐 Sauvegarde manuelle de la session avant redirection
+      req.session.save(() => {
+        console.log("✅ Session sauvegardée manuellement après Google login !");
+        return res.redirect(`${allowedOrigins[0]}/dashboard`);
+      });
     });
   })(req, res, next);
 });
