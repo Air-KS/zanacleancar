@@ -92,6 +92,8 @@ const userStore = useUserStore();
 const menuItems = ref([
   { label: 'Accueil', link: '/' },
   { label: 'Services', link: '/register' },
+  { label: 'Services', link: '/register' },
+  { label: 'Contactez-nous', link: '/register' },
 ]);
 
 const showFullMenu = ref(true);
@@ -646,6 +648,11 @@ onUnmounted(() => {
   .slide-dropdown-leave-to {
     transform: translateX(100%);
     opacity: 0;
+  }
+
+  .nav-full {
+    justify-content: flex-start; /* Pour aligner les éléments à gauche */
+    padding-left: 3rem;
   }
 }
 </style>
