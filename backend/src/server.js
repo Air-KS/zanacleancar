@@ -68,6 +68,12 @@ app.use(session({
   }
 }));
 
+app.use((req, res, next) => {
+  console.log('🔍 Cookie reçu:', req.headers.cookie);
+  console.log('🔐 Session:', req.session);
+  next();
+});
+
 // Initialisation de Passport.js pour la gestion des sessions
 app.use(passport.initialize());
 app.use(passport.session());
