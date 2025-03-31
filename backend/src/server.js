@@ -141,6 +141,14 @@ app.get('/dashboard', (req, res) => {
   res.send(`Bienvenue ${req.user.displayName}`);
 });
 
+// 🔧 Route de test pour observer l'envoi du cookie
+app.get('/debug-cookie', (req, res) => {
+  req.session.user = { id: 999, name: 'TestCookie' };
+  req.session.save(() => {
+    res.send('✅ Cookie de test généré et session sauvegardée !');
+  });
+});
+
 // Connexion Sequelize + démarrage du serveur
 sequelize.authenticate()
   .then(() => {
