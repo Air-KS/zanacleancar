@@ -9,10 +9,10 @@ const session = require('express-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cors = require("cors");
-const mysql = require('mysql2');
 const path = require('path');
 const helmet = require('helmet');
 const { Sequelize } = require('sequelize');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 require('../config/passport');
 
@@ -25,6 +25,16 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 console.log("🧠 ENV PORT =", process.env.PORT);
+
+// Configuration de Sequelize (ORM)
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+  host: process.env.DB_HOST,
+  dialect: 'mysql',
+  logging: process.env.NODE_ENV === 'development' ? console.log : false
+});
+
+// 🔐 Store de session (persistée en base de données)
+const sessionStore = new SequelizeStore({ db: sequelize });
 
 // ✅ Liste dynamique des domaines autorisés
 const allowedOrigins = process.env.NODE_ENV === 'production'
@@ -61,6 +71,7 @@ app.use(session({
   secret: 'secret',
   resave: false,
   saveUninitialized: false,
+  store: sessionStore,
   cookie: {
     secure: true,
     httpOnly: true,
@@ -68,6 +79,10 @@ app.use(session({
   }
 }));
 
+// Création de la table de session si elle n’existe pas
+sessionStore.sync();
+
+// Logger de debug pour afficher les cookies et sessions
 app.use((req, res, next) => {
   console.log('🔍 Cookie reçu:', req.headers.cookie);
   console.log('🔐 Session:', req.session);
@@ -120,49 +135,16 @@ app.get('/dashboard', (req, res) => {
   res.send(`Bienvenue ${req.user.displayName}`);
 });
 
-// Configuration de Sequelize (ORM) et tentative de connexion à la base
-let sequelize;
-if (process.env.NODE_ENV !== 'test') {
-  sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-    logging: process.env.NODE_ENV === 'development' ? console.log : false
-  });
-
-  // Connexion Sequelize
-  sequelize.authenticate()
-    .then(() => {
-      console.log('Connexion à la base de données établie (Sequelize).');
-    })
-    // Gestion des erreurs Sequelize
-    .catch(err => {
-      console.error('Erreur de connexion à la base de données (Sequelize) :', err);
+// Connexion Sequelize + démarrage du serveur
+sequelize.authenticate()
+  .then(() => {
+    console.log('Connexion à la base de données établie (Sequelize).');
+    app.listen(PORT, () => {
+      console.log(`🚀 Serveur démarré sur port ${PORT}`);
     });
-
-  // Connexion directe MySQL (fallback ou contrôle)
-  const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
+  })
+  .catch(err => {
+    console.error('Erreur de connexion à la base de données (Sequelize) :', err);
   });
-
-  // Connexion au serveur MySQL et démarrage du serveur
-  function connectToMySQL() {
-    connection.connect((err) => {
-      if (err) {
-        console.error("Erreur de connexion au serveur MySQL :", err);
-        setTimeout(connectToMySQL, 5000);
-      } else {
-        console.log("✅ Connexion au serveur MySQL réussie !");
-        app.listen(PORT, () => {
-          console.log(`🚀 Serveur démarré sur port ${PORT}`);
-        });
-      }
-    });
-  }
-
-  connectToMySQL();
-}
 
 module.exports = app;
