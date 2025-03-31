@@ -36,6 +36,8 @@ app.use(pinia)
 app.use(router);
 
 const userStore = useUserStore();
-await userStore.checkLoginState()
 
-app.mount('#app');
+(async () => {
+  await userStore.checkLoginState();
+  app.mount('#app');
+})();
