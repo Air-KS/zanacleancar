@@ -94,14 +94,6 @@
       </ul>
     </transition>
 
-    <!-- =============================================
-		   DEBUG INFOS (à retirer en prod)
-	  ============================================== -->
-    <div style="position: fixed; bottom: 10px; right: 10px; background: white; padding: 10px; z-index: 9999;">
-      isLoggedIn : {{ userStore.isLoggedIn }}<br />
-      user : {{ userStore.user }}
-    </div>
-
   </header>
 </template>
 
