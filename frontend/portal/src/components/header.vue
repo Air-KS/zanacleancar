@@ -1,33 +1,46 @@
-<!-- ./frontend/portal/src/components/header.vue -->
+<!--
+  ./frontend/portal/src/components/header.vue
+-->
 
 <template>
   <header class="header">
-    <!-- Menu principal (PC) -->
+
+    <!-- =============================================
+		   MENU PRINCIPAL (PC - en haut de page)
+	  ============================================== -->
     <transition name="fade-menu">
       <div class="header-inner" v-if="showFullMenu">
         <nav class="nav-full" aria-label="Navigation principale">
           <ul class="nav-menu">
             <li class="nav-menu-item" v-for="(item, index) in menuItems.filter(i => i.link !== '/login')" :key="index">
-              <router-link class="nav-menu-link" :to="item.link">{{ item.label }}</router-link>
+              <router-link class="nav-menu-link" :to="item.link">
+                {{ item.label }}
+              </router-link>
             </li>
           </ul>
         </nav>
       </div>
     </transition>
 
-    <!-- Menu flottant (PC en scroll) -->
+    <!-- =============================================
+		   MENU FLOTTANT (scroll bas, PC uniquement)
+	  ============================================== -->
     <transition name="fade-menu">
       <nav v-if="showFloatMenu" class="nav-float" aria-label="Navigation secondaire">
         <ul class="pill-menu">
           <span class="hover-bg" ref="hoverBg"></span>
           <li v-for="(item, index) in menuItems" :key="index" @mouseenter="moveHover(index)">
-            <router-link :to="item.link" :data-label="item.label">{{ item.label }}</router-link>
+            <router-link :to="item.link" :data-label="item.label">
+              {{ item.label }}
+            </router-link>
           </li>
         </ul>
       </nav>
     </transition>
 
-    <!-- Menu mobile -->
+    <!-- =============================================
+		   MENU MOBILE (visible en responsive)
+	  ============================================== -->
     <transition name="slide-menu">
       <nav v-if="isMobile && showMobileMenu" ref="mobileMenu" class="nav-mobile">
         <ul class="mobile-menu">
@@ -40,48 +53,62 @@
       </nav>
     </transition>
 
-    <!-- Bouton hamburger animé -->
+    <!-- =============================================
+		   BOUTON HAMBURGER (menu mobile toggle)
+	  ============================================== -->
     <button class="menu-toggle" :class="{ active: showMobileMenu }" @click="toggleMobileMenu" v-if="isMobile">
       <span class="menu-toggle-bar top-bar"></span>
       <span class="menu-toggle-bar middle-bar"></span>
       <span class="menu-toggle-bar bottom-bar"></span>
     </button>
 
-    <!-- Mon Compte / Profile -->
+    <!-- =============================================
+		   SECTION COMPTE / PROFIL (à droite)
+	  ============================================== -->
     <div class="account-section" ref="accountDropdown" v-if="showFullMenu">
+
+      <!-- Utilisateur connecté -->
       <template v-if="userStore.isLoggedIn">
-        <button @click="toggleDropdown" class="account-button">
+        <button @click="toggleDropdown" class="account-button account-button-x">
           <img src="@/assets/profile-circle.svg" alt="Profile" class="avatar-icon" />
         </button>
       </template>
 
+      <!-- Utilisateur non connecté -->
       <template v-else>
-        <router-link to="/login" class="account-button">
+        <router-link to="/login" class="account-button account-button-x">
           <i class="fas fa-user-circle"></i>
-          <span>Mon compte</span>
+          <span>Compte</span>
         </router-link>
       </template>
+
     </div>
 
-    <!-- DEBUG -->
+    <!-- =============================================
+		   MENU DÉROULANT COMPTE (Dropdown)
+	  ============================================== -->
+    <transition name="slide-dropdown">
+      <ul v-if="showDropdown" class="dropdown-menu">
+        <li class="dropdown-item">Profil</li>
+        <li class="dropdown-item" @click="handleLogout">Déconnexion</li>
+      </ul>
+    </transition>
+
+    <!-- =============================================
+		   DEBUG INFOS (à retirer en prod)
+	  ============================================== -->
     <div style="position: fixed; bottom: 10px; right: 10px; background: white; padding: 10px; z-index: 9999;">
       isLoggedIn : {{ userStore.isLoggedIn }}<br />
       user : {{ userStore.user }}
     </div>
 
-    <!-- Dropdown déplacé ici pour être indépendant du header-inner -->
-    <transition name="slide-dropdown">
-      <ul v-if="showDropdown" class="dropdown-menu">
-        <li class="dropdown-item">Profil</li>
-        <li class="dropdown-item" @click="handleLogout">Déconnexion</li>
-
-      </ul>
-    </transition>
-
   </header>
 </template>
 
 <script setup>
+// =============================================
+// IMPORTS & SETUP
+// =============================================
 import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { useUserStore } from '@/store';
 import { useRouter } from 'vue-router';
@@ -89,6 +116,9 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const userStore = useUserStore();
 
+// =============================================
+// ÉTATS RÉACTIFS (state)
+// =============================================
 const menuItems = ref([
   { label: 'Accueil', link: '/' },
   { label: 'Services', link: '/register' },
@@ -101,12 +131,15 @@ const showFloatMenu = ref(false);
 const lastScrollY = ref(0);
 const isMobile = ref(false);
 const showMobileMenu = ref(false);
-const hoverBg = ref(null);
-const mobileMenu = ref(null);
 
 const showDropdown = ref(false);
+const hoverBg = ref(null);
+const mobileMenu = ref(null);
 const accountDropdown = ref(null);
 
+// =============================================
+// AUTH / COMPTE
+// =============================================
 async function handleLogout() {
   await userStore.logout();
   window.location.href = "/";
@@ -119,6 +152,10 @@ function toggleDropdown() {
 function closeDropdown() {
   showDropdown.value = false;
 }
+
+// =============================================
+// SCROLL & RESPONSIVE
+// =============================================
 function handleScroll() {
   const currentY = window.scrollY;
 
@@ -132,7 +169,6 @@ function handleScroll() {
   const scrollingUp = currentY < lastScrollY.value;
   showFullMenu.value = currentY <= 250;
   showFloatMenu.value = scrollingUp && currentY > 250;
-
   lastScrollY.value = currentY;
   showDropdown.value = false;
 }
@@ -141,6 +177,9 @@ function checkIsMobile() {
   isMobile.value = window.innerWidth <= 768;
 }
 
+// =============================================
+// MENU MOBILE
+// =============================================
 function toggleMobileMenu() {
   showMobileMenu.value = !showMobileMenu.value;
 }
@@ -149,24 +188,34 @@ function closeMobileMenu() {
   showMobileMenu.value = false;
 }
 
+// =============================================
+// INTERACTION : CLIQUE EXTÉRIEUR
+// =============================================
 function handleClickOutside(event) {
-  // Fermer menu mobile si clique extérieur
-  if (showMobileMenu.value &&
+  // Fermer menu mobile si clic extérieur
+  if (
+    showMobileMenu.value &&
     mobileMenu.value &&
-    !mobileMenu.value.contains(event.target)
-    && !event.target.closest('.menu-toggle')) {
+    !mobileMenu.value.contains(event.target) &&
+    !event.target.closest('.menu-toggle')
+  ) {
     closeMobileMenu();
   }
 
-  // Fermer dropdown utilisateur si clique extérieur
-  if (showDropdown.value &&
+  // Fermer dropdown utilisateur si clic extérieur
+  if (
+    showDropdown.value &&
     accountDropdown.value &&
-    !accountDropdown.value.contains(event.target)
-    && !event.target.closest('.dropdown-menu')) {
+    !accountDropdown.value.contains(event.target) &&
+    !event.target.closest('.dropdown-menu')
+  ) {
     closeDropdown();
   }
 }
 
+// =============================================
+// ANIMATION MENU FLOTTANT
+// =============================================
 function moveHover(index) {
   nextTick(() => {
     const listItems = document.querySelectorAll('.pill-menu li');
@@ -181,6 +230,9 @@ function moveHover(index) {
   });
 }
 
+// =============================================
+// MONTAGE / DEMONTAGE
+// =============================================
 onMounted(() => {
   userStore.checkLoginState();
   window.addEventListener('scroll', handleScroll);
@@ -197,14 +249,9 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Header */
-
-/*
-.router-link-exact-active {
-	border-bottom: 2px solid #007bff;
-}
-*/
-
+/* =============================================
+   GLOBAL / UTILITAIRES
+============================================= */
 .avatar-icon {
   width: 60px;
   height: 60px;
@@ -212,30 +259,51 @@ onUnmounted(() => {
   object-fit: cover;
 }
 
-
-/* ================================
-   Transitions
-================================ */
+/* =============================================
+   TRANSITIONS (menu, dropdowns...)
+============================================= */
 .fade-menu-enter-active,
-.fade-menu-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+.fade-menu-leave-active,
+.slide-dropdown-enter-active,
+.slide-dropdown-leave-active,
+.slide-menu-enter-active,
+.slide-menu-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .fade-menu-enter-from,
-.fade-menu-leave-to {
+.fade-menu-leave-to,
+.slide-dropdown-enter-from,
+.slide-dropdown-leave-to {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-100%);
 }
 
-/* ================================
-   Header
-================================ */
+.slide-menu-enter-from,
+.slide-menu-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* Variante mobile : animation inverse */
+@media (max-width: 768px),
+(min-width: 769px) and (max-width: 1200px) {
+
+  .slide-dropdown-enter-from,
+  .slide-dropdown-leave-to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* =============================================
+   HEADER (structure principale)
+============================================= */
 .header {
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1000;
-  /* Augmenté ici pour passer devant */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -250,10 +318,9 @@ onUnmounted(() => {
   z-index: 10;
 }
 
-/* ================================
-      Menu Full
-      ================================ */
-/* Menu principal */
+/* =============================================
+   NAVIGATION PRINCIPALE (PC)
+============================================= */
 .nav-full {
   background: linear-gradient(to right, #c8ddebe0, #ffffffb0, #c8ddebe0);
   backdrop-filter: blur(5px);
@@ -286,25 +353,24 @@ onUnmounted(() => {
   border-right: 3px solid #ccc;
 }
 
-.nav-menu-link {
-  display: block;
-  position: relative;
-  padding: 0.5rem 0;
-  color: var(--color-text-dark);
-  text-decoration: none;
-  cursor: pointer;
-  font-weight: 600;
-}
-
+.nav-menu-link,
 .nav-menu a {
   color: #1a1a3a;
   font-weight: 600;
   text-decoration: none;
 }
 
-.nav-menu a:hover {
+.nav-menu-link {
+  display: block;
+  position: relative;
+  padding: 0.5rem 0;
+  color: var(--color-text-dark);
+  cursor: pointer;
+}
+
+.nav-menu a:hover,
+.nav-menu-link:hover {
   color: var(--nav-color-hover);
-  text-decoration: none;
   transition: background-color 0.5s, color 0.5s;
 }
 
@@ -324,9 +390,9 @@ onUnmounted(() => {
   width: 100%;
 }
 
-/* ================================
-   Menu Flottant (PC)
-================================ */
+/* =============================================
+   NAVIGATION FLOTTANTE (PC)
+============================================= */
 .nav-float {
   position: fixed;
   top: 20px;
@@ -416,9 +482,9 @@ onUnmounted(() => {
   transition: all 0.3s ease;
 }
 
-/* ================================
-   Bouton Compte (PC)
-================================ */
+/* =============================================
+   BOUTON COMPTE + DROPDOWN (PC)
+============================================= */
 .account-section {
   position: absolute;
   right: 150px;
@@ -434,12 +500,12 @@ onUnmounted(() => {
   font-weight: 600;
   color: var(--color-text-dark);
   text-decoration: none;
-  transition: color 0.3s ease;
   background: none;
   border: none;
   cursor: pointer;
   outline: none;
   box-shadow: none;
+  transition: color 0.3s ease;
 }
 
 .account-button:hover {
@@ -448,27 +514,26 @@ onUnmounted(() => {
 }
 
 .account-button i {
-  font-size: 1.3rem;
+  font-size: 2.5rem;
 }
 
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 10px);
-  right: 120px;
+  right: 165px;
   background: #c8ddebe0;
   backdrop-filter: blur(5px);
   padding: 10px 20px;
-  border-radius: 0 0px 25px 25px;
+  border-radius: 0 0 25px 25px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   border: solid 2px white;
   list-style: none;
-  margin: -15px 0 0px 0px;
+  margin-top: -15px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 5px;
   z-index: 1;
-  /* Inférieur à header, mais supérieur à tout le reste */
 }
 
 .dropdown-menu.show {
@@ -490,23 +555,14 @@ onUnmounted(() => {
   border-radius: 5px;
 }
 
-/* Transition (glissement droite -> gauche) */
-.slide-dropdown-enter-active,
-.slide-dropdown-leave-active {
-  transition: transform 0.3s ease-out, opacity 0.3s ease;
+/* Classe de décalage visuel manuel */
+.account-button-x {
+  margin-right: 50px;
 }
 
-.slide-dropdown-enter-from,
-.slide-dropdown-leave-to {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-
-
-/* ================================
-      Menu Humburger
-      ================================ */
-
+/* =============================================
+   RESPONSIVE : MOBILE (<768px)
+============================================= */
 @media (max-width: 768px) {
   .nav-menu-link {
     display: none;
@@ -526,8 +582,8 @@ onUnmounted(() => {
     z-index: -1;
     border: solid 2px white;
     border-radius: 0 0 25px 0;
-    backdrop-filter: blur(6px);
     background: #c8ddebe0;
+    backdrop-filter: blur(6px);
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
   }
 
@@ -547,15 +603,9 @@ onUnmounted(() => {
     text-decoration: none;
   }
 
-  .slide-menu-enter-active,
-  .slide-menu-leave-active {
-    transition: transform 0.3s ease-out, opacity 0.3s ease;
-  }
-
-  .slide-menu-enter-from,
-  .slide-menu-leave-to {
-    transform: translateX(-100%);
-    opacity: 0;
+  .mobile-menu li:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
   }
 
   .menu-toggle {
@@ -568,8 +618,8 @@ onUnmounted(() => {
     cursor: pointer;
     padding: 0;
     z-index: 102;
-    box-shadow: none;
     outline: none;
+    box-shadow: none;
   }
 
   .menu-toggle-bar {
@@ -598,57 +648,34 @@ onUnmounted(() => {
 
   .account-section,
   .dropdown-menu {
-    right: 0
+    right: 0;
   }
 
   .dropdown-menu {
     border-radius: 0 0 0 25px;
-    border: solid 2px white;
   }
 
   .dropdown-item {
-    color: #1a1a3a;
-    font-weight: 600;
-    cursor: pointer;
 
-    transition: background-color 0.3s ease, color 0.3s ease;
-    text-align: right;
-  }
-
-  .dropdown-item:hover {
     background-color: transparent;
-  }
-
-  .slide-dropdown-enter-from,
-  .slide-dropdown-leave-to {
-    transform: translateX(100%);
-    opacity: 0;
   }
 }
 
-@media (min-width: 769px) and (max-width: 1200px) {
+/* =============================================
+   RESPONSIVE : TABLETTE (769px à 1200px)
+============================================= */
+@media (min-width: 768px) and (max-width: 1200px) {
 
   .account-section,
   .dropdown-menu,
   .dropdown-item {
-    right: 0px;
-    border-radius: 0 0 0 10px;
-    text-align: right;
-  }
+    right: 0;
+    border-radius: 0 0 0 25px;
 
-  .account-button {
-    padding: 50px;
-  }
-
-  .slide-dropdown-enter-from,
-  .slide-dropdown-leave-to {
-    transform: translateX(100%);
-    opacity: 0;
   }
 
   .nav-full {
     justify-content: flex-start;
-    /* Pour aligner les éléments à gauche */
     padding-left: 3rem;
   }
 }
