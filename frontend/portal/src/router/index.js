@@ -17,7 +17,7 @@ const routes = [
   { path: '/register', name: 'Register', component: RegisterPage },
   { path: '/login', name: 'Login', component: LoginPage },
   { path: '/verify-code', name: 'VerifyCode', component: VerifyCode },
-  { path: '/profilPage', name: 'Profil', component: ProfilPage },
+  { path: '/profil', name: 'Profil', component: ProfilPage },
   // autres routes ici...
 ];
 
