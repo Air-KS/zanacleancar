@@ -1,5 +1,6 @@
 /*
   ./backend/migrations/202503230001-create-users.js
+  Migration pour créer la table Users (version mise à jour)
 */
 
 'use strict';
@@ -15,34 +16,38 @@ module.exports = {
         allowNull: false,
       },
       name: {
-        type: Sequelize.STRING(100),
+        type: Sequelize.STRING(100), // prénom
         allowNull: false,
+      },
+      last_name: {
+        type: Sequelize.STRING(100), // nom de famille
+        allowNull: true,
       },
       email: {
         type: Sequelize.STRING(100),
         allowNull: false,
         unique: true,
       },
+      password: {
+        type: Sequelize.STRING(255),
+        allowNull: false,
+      },
       auth_provider: {
         type: Sequelize.STRING(50),
         allowNull: false,
-        defaultValue: 'Local'
+        defaultValue: 'Local',
       },
-      bio: {
-        type: Sequelize.TEXT,
+      date_of_birth: {
+        type: Sequelize.DATEONLY,
+        allowNull: true,
+      },
+      phone: {
+        type: Sequelize.STRING(20),
         allowNull: true,
       },
       loyalty_points: {
         type: Sequelize.INTEGER,
         defaultValue: 0,
-      },
-      imgprofile: {
-        type: Sequelize.STRING(255),
-        allowNull: true,
-      },
-      password: {
-        type: Sequelize.STRING(255),
-        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
