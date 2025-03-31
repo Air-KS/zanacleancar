@@ -519,14 +519,13 @@ onUnmounted(() => {
   }
 
   .nav-mobile {
-    width: 50%;
-    padding: 1rem;
+    padding: 0 1rem;
     position: absolute;
     top: 98%;
     left: 0;
     z-index: -1;
     border: solid 2px white;
-    border-radius: 0 0 999px 0;
+    border-radius: 0 0 25px 0;
     backdrop-filter: blur(6px);
     background: #c8ddebe0;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
@@ -602,22 +601,16 @@ onUnmounted(() => {
     right: 0
   }
 
-  .account-button {
-    padding: 50px;
-  }
-
   .dropdown-menu {
-    border-radius: 0 0 0 999px;
+    border-radius: 0 0 0 25px;
     border: solid 2px white;
-    text-align: right;
-    width: 50%;
   }
 
   .dropdown-item {
     color: #1a1a3a;
     font-weight: 600;
     cursor: pointer;
-    padding: 1rem;
+
     transition: background-color 0.3s ease, color 0.3s ease;
     text-align: right;
   }
@@ -636,14 +629,17 @@ onUnmounted(() => {
 @media (min-width: 769px) and (max-width: 1200px) {
 
   .account-section,
-  .dropdown-menu, .dropdown-item {
+  .dropdown-menu,
+  .dropdown-item {
     right: 0px;
     border-radius: 0 0 0 10px;
     text-align: right;
   }
+
   .account-button {
     padding: 50px;
   }
+
   .slide-dropdown-enter-from,
   .slide-dropdown-leave-to {
     transform: translateX(100%);
@@ -651,7 +647,8 @@ onUnmounted(() => {
   }
 
   .nav-full {
-    justify-content: flex-start; /* Pour aligner les éléments à gauche */
+    justify-content: flex-start;
+    /* Pour aligner les éléments à gauche */
     padding-left: 3rem;
   }
 }
