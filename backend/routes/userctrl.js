@@ -15,6 +15,10 @@ router.get('/profil/:id', authGuard, async (req, res) => {
   try {
     const userId = req.params.id;
 
+    if (req.user.id !== userId) {
+      return res.status(403).json({ error: "Accès interdit : ce n'est pas votre profil." });
+    }
+
     const user = await User.findOne({
       where: { id: userId },
       attributes: ['name', 'last_name', 'date_of_birth', 'email', 'phone']
@@ -53,6 +57,10 @@ router.put('/profil/:id', authGuard, async (req, res) => {
   try {
     const userId = req.params.id;
     const { name, last_name, date_of_birth, phone } = req.body;
+
+    if (req.user.id !== userId) {
+      return res.status(403).json({ error: "Accès interdit : ce n'est pas votre profil." });
+    }
 
     // 🔒 Email non modifiable directement pour des raisons de sécurité
     if (req.body.email) {
@@ -112,6 +120,10 @@ router.delete('/delete/:id', authGuard, async (req, res) => {
   try {
     const userId = req.params.id;
 
+    if (req.user.id !== userId) {
+      return res.status(403).json({ error: "Accès interdit : ce n'est pas votre profil." });
+    }
+    
     const user = await User.findByPk(userId);
     if (!user) {
       return res.status(404).json({ error: "Utilisateur introuvable." });
