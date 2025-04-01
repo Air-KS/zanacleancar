@@ -16,10 +16,7 @@ router.get('/profil/:id', authGuard, async (req, res) => {
     const userId = parseInt(req.params.id);
 
     if (req.user.id !== userId) {
-      return res.status(200).json({
-        redirect: true,
-        ownId: req.user.id
-      });
+      return res.status(403).json({ error: "Accès interdit : ce n'est pas votre profil." });
     }
 
     const user = await User.findOne({
