@@ -1,172 +1,170 @@
 <template>
-	<div class="page-background">
-		<div class="page-container">
-			<h1 class="welcome">Bienvenue à tous ! <br /> Site en cours de Rédaction </h1>
-			<h2 class="sub-title">Nettoyage intérieur de véhicule</h2><br />
+	<div class="page-container">
+		<h1 class="welcome">Bienvenue à tous ! <br /> Site en cours de Rédaction </h1>
+		<h2 class="sub-title">Nettoyage intérieur de véhicule</h2><br />
 
-			<p class="description">
-				Zana Clean Car est une entreprise de nettoyage spécialisée dans l’entretien des intérieurs de véhicules.
-				Que vous ayez besoin d’un nettoyage en profondeur, d’un service précis ou d’exigences complexes...
-			</p>
+		<p class="description">
+			Zana Clean Car est une entreprise de nettoyage spécialisée dans l’entretien des intérieurs de véhicules.
+			Que vous ayez besoin d’un nettoyage en profondeur, d’un service précis ou d’exigences complexes...
+		</p>
 
-			<br />
-			<div class="center-bold" data-aos="fade-right">Zana Clean Car est là pour vous offrir un service de qualité.
-			</div><br />
+		<br />
+		<div class="center-bold" data-aos="fade-right">Zana Clean Car est là pour vous offrir un service de qualité.
+		</div><br />
 
-			<p class="description">
-				Grâce à des équipements professionnels tels qu’un aspirateur haute performance et une shampouineuse,
-				on assure de redonner à vos surfaces une propreté éclatante.
-				Notre objectif est de vous offrir un service personnalisé, pratique et efficace,
-				pour que chaque espace soit impeccable.
-			</p>
+		<p class="description">
+			Grâce à des équipements professionnels tels qu’un aspirateur haute performance et une shampouineuse,
+			on assure de redonner à vos surfaces une propreté éclatante.
+			Notre objectif est de vous offrir un service personnalisé, pratique et efficace,
+			pour que chaque espace soit impeccable.
+		</p>
 
-			<br />
-			<div class="center-bold" data-aos="fade-left">Zana Clean Car met son expertise à votre service.</div><br />
+		<br />
+		<div class="center-bold" data-aos="fade-left">Zana Clean Car met son expertise à votre service.</div><br />
 
-			<h2 class="sub-title">Avant / Après</h2>
-			<div class="beforeAfter">
-				<div v-for="(item, index) in photos" :key="index">
-					<BeforeAfter :before="item.avant1" :after="item.apres1" />
-				</div>
-
-				<div v-for="(item, index) in photos" :key="index">
-					<BeforeAfter :before="item.avant2" :after="item.apres2" />
-				</div>
+		<h2 class="sub-title">Avant / Après</h2>
+		<div class="beforeAfter">
+			<div v-for="(item, index) in photos" :key="index">
+				<BeforeAfter :before="item.avant1" :after="item.apres1" />
 			</div>
 
-			<div class="img-bancar">
-				<img src="@/assets/bancar.png" alt="car" loading="lazy" />
+			<div v-for="(item, index) in photos" :key="index">
+				<BeforeAfter :before="item.avant2" :after="item.apres2" />
+			</div>
+		</div>
+
+		<div class="img-bancar">
+			<img src="@/assets/bancar.png" alt="car" loading="lazy" />
+		</div>
+
+		<!-- Info section-->
+		<div class="grid-home-info">
+			<div class="grid-info-section" id="pick" data-aos="zoom-in">
+				<div class="grid-info">
+					<div class="grid-icon"></div>
+					<h3>Choisissez !</h3>
+				</div>
+				<p>Choisissez parmi notre large gamme de services adaptés à vos besoins.
+					Que vous ayez besoin d'un nettoyage rapide ou en profondeur, nous avons la solution qu’il vous
+					faut.
+				</p>
 			</div>
 
-			<!-- Info section-->
-			<div class="grid-home-info">
-				<div class="grid-info-section" id="pick" data-aos="zoom-in">
-					<div class="grid-info">
-						<div class="grid-icon"></div>
-						<h3>Choisissez !</h3>
-					</div>
-					<p>Choisissez parmi notre large gamme de services adaptés à vos besoins.
-						Que vous ayez besoin d'un nettoyage rapide ou en profondeur, nous avons la solution qu’il vous
-						faut.
+			<div class="grid-separator"></div>
+
+			<div class="grid-info-section" id="book" data-aos="zoom-in">
+				<div class="grid-info">
+					<div class="grid-icon"></div>
+					<h3>Réservez !</h3>
+				</div>
+				<p>Contactez directement un de nos agent par téléphone pour réserver votre service.
+					Nous nous adaptons à vos disponibilités et vous guidons pour choisir le créneau qui vous
+					convient le
+					mieux..</p>
+			</div>
+
+			<div class="grid-separator"></div>
+
+			<div class="grid-info-section" id="clean" data-aos="zoom-in">
+				<div class="grid-info">
+					<div class="grid-icon"></div>
+					<h3>Néttoyez !</h3>
+				</div>
+				<p>Profitez d'un moment de tranquillité pendant que nous redonnons à votre véhicule un second
+					souffle !
+					Nous mettons un point d'honneur à prendre soin de vos demandes et à satisfaire vos besoins !</p>
+			</div>
+		</div>
+
+		<!-- Middle page -->
+		<div class="separator-gradient"></div>
+		<br />
+		<h2 class="sub-title">Pourquoi Zana Clean Car ?</h2><br />
+		<!-- Section 1 -->
+		<div class="section" data-aos="fade-right">
+			<div class="section-info" id="whyzcc1">
+				<h3>Séances 1 à 1 personnalisées</h3>
+				<div class="info">
+					<div class="whyzcc-icon" aria-label="Why Zana Clean Car Icon"></div>
+					<p>
+						Nos agents offrent un service sur-mesure pour le nettoyage intérieur de votre véhicule, en
+						prenant
+						soin de chaque détail, selon vos préférences et exigences. Que ce soit pour un nettoyage
+						complet
+						ou une
+						attention particulière aux zones spécifiques, nous nous engageons à fournir un service de
+						qualité.
 					</p>
 				</div>
+			</div>
+			<div class="number">
+				<img src="@/assets/step/number1.svg" alt="number1" loading="lazy" />
+			</div>
+		</div>
 
-				<div class="grid-separator"></div>
-
-				<div class="grid-info-section" id="book" data-aos="zoom-in">
-					<div class="grid-info">
-						<div class="grid-icon"></div>
-						<h3>Réservez !</h3>
-					</div>
-					<p>Contactez directement un de nos agent par téléphone pour réserver votre service.
-						Nous nous adaptons à vos disponibilités et vous guidons pour choisir le créneau qui vous
-						convient le
-						mieux..</p>
-				</div>
-
-				<div class="grid-separator"></div>
-
-				<div class="grid-info-section" id="clean" data-aos="zoom-in">
-					<div class="grid-info">
-						<div class="grid-icon"></div>
-						<h3>Néttoyez !</h3>
-					</div>
-					<p>Profitez d'un moment de tranquillité pendant que nous redonnons à votre véhicule un second
-						souffle !
-						Nous mettons un point d'honneur à prendre soin de vos demandes et à satisfaire vos besoins !</p>
+		<!-- Section 2 -->
+		<div class="section" data-aos="fade-left">
+			<div class="section-info" id="whyzcc2">
+				<h3>Service à domicile</h3>
+				<div class="grid-info">
+					<div class="whyzcc-icon" aria-label="why service icon"></div>
+					<p>
+						Nous comprenons que votre emploi du temps peut être chargé, c'est pourquoi nous offrons un
+						service
+						flexible qui s'adapte à vos besoins. Que ce soit à votre domicile ou à l'adresse de votre
+						choix,
+						notre
+						équipe se déplace où vous le souhaitez. Profitez d’un nettoyage de qualité, rapide et sans
+						tracas, selon
+						vos disponibilités.
+					</p>
 				</div>
 			</div>
+			<div class="number">
+				<img src="@/assets/step/number2.svg" alt="number2" loading="lazy" />
+			</div>
+		</div>
 
-			<!-- Middle page -->
-			<div class="separator-gradient"></div>
-			<br />
-			<h2 class="sub-title">Pourquoi Zana Clean Car ?</h2><br />
-			<!-- Section 1 -->
-			<div class="section" data-aos="fade-right">
-				<div class="section-info" id="whyzcc1">
-					<h3>Séances 1 à 1 personnalisées</h3>
-					<div class="info">
-						<div class="whyzcc-icon" aria-label="Why Zana Clean Car Icon"></div>
-						<p>
-							Nos agents offrent un service sur-mesure pour le nettoyage intérieur de votre véhicule, en
-							prenant
-							soin de chaque détail, selon vos préférences et exigences. Que ce soit pour un nettoyage
-							complet
-							ou une
-							attention particulière aux zones spécifiques, nous nous engageons à fournir un service de
-							qualité.
-						</p>
-					</div>
-				</div>
-				<div class="number">
-					<img src="@/assets/step/number1.svg" alt="number1" loading="lazy" />
+		<!-- Section 3 -->
+		<div class="section" data-aos="fade-right">
+			<div class="section-info" id="whyzcc3">
+				<h3>Disponibilité le jour même</h3>
+				<div class="grid-info">
+					<div class="whyzcc-icon" aria-label="why service icon"></div>
+					<p>
+						Besoin d'un nettoyage rapide ? Un nettoyage d'urgence ?
+						Nos services sont disponibles à tout moment. Nous nous adaptons à vos besoins pour vous
+						offrir
+						un
+						nettoyage rapide et de qualité. Où que vous soyez, nous nous déplaçons pour satisfaire vos
+						besoins !
+					</p>
 				</div>
 			</div>
+			<div class="number">
+				<img src="@/assets/step/number3.svg" alt="number3" loading="lazy" />
+			</div>
+		</div>
 
-			<!-- Section 2 -->
-			<div class="section" data-aos="fade-left">
-				<div class="section-info" id="whyzcc2">
-					<h3>Service à domicile</h3>
-					<div class="grid-info">
-						<div class="whyzcc-icon" aria-label="why service icon"></div>
-						<p>
-							Nous comprenons que votre emploi du temps peut être chargé, c'est pourquoi nous offrons un
-							service
-							flexible qui s'adapte à vos besoins. Que ce soit à votre domicile ou à l'adresse de votre
-							choix,
-							notre
-							équipe se déplace où vous le souhaitez. Profitez d’un nettoyage de qualité, rapide et sans
-							tracas, selon
-							vos disponibilités.
-						</p>
-					</div>
-				</div>
-				<div class="number">
-					<img src="@/assets/step/number2.svg" alt="number2" loading="lazy" />
+		<!-- Section 4 -->
+		<div class="section" data-aos="fade-left">
+			<div class="section-info" id="whyzcc4">
+				<h3>Produits efficaces et adaptés</h3>
+				<div class="grid-info">
+					<div class="whyzcc-icon" aria-label="why service icon"></div>
+					<p>
+						Nous choisissons des produits de nettoyage qui assurent une propreté éclatante et une
+						brillance
+						durable
+						pour l'intérieur de votre véhicule. Conçus pour être efficaces tout en préservant vos
+						surfaces,
+						nos
+						nettoyants s'adaptent à tous les besoins pour un résultat optimal.
+					</p>
 				</div>
 			</div>
-
-			<!-- Section 3 -->
-			<div class="section" data-aos="fade-right">
-				<div class="section-info" id="whyzcc3">
-					<h3>Disponibilité le jour même</h3>
-					<div class="grid-info">
-						<div class="whyzcc-icon" aria-label="why service icon"></div>
-						<p>
-							Besoin d'un nettoyage rapide ? Un nettoyage d'urgence ?
-							Nos services sont disponibles à tout moment. Nous nous adaptons à vos besoins pour vous
-							offrir
-							un
-							nettoyage rapide et de qualité. Où que vous soyez, nous nous déplaçons pour satisfaire vos
-							besoins !
-						</p>
-					</div>
-				</div>
-				<div class="number">
-					<img src="@/assets/step/number3.svg" alt="number3" loading="lazy" />
-				</div>
-			</div>
-
-			<!-- Section 4 -->
-			<div class="section" data-aos="fade-left">
-				<div class="section-info" id="whyzcc4">
-					<h3>Produits efficaces et adaptés</h3>
-					<div class="grid-info">
-						<div class="whyzcc-icon" aria-label="why service icon"></div>
-						<p>
-							Nous choisissons des produits de nettoyage qui assurent une propreté éclatante et une
-							brillance
-							durable
-							pour l'intérieur de votre véhicule. Conçus pour être efficaces tout en préservant vos
-							surfaces,
-							nos
-							nettoyants s'adaptent à tous les besoins pour un résultat optimal.
-						</p>
-					</div>
-				</div>
-				<div class="number">
-					<img src="@/assets/step/number4.svg" alt="number3" loading="lazy" />
-				</div>
+			<div class="number">
+				<img src="@/assets/step/number4.svg" alt="number3" loading="lazy" />
 			</div>
 		</div>
 	</div>
