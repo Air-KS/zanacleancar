@@ -126,24 +126,44 @@ export default {
   },
   methods: {
     testToast() {
-      console.log("Toast injecté ?", this.toast); // 👈 log de debug
+      console.log("Toast injecté ?", this.toast);
       this.toast?.success("🎉 Toast injecté et fonctionnel !");
     },
+
+    async fetchUserProfil() {
+      const userId = this.$route.params.id;
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
+          { withCredentials: true }
+        );
+        this.user = response.data;
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          this.$router.push('/');
+        } else {
+          console.error("Erreur lors de la récupération du profil utilisateur :", error);
+        }
+      }
+    },
+
     async handleSave() {
       const userId = this.$route.params.id;
       try {
-        const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`, {
-          name: this.user.name,
-          last_name: this.user.last_name,
-          phone: this.user.phone,
-          date_of_birth: this.user.date_of_birth,
-        });
+        const response = await axios.put(
+          `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
+          {
+            name: this.user.name,
+            last_name: this.user.last_name,
+            phone: this.user.phone,
+            date_of_birth: this.user.date_of_birth,
+          },
+          { withCredentials: true }
+        );
 
-        // Vérification si le backend renvoie "Aucun changement effectué" avec un warning
-        if (response.data.warning && response.data.warning === 'Aucun changement effectué.') {
+        if (response.data.warning === 'Aucun changement effectué.') {
           this.toast.warning("ℹ️ Aucun changement effectué.");
         } else if (response.data.success) {
-          // Profil mis à jour avec succès
           this.toast.success(response.data.message || "✅ Profile mis à jour avec succès !");
         }
       } catch (error) {
@@ -151,34 +171,21 @@ export default {
         this.toast.error("❌ Une erreur est survenue pendant la sauvegarde.");
       }
     },
-    async fetchUserProfil() {
-      const userId = this.$route.params.id;
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`, {
-          name: this.user.name,
-          last_name: this.user.last_name,
-          date_of_birth: this.user.date_of_birth,
-          phone: this.user.phone,
-        }
-        );
-        this.user = response.data;
-      } catch (error) {
-        console.error("Erreur lors de la récupération du profil utilisateur :", error);
-      }
-    },
+
     async handleDelete() {
       const userId = this.$route.params.id;
       try {
-        await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/user/delete/${userId}`);
+        await axios.delete(
+          `${import.meta.env.VITE_API_URL}/api/v1/user/delete/${userId}`,
+          { withCredentials: true }
+        );
 
         const store = useUserStore();
         this.toast.error("Compte supprimé !");
-
         await store.logout();
-        setTimeout(() => { this.$router.push('/'); }, 1000);
-
-
+        setTimeout(() => {
+          this.$router.push('/');
+        }, 1000);
       } catch (error) {
         console.error("Erreur suppression :", error);
         this.toast.error("Erreur pendant la suppression du compte.");

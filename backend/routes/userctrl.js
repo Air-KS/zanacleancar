@@ -6,11 +6,12 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require('../models');
+const authGuard = require('../middlewares/auth');
 
 // ========================================
 // Récupération du profil utilisateur
 // ========================================
-router.get('/profil/:id', async (req, res) => {
+router.get('/profil/:id', authGuard, async (req, res) => {
   try {
     const userId = req.params.id;
 
@@ -48,7 +49,7 @@ router.get('/', async (req, res) => {
 // ========================================
 // Mise à jour du profil utilisateur
 // ========================================
-router.put('/profil/:id', async (req, res) => {
+router.put('/profil/:id', authGuard, async (req, res) => {
   try {
     const userId = req.params.id;
     const { name, last_name, date_of_birth, phone } = req.body;
@@ -107,7 +108,7 @@ router.get('/:provider', async (req, res) => {
 // ========================================
 // Suppression d’un utilisateur
 // ========================================
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', authGuard, async (req, res) => {
   try {
     const userId = req.params.id;
 
