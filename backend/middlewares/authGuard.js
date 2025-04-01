@@ -1,5 +1,5 @@
 /*
-  ./backend/middleware/authGuard.js
+  ./backend/middlewares/authGuard.js
 */
 
 function authGuard(req, res, next) {
