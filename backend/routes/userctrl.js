@@ -6,7 +6,7 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require('../models');
-const authGuard = require('../middlewares/auth');
+const authGuard = require('../middlewares/authGuard');
 
 // ========================================
 // Récupération du profil utilisateur
