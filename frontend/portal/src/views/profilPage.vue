@@ -130,24 +130,31 @@ export default {
       this.toast?.success("🎉 Toast injecté et fonctionnel !");
     },
     async fetchUserProfil() {
-  const userId = parseInt(this.$route.params.id);
+      const userId = parseInt(this.$route.params.id);
 
-  try {
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
-      { withCredentials: true }
-    );
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
+          { withCredentials: true }
+        );
 
-    if (response.data.redirect && response.data.ownId !== userId) {
-      window.location.href = `/profil/${response.data.ownId}`;
-      return;
-    }
+        if (response.data.redirect && response.data.ownId !== userId) {
+          window.location.href = `/profil/${response.data.ownId}`;
+          return;
+        }
 
-    this.user = response.data;
-  } catch {
-    window.location.href = `/profil/${response.data.ownId}`;
-  }
-},
+        this.user = response.data;
+      } catch {
+        const store = useUserStore();
+        const ownId = store.user?.id;
+
+        if (ownId) {
+          window.location.href = `/profil/${ownId}`;
+        } else {
+          window.location.href = '/';
+        }
+      }
+    },
     async handleSave() {
       const userId = this.$route.params.id;
       try {
