@@ -145,7 +145,7 @@ export default {
 
     this.user = response.data;
   } catch {
-    window.location.href = '/login';
+    window.location.href = `/profil/${response.data.ownId}`;
   }
 },
     async handleSave() {
