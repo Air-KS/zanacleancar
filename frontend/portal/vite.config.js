@@ -14,7 +14,7 @@ export default defineConfig({
   plugins: [
     vue(),
   ],
-  base: './',
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
