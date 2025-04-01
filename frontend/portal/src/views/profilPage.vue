@@ -131,25 +131,31 @@ export default {
     },
 
     async fetchUserProfil() {
-      const userId = this.$route.params.id;
+  const userId = parseInt(this.$route.params.id);
 
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
-          { withCredentials: true }
-        );
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
+      { withCredentials: true }
+    );
 
-        this.user = response.data;
+    this.user = response.data;
 
-      } catch (error) {
-        if (error.response && error.response.status === 403) {
-          const store = useUserStore();
-          const ownId = store.user?.id;
-          if (ownId) this.$router.push(`/profil/${ownId}`);
-          else this.$router.push('/login');
-        }
+  } catch (error) {
+    if (error.response && error.response.status === 403) {
+      const store = useUserStore();
+      const ownId = store.user?.id;
+
+      if (ownId && ownId !== userId) {
+        this.$router.push(`/profil/${ownId}`).then(() => {
+          this.fetchUserProfil(); // recharge les bonnes données après redirection
+        });
+      } else {
+        this.$router.push('/login');
       }
-    },
+    }
+  }
+},
     async handleSave() {
       const userId = this.$route.params.id;
       try {
