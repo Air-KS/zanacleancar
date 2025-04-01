@@ -9,7 +9,7 @@
 :root {
   --color-blur: blur(10px);
   --color-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  
+
   --color-btn-gradient-start: #6366f1;
   --color-btn-gradient-end: #2563eb;
   --color-white: #ffffff;
@@ -110,6 +110,21 @@
 .forms-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.form-row {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	gap: 50px;
+}
+
+.form-group {
+	flex: 1;
+	min-width: 45%;
+	margin-bottom: 10px;
+	display: flex;
+	flex-direction: column;
 }
 
 /* ================================

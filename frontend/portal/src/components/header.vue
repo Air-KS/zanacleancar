@@ -91,7 +91,7 @@
 		<transition name="slide-dropdown">
 			<ul v-if="showDropdown" class="dropdown-menu">
 				<li class="dropdown-item">
-					<router-link to="/profil" @click="closeDropdown">Profil</router-link>
+					<a @click="() => { goToProfil(); closeDropdown(); }">Profil</a>
 				</li>
 				<li class="dropdown-item" @click="() => { handleLogout(); closeDropdown(); }">Déconnexion</li>
 			</ul>
@@ -135,6 +135,14 @@ const accountDropdown = ref(null);
 // =============================================
 // AUTH / COMPTE
 // =============================================
+
+function goToProfil() {
+	const userId = userStore.user?.id;
+	if (userId) {
+		router.push(`/profil/${userId}`);
+	}
+}
+
 async function handleLogout() {
 	await userStore.logout();
 	window.location.href = "/";

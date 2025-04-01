@@ -10,7 +10,7 @@ const { User } = require('../models');
 // ========================================
 // Récupération du profil utilisateur
 // ========================================
-router.get('/profile/:id', async (req, res) => {
+router.get('/profil/:id', async (req, res) => {
   try {
     const userId = req.params.id;
 
@@ -48,7 +48,7 @@ router.get('/', async (req, res) => {
 // ========================================
 // Mise à jour du profil utilisateur
 // ========================================
-router.put('/profile/:id', async (req, res) => {
+router.put('/profil/:id', async (req, res) => {
   try {
     const userId = req.params.id;
     const { name, last_name, date_of_birth, phone } = req.body;
@@ -58,13 +58,24 @@ router.put('/profile/:id', async (req, res) => {
       return res.status(403).json({ error: 'Modification de l’email non autorisée depuis ce formulaire.' });
     }
 
+    // Vérifier si les nouvelles données sont différentes des anciennes
+    const user = await User.findByPk(userId); // Trouve l'utilisateur par ID
+    if (!user) {
+      return res.status(404).json({ error: 'Utilisateur introuvable.' });
+    }
+
+    // Vérifie si les données ont changé
+    if (user.name === name && user.last_name === last_name && user.date_of_birth === date_of_birth && user.phone === phone) {
+      return res.status(200).json({ warning: 'Aucun changement effectué.' }); // Retourne une erreur si aucune donnée n'a changé
+    }
+
     const [updated] = await User.update(
       { name, last_name, date_of_birth, phone },
       { where: { id: userId } }
     );
 
     if (updated === 1) {
-      return res.status(200).json({ message: 'Profil mis à jour avec succès.' });
+      return res.status(200).json({ success: true, message: 'Profile mis à jour avec succès.' });
     } else {
       return res.status(404).json({ error: 'Utilisateur introuvable ou aucune modification détectée.' });
     }
