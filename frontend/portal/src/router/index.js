@@ -19,6 +19,9 @@ const routes = [
   { path: '/verify-code', name: 'VerifyCode', component: VerifyCode },
   { path: '/profil', name: 'Profil', component: ProfilPage },
   // autres routes ici...
+
+  // Page non trouvé ou existe pas
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/views/NotFound.vue') }
 ];
 
 // Création du routeur avec l'historique en mode HTML5

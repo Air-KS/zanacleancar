@@ -13,7 +13,7 @@
   /* === Couleurs générales === */
   --color-bg: rgba(255, 255, 255, 0.8);
   --color-background-header: #f0f0f0;
-  --color-text: #181741;
+  --color-text: #1f2937;
   --color-separator: #ff5252;
   --color-border: #4687af;
   --color-border-shadow: rgba(0, 123, 255, 0.25);
@@ -65,7 +65,6 @@
 
 html {
   box-sizing: border-box;
-  background: linear-gradient(to bottom, rgb(240, 248, 255) 40%, #79acee 100%);
   scroll-behavior: smooth;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -74,9 +73,9 @@ html {
 
 /* === comment === */
 body {
+  background: rgb(241, 241, 241);
   font-family: var(--font-family-body);
   color: var(--color-text);
-  background: transparent;
   line-height: 1.6;
   margin: 0;
   display: flex;
