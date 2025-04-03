@@ -189,7 +189,7 @@ export default {
 						last_name: this.user.last_name,
 						phone: this.user.phone,
 						date_of_birth: this.user.date_of_birth,
-						loyalty_points: Number(newPointName)
+						loyalty_points: Number(this.user.loyalty_points)
 					},
 					{ withCredentials: true }
 				);
