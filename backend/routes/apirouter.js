@@ -7,6 +7,7 @@
 const express = require("express");
 const authctrl = require('../routes/authctrl');
 const userctrl = require('../routes/userctrl');
+const adminctrl = require('../routes/adminctrl');
 
 exports.router = (function () {
   // Création du routeur Express
@@ -15,6 +16,7 @@ exports.router = (function () {
   // Montage des routes liées à l'authentification sous /auth
   apiRouter.use('/auth', authctrl);
   apiRouter.use('/user', userctrl);
+  apiRouter.use('/users', adminctrl);
 
   return apiRouter;
 })();

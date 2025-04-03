@@ -25,6 +25,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     tableName: 'Rewards',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   });
 
   Reward.associate = (models) => {

@@ -49,8 +49,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
-    // FK à définir plus tard si nécessaire
-    // Exemple : User.hasMany(models.Orders, { foreignKey: 'user_id' });
+    User.hasOne(models.FidelityCard, { foreignKey: 'user_id' });
   };
 
   return User;

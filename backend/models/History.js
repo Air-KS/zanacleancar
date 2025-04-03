@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     tableName: 'History',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   });
 
   History.associate = (models) => {

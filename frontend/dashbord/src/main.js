@@ -1,5 +1,15 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+/*
+  ./frontend/portal/src/main.js
+  Point d'entrée principal de l'application Vue.js : initialise l'app, les styles et le router
+*/
 
-createApp(App).mount('#app')
+// Importation de Vue, du composant principal et des styles globaux
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+app.use(createPinia())
+app.use(router)
+app.mount('#app')

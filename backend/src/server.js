@@ -43,7 +43,8 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
   : [
       'https://zanacleancar.netlify.app',
       'http://127.0.0.1:8080',
-      'http://localhost:8080'
+      'http://localhost:8080',
+      'http://localhost:8081'
     ];
 
 // ✅ Middleware CORS dynamique

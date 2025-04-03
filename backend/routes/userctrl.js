@@ -5,7 +5,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { User } = require('../models');
+const { User, FidelityCard, Tampon } = require('../models');
 const authGuard = require('../middlewares/authGuard');
 
 // ========================================
@@ -21,7 +21,11 @@ router.get('/profil/:id', authGuard, async (req, res) => {
 
     const user = await User.findOne({
       where: { id: userId },
-      attributes: ['id', 'name', 'last_name', 'date_of_birth', 'email', 'phone', 'loyalty_points']
+      attributes: ['id', 'name', 'last_name', 'date_of_birth', 'email', 'phone', 'loyalty_points'],
+      include: {
+        model: FidelityCard,
+        include: Tampon
+      }
     });
 
     if (user) {
