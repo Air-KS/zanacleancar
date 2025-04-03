@@ -1,3 +1,7 @@
+<!--
+	./frontend/portal/src/components/beforeAfter.vue
+-->
+
 <template>
 	<div class="before-after-container" @mousemove="drag && moveSlider($event)" @mousedown="drag = true"
 		@mouseup="drag = false" @mouseleave="drag = false" @touchstart="drag = true"

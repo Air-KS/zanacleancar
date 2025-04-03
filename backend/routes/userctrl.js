@@ -21,7 +21,7 @@ router.get('/profil/:id', authGuard, async (req, res) => {
 
     const user = await User.findOne({
       where: { id: userId },
-      attributes: ['name', 'last_name', 'date_of_birth', 'email', 'phone']
+      attributes: ['id', 'name', 'last_name', 'date_of_birth', 'email', 'phone', 'loyalty_points']
     });
 
     if (user) {
@@ -41,7 +41,7 @@ router.get('/profil/:id', authGuard, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: ['id', 'name', 'last_name', 'email', 'auth_provider']
+      attributes: ['id', 'name', 'last_name', 'email', 'auth_provider', 'loyalty_points']
     });
     return res.status(200).json(users);
   } catch (error) {
@@ -56,7 +56,7 @@ router.get('/', async (req, res) => {
 router.put('/profil/:id', authGuard, async (req, res) => {
   try {
     const userId = parseInt(req.params.id);
-    const { name, last_name, date_of_birth, phone } = req.body;
+    const { name, last_name, date_of_birth, phone, loyalty_points } = req.body;
 
     if (req.user.id !== userId) {
       return res.status(403).json({ error: "Accès interdit : ce n'est pas votre profil." });
@@ -79,7 +79,7 @@ router.put('/profil/:id', authGuard, async (req, res) => {
     }
 
     const [updated] = await User.update(
-      { name, last_name, date_of_birth, phone },
+      { name, last_name, date_of_birth, phone, loyalty_points },
       { where: { id: userId } }
     );
 
