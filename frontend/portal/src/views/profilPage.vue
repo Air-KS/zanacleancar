@@ -210,6 +210,9 @@ export default {
   width: 50%;
 }
 
+.form-wrapper {
+	margin-top: 30px;
+}
 
 .auth-info-col {
   margin: 0 !important;
