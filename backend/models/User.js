@@ -1,5 +1,6 @@
 /*
   ./backend/models/User.js
+  Modèle Sequelize pour les utilisateurs
 */
 
 'use strict';
@@ -7,35 +8,39 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     name: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(100), // prénom
       allowNull: false,
+    },
+    last_name: {
+      type: DataTypes.STRING(100), // nom de famille
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING(100),
       allowNull: false,
       unique: true,
     },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
     auth_provider: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      defaultValue: 'Local'
+      defaultValue: 'Local', // Local, Google, etc.
     },
-    bio: {
-      type: DataTypes.TEXT,
+    date_of_birth: {
+      type: DataTypes.DATEONLY,
+      allowNull: true,
+    },
+    phone: {
+      type: DataTypes.STRING(20),
       allowNull: true,
     },
     loyalty_points: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
-    },
-    imgprofile: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-    },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
+    }
   }, {
     tableName: 'Users',
     timestamps: true,
@@ -44,8 +49,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
-    // Déclare ici les relations FK si besoin plus tard
-    // ex: User.hasMany(models.FidelityCard, { foreignKey: 'user_id' });
+    // FK à définir plus tard si nécessaire
+    // Exemple : User.hasMany(models.Orders, { foreignKey: 'user_id' });
   };
 
   return User;

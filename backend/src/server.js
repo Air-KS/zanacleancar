@@ -130,7 +130,7 @@ app.get('/auth/google/callback', (req, res, next) => {
       // 🔐 Sauvegarde manuelle de la session avant redirection
       req.session.save(() => {
         console.log("✅ Session sauvegardée manuellement après Google login !");
-        return res.redirect(`${allowedOrigins[0]}/dashboard`);
+        return res.redirect(`${allowedOrigins[0]}/`);
       });
     });
   })(req, res, next);

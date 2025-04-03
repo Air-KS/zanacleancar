@@ -18,6 +18,9 @@ import './styles/page.css';
 // Fichier d'import animation
 import './styles/animations/auth-animation.css';
 
+import Toast, { useToast } from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
@@ -32,8 +35,12 @@ import { useUserStore } from '@/store/index.js';
 const app = createApp(App);
 const pinia = createPinia();
 
+app.use(Toast);
 app.use(pinia)
 app.use(router);
+
+const toast = useToast()
+app.provide('toast', toast) // 👉 injection manuelle ici
 
 const userStore = useUserStore();
 

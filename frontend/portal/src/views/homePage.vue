@@ -45,7 +45,8 @@
 					<h3>Choisissez !</h3>
 				</div>
 				<p>Choisissez parmi notre large gamme de services adaptés à vos besoins.
-					Que vous ayez besoin d'un nettoyage rapide ou en profondeur, nous avons la solution qu’il vous faut.
+					Que vous ayez besoin d'un nettoyage rapide ou en profondeur, nous avons la solution qu’il vous
+					faut.
 				</p>
 			</div>
 
@@ -57,7 +58,8 @@
 					<h3>Réservez !</h3>
 				</div>
 				<p>Contactez directement un de nos agent par téléphone pour réserver votre service.
-					Nous nous adaptons à vos disponibilités et vous guidons pour choisir le créneau qui vous convient le
+					Nous nous adaptons à vos disponibilités et vous guidons pour choisir le créneau qui vous
+					convient le
 					mieux..</p>
 			</div>
 
@@ -68,7 +70,8 @@
 					<div class="grid-icon"></div>
 					<h3>Néttoyez !</h3>
 				</div>
-				<p>Profitez d'un moment de tranquillité pendant que nous redonnons à votre véhicule un second souffle !
+				<p>Profitez d'un moment de tranquillité pendant que nous redonnons à votre véhicule un second
+					souffle !
 					Nous mettons un point d'honneur à prendre soin de vos demandes et à satisfaire vos besoins !</p>
 			</div>
 		</div>
@@ -86,7 +89,8 @@
 					<p>
 						Nos agents offrent un service sur-mesure pour le nettoyage intérieur de votre véhicule, en
 						prenant
-						soin de chaque détail, selon vos préférences et exigences. Que ce soit pour un nettoyage complet
+						soin de chaque détail, selon vos préférences et exigences. Que ce soit pour un nettoyage
+						complet
 						ou une
 						attention particulière aux zones spécifiques, nous nous engageons à fournir un service de
 						qualité.
@@ -107,7 +111,8 @@
 					<p>
 						Nous comprenons que votre emploi du temps peut être chargé, c'est pourquoi nous offrons un
 						service
-						flexible qui s'adapte à vos besoins. Que ce soit à votre domicile ou à l'adresse de votre choix,
+						flexible qui s'adapte à vos besoins. Que ce soit à votre domicile ou à l'adresse de votre
+						choix,
 						notre
 						équipe se déplace où vous le souhaitez. Profitez d’un nettoyage de qualité, rapide et sans
 						tracas, selon
@@ -128,7 +133,8 @@
 					<div class="whyzcc-icon" aria-label="why service icon"></div>
 					<p>
 						Besoin d'un nettoyage rapide ? Un nettoyage d'urgence ?
-						Nos services sont disponibles à tout moment. Nous nous adaptons à vos besoins pour vous offrir
+						Nos services sont disponibles à tout moment. Nous nous adaptons à vos besoins pour vous
+						offrir
 						un
 						nettoyage rapide et de qualité. Où que vous soyez, nous nous déplaçons pour satisfaire vos
 						besoins !
@@ -147,9 +153,11 @@
 				<div class="grid-info">
 					<div class="whyzcc-icon" aria-label="why service icon"></div>
 					<p>
-						Nous choisissons des produits de nettoyage qui assurent une propreté éclatante et une brillance
+						Nous choisissons des produits de nettoyage qui assurent une propreté éclatante et une
+						brillance
 						durable
-						pour l'intérieur de votre véhicule. Conçus pour être efficaces tout en préservant vos surfaces,
+						pour l'intérieur de votre véhicule. Conçus pour être efficaces tout en préservant vos
+						surfaces,
 						nos
 						nettoyants s'adaptent à tous les besoins pour un résultat optimal.
 					</p>
@@ -191,7 +199,6 @@ export default {
 </script>
 
 <style scoped>
-
 .img-bancar {
 	width: 100%;
 	display: flex;
