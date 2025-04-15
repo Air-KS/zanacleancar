@@ -132,25 +132,30 @@ export default {
     };
   },
   created() {
-    const store = useUserStore();
+  const store = useUserStore();
 
-    if (!store.isLoggedIn || !store.user) {
-      const cached = localStorage.getItem('user_cache');
+  // si pas connecté, tente avec le cache
+  if (!store.isLoggedIn || !store.user) {
+    const cached = localStorage.getItem('user_cache');
 
-      if (cached) {
-        this.user = JSON.parse(cached);
-        this.toast?.info("💾 Données chargées depuis le cache.");
-      } else {
-        this.toast?.error("Tu dois être connecté.");
-        this.$router.push('/login');
-        return;
-      }
+    if (cached) {
+      const cachedUser = JSON.parse(cached);
+      this.user = {
+        ...this.user,
+        ...cachedUser,
+      };
+      this.toast?.info("💾 Données chargées depuis le cache.");
     } else {
-      this.user = store.user;
+      this.toast?.error("Tu dois être connecté.");
+      this.$router.push('/login');
+      return;
     }
+  } else {
+    this.user = store.user;
+  }
 
-    this.fetchUserProfil(); // on tente quand même la requête à l'API
-  },
+  this.fetchUserProfil(); // on tente quand même une requête serveur
+},
   methods: {
     testToast() {
       console.log("Toast injecté ?", this.toast);
@@ -200,7 +205,7 @@ export default {
             last_name: this.user.last_name,
             phone: this.user.phone,
             date_of_birth: this.user.date_of_birth,
-            loyalty_points: Number(this.user.loyalty_points)
+            loyalty_points: Number(this.user.loyalty_points) || 0
           },
           { withCredentials: true }
         );
