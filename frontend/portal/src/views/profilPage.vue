@@ -132,7 +132,12 @@ export default {
     };
   },
   created() {
-    this.fetchUserProfil();
+    const cached = localStorage.getItem('user_cache');
+    if (cached) {
+      this.user = JSON.parse(cached);
+      this.toast?.warning("⚠️ Données affichées en lecture seule.");
+    }
+    this.fetchUserProfil(); // on essaie quand même la requête
   },
   methods: {
     testToast() {
