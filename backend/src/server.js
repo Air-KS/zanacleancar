@@ -39,7 +39,7 @@ const sessionStore = new SequelizeStore({ db: sequelize });
 
 // ✅ Liste dynamique des domaines autorisés
 const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? ['https://zanacleancar.netlify.app']
+  ? ['https://zanacleancar.netlify.app', 'https://zanacleancar.vercel.app']
   : [
       'https://zanacleancar.netlify.app',
       "https://zanacleancar.vercel.app",
