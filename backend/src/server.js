@@ -39,14 +39,19 @@ const sessionStore = new SequelizeStore({ db: sequelize });
 
 // ✅ Liste dynamique des domaines autorisés
 const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? ['https://zanacleancar.netlify.app', 'https://zanacleancar.vercel.app']
+  ? [
+    'https://zanacleancar.netlify.app',
+    'https://zanacleancar.vercel.app',
+    'https://www.zanacleancar.fr',
+    'https://api.zanacleancar.fr'
+  ]
   : [
-      'https://zanacleancar.netlify.app',
-      "https://zanacleancar.vercel.app",
-      'http://127.0.0.1:8080',
-      'http://localhost:8080',
-      'http://localhost:8081'
-    ];
+    'https://zanacleancar.netlify.app',
+    "https://zanacleancar.vercel.app",
+    'http://127.0.0.1:8080',
+    'http://localhost:8080',
+    'http://localhost:8081'
+  ];
 
 // ✅ Middleware CORS dynamique
 app.use(cors({
