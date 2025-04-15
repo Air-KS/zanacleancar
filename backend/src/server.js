@@ -6,6 +6,7 @@
 // backend/src/server.js
 const express = require('express');
 const session = require('express-session');
+const { generateTokenForUser } = require('./jwt');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cors = require("cors");
@@ -118,6 +119,13 @@ app.get('/dashboard', (req, res) => {
 app.get('/debug-cookie', (req, res) => {
   req.session.user = { id: 999, name: 'TestCookie' };
   req.session.save(() => res.send('✅ Cookie de test généré !'));
+});
+
+app.get('/api/v1/auth/token', (req, res) => {
+  if (!req.isAuthenticated()) return res.status(401).json({ error: 'Pas connecté' });
+
+  const jwt = generateTokenForUser(req.user); // ta fonction actuelle
+  res.json({ token: jwt });
 });
 
 // 🎯 Démarrage du serveur

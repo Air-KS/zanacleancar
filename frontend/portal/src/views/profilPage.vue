@@ -212,8 +212,21 @@ export default {
         }
       }
     },
+
     async handleSave() {
       const userId = this.$route.params.id;
+
+      // 🔐 Headers de base
+      const headers = {
+        'Content-Type': 'application/json'
+      };
+
+      // ✅ Si on a un JWT (fallback iOS), on l’ajoute aux headers
+      const token = localStorage.getItem('jwt_token');
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
       try {
         const response = await axios.put(
           `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
@@ -224,13 +237,16 @@ export default {
             date_of_birth: this.user.date_of_birth,
             loyalty_points: Number(this.user.loyalty_points) || 0
           },
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers
+          }
         );
 
         if (response.data.warning === 'Aucun changement effectué.') {
           this.toast.warning("ℹ️ Aucun changement effectué.");
         } else if (response.data.success) {
-          this.toast.success(response.data.message || "✅ Profile mis à jour avec succès !");
+          this.toast.success(response.data.message || "✅ Profil mis à jour avec succès !");
         }
       } catch (error) {
         console.error("❌ Erreur lors de la mise à jour :", error);
@@ -241,9 +257,16 @@ export default {
     async handleDelete() {
       const userId = this.$route.params.id;
       try {
+        const headers = {
+          'Content-Type': 'application/json'
+        };
+        const token = localStorage.getItem('jwt_token');
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
         await axios.delete(
           `${import.meta.env.VITE_API_URL}/api/v1/user/delete/${userId}`,
-          { withCredentials: true }
+          { withCredentials: true, headers }
         );
 
         const store = useUserStore();

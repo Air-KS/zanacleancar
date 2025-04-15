@@ -44,6 +44,15 @@ export const useUserStore = defineStore('user', {
           this.user = response.data.user;
           this.isLoggedIn = true;
           localStorage.setItem('user_cache', JSON.stringify(response.data.user));
+
+          // ✅ Récupère aussi le token si c’est un appareil iOS
+          if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/auth/token`, {
+              withCredentials: true
+            });
+            localStorage.setItem('jwt_token', data.token);
+          }
+
         } else {
           throw new Error("Pas de session");
         }
