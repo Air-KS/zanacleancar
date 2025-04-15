@@ -157,15 +157,16 @@ export default {
     this.fetchUserProfil(); // on tente quand même une requête serveur
   },
   mounted() {
-    const store = useUserStore();
-    if (!store.user && localStorage.getItem('user_cache')) {
-      const cached = JSON.parse(localStorage.getItem('user_cache'));
-      this.user = cached;
-      store.login(cached);
-      this.toast?.info("💾 Données restaurées depuis le cache.");
-    }
-
-    this.fetchUserProfil();
+    setTimeout(() => {
+      const store = useUserStore();
+      if (!store.user && localStorage.getItem('user_cache')) {
+        const cached = JSON.parse(localStorage.getItem('user_cache'));
+        this.user = cached;
+        store.login(cached);
+        this.toast?.info("💾 Données restaurées depuis le cache.");
+      }
+      this.fetchUserProfil();
+    }, 300); // ⏱️ petit délai pour Safari
   },
   methods: {
     testToast() {
@@ -178,7 +179,12 @@ export default {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
         );
 
         console.log("Données utilisateur récupérées :", response.data);
