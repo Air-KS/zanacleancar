@@ -39,12 +39,11 @@ export const useUserStore = defineStore('user', {
         if (response.data.user) {
           this.user = response.data.user;
           this.isLoggedIn = true;
-          localStorage.setItem('user_cache', JSON.stringify(response.data.user)); // 🧠 update cache
+          localStorage.setItem('user_cache', JSON.stringify(response.data.user));
         } else {
           throw new Error("Pas de session");
         }
       } catch (error) {
-        console.warn("⚠️ Session manquante, tentative depuis cache local");
         const cached = localStorage.getItem('user_cache');
 
         if (cached) {

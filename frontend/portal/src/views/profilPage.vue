@@ -132,13 +132,15 @@ export default {
     };
   },
   created() {
-    const cached = localStorage.getItem('user_cache');
-  if (cached) {
-    this.user = JSON.parse(cached);
-    this.toast?.info("💾 Données affichées en cache.");
-  }
+    const store = useUserStore();
 
-  this.fetchUserProfil(); // toujours tenter une requête serveur
+if (!store.user || !store.isLoggedIn) {
+  this.toast?.error("Tu dois être connecté pour accéder à ton profil.");
+  this.$router.push('/login');
+  return;
+}
+
+this.fetchUserProfil();
 },
   methods: {
     testToast() {
