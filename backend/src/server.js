@@ -128,7 +128,7 @@ app.get('/auth/google/callback', (req, res, next) => {
       return res.status(500).send("Erreur d'authentification");
     }
 
-    if (!user) return res.redirect(`${allowedOrigins[0]}/login`);
+    if (!user) return res.redirect(`${req.headers.origin}/login`);
 
     req.logIn(user, (err) => {
       if (err) return next(err);
@@ -136,7 +136,7 @@ app.get('/auth/google/callback', (req, res, next) => {
       // 🔐 Sauvegarde manuelle de la session avant redirection
       req.session.save(() => {
         console.log("✅ Session sauvegardée manuellement après Google login !");
-        return res.redirect(`${allowedOrigins[0]}/`);
+        return res.redirect(`${req.headers.origin}/`);
       });
     });
   })(req, res, next);
