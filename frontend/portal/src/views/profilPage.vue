@@ -133,12 +133,13 @@ export default {
   },
   created() {
     const cached = localStorage.getItem('user_cache');
-    if (cached) {
-      this.user = JSON.parse(cached);
-      this.toast?.warning("⚠️ Données affichées en lecture seule.");
-    }
-    this.fetchUserProfil(); // on essaie quand même la requête
-  },
+  if (cached) {
+    this.user = JSON.parse(cached);
+    this.toast?.info("💾 Données affichées en cache.");
+  }
+
+  this.fetchUserProfil(); // toujours tenter une requête serveur
+},
   methods: {
     testToast() {
       console.log("Toast injecté ?", this.toast);
@@ -167,15 +168,6 @@ export default {
         localStorage.setItem('user_cache', JSON.stringify(response.data));
       } catch {
         console.error("❌ Erreur récupération profil :", error.response || error);
-
-        // Mode lecture seule si Safari a perdu les cookies
-        const cached = localStorage.getItem('user_cache');
-
-        if (cached) {
-          this.toast?.warning("⚠️ Session expirée, affichage en mode lecture seule.");
-          this.user = JSON.parse(cached);
-          return;
-        }
 
         const store = useUserStore();
         const ownId = store.user?.id;
