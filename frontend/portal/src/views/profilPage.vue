@@ -132,30 +132,41 @@ export default {
     };
   },
   created() {
-  const store = useUserStore();
+    const store = useUserStore();
 
-  // si pas connecté, tente avec le cache
-  if (!store.isLoggedIn || !store.user) {
-    const cached = localStorage.getItem('user_cache');
+    // si pas connecté, tente avec le cache
+    if (!store.isLoggedIn || !store.user) {
+      const cached = localStorage.getItem('user_cache');
 
-    if (cached) {
-      const cachedUser = JSON.parse(cached);
-      this.user = {
-        ...this.user,
-        ...cachedUser,
-      };
-      this.toast?.info("💾 Données chargées depuis le cache.");
+      if (cached) {
+        const cachedUser = JSON.parse(cached);
+        this.user = {
+          ...this.user,
+          ...cachedUser,
+        };
+        this.toast?.info("💾 Données chargées depuis le cache.");
+      } else {
+        this.toast?.error("Tu dois être connecté.");
+        this.$router.push('/login');
+        return;
+      }
     } else {
-      this.toast?.error("Tu dois être connecté.");
-      this.$router.push('/login');
-      return;
+      this.user = store.user;
     }
-  } else {
-    this.user = store.user;
-  }
 
-  this.fetchUserProfil(); // on tente quand même une requête serveur
-},
+    this.fetchUserProfil(); // on tente quand même une requête serveur
+  },
+  mounted() {
+    const store = useUserStore();
+    if (!store.user && localStorage.getItem('user_cache')) {
+      const cached = JSON.parse(localStorage.getItem('user_cache'));
+      this.user = cached;
+      store.login(cached);
+      this.toast?.info("💾 Données restaurées depuis le cache.");
+    }
+
+    this.fetchUserProfil();
+  },
   methods: {
     testToast() {
       console.log("Toast injecté ?", this.toast);

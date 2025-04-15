@@ -16,7 +16,11 @@ export const useUserStore = defineStore('user', {
     async login(user) {
       this.user = user;
       this.isLoggedIn = true;
-      localStorage.setItem('user_cache', JSON.stringify(user)); // 🧠 stock dans le cache
+
+      // 🔒 Fallback iOS : localStorage si cookie bloqué
+      if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+        localStorage.setItem('user_cache', JSON.stringify(user));
+      }
     },
 
     async logout() {
@@ -49,6 +53,7 @@ export const useUserStore = defineStore('user', {
         if (cached) {
           this.user = JSON.parse(cached);
           this.isLoggedIn = true;
+          console.warn("⚠️ iOS fallback via localStorage");
         } else {
           this.user = null;
           this.isLoggedIn = false;
