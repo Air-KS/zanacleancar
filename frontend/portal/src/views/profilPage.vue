@@ -134,14 +134,23 @@ export default {
   created() {
     const store = useUserStore();
 
-if (!store.user || !store.isLoggedIn) {
-  this.toast?.error("Tu dois être connecté pour accéder à ton profil.");
-  this.$router.push('/login');
-  return;
-}
+    if (!store.isLoggedIn || !store.user) {
+      const cached = localStorage.getItem('user_cache');
 
-this.fetchUserProfil();
-},
+      if (cached) {
+        this.user = JSON.parse(cached);
+        this.toast?.info("💾 Données chargées depuis le cache.");
+      } else {
+        this.toast?.error("Tu dois être connecté.");
+        this.$router.push('/login');
+        return;
+      }
+    } else {
+      this.user = store.user;
+    }
+
+    this.fetchUserProfil(); // on tente quand même la requête à l'API
+  },
   methods: {
     testToast() {
       console.log("Toast injecté ?", this.toast);
