@@ -10,6 +10,7 @@ import HomePage from '@/views/homePage.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import VerifyCode from '@/views/verifyCode.vue';
 import ProfilPage from '@/views/profilPage.vue';
+import ServicePage from '@/views/servicePage.vue';
 
 // Déclaration des routes avec leur composant associé
 const routes = [
@@ -18,6 +19,7 @@ const routes = [
   { path: '/login', name: 'Login', component: LoginPage },
   { path: '/verify-code', name: 'VerifyCode', component: VerifyCode },
   { path: '/profil/:id', name: 'Profil', component: ProfilPage },
+  { path: '/service', name: 'Service', component: ServicePage },
   // autres routes ici...
 
   // Page non trouvé ou existe pas
