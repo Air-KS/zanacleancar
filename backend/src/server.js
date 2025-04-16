@@ -103,10 +103,10 @@ app.get('/auth/google', passport.authenticate('google', {
 
 app.get('/auth/google/callback', (req, res, next) => {
   passport.authenticate('google', (err, user) => {
-    if (err || !user) return res.redirect(`${req.headers.origin}/login`);
+    if (err || !user) return res.redirect(`${process.env.FRONTEND_URL}/login`);
     req.logIn(user, (err) => {
       if (err) return next(err);
-      req.session.save(() => res.redirect(`${req.headers.origin}/`));
+      req.session.save(() => res.redirect(`${process.env.FRONTEND_URL}/`));
     });
   })(req, res, next);
 });
