@@ -136,6 +136,7 @@ export default {
       }
     },
     loginWithGoogle() {
+      console.log("🔍 API URL REGISTER =", import.meta.env.VITE_API_URL);
       window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
     }
   }
