@@ -175,6 +175,8 @@ export default {
     },
     async fetchUserProfil() {
       const userId = parseInt(this.$route.params.id);
+      const store = useUserStore();
+      const ownId = store.user?.id;
 
       try {
         const response = await axios.get(
@@ -187,28 +189,19 @@ export default {
           }
         );
 
-        console.log("Données utilisateur récupérées :", response.data);
-        console.log("✅ Données utilisateur :", this.user);
-
-        if (response.data.redirect && response.data.ownId !== userId) {
-          window.location.href = `/profil/${response.data.ownId}`;
-          return;
-        }
-
+        // ✅ Si tout est bon, on met à jour l'utilisateur
         this.user = response.data;
-
-        // Fallback si Safari perd la session
         localStorage.setItem('user_cache', JSON.stringify(response.data));
-      } catch {
+      } catch (error) {
         console.error("❌ Erreur récupération profil :", error.response || error);
 
-        const store = useUserStore();
-        const ownId = store.user?.id;
-
-        if (ownId) {
-          window.location.href = `/profil/${ownId}`;
+        // 🛡️ Cas où l'utilisateur essaie d'accéder à un autre ID (403)
+        if (error.response?.status === 403 && ownId) {
+          this.toast?.warning("🚫 Tu ne peux pas accéder à ce profil.");
+          this.$router.replace(`/profil/${ownId}`);
         } else {
-          window.location.href = '/';
+          this.toast?.error("Une erreur est survenue.");
+          this.$router.replace('/');
         }
       }
     },
