@@ -71,7 +71,7 @@
           <!-- E-mail -->
 
           <div class="forms-input-container email-input">
-            <input :class="{ 'has-value': user.email }" v-model="user.email" type="email" autocomplete="email"
+            <input :class="['forms-input-style', { 'has-value': user.email }]" v-model="user.email" type="email" autocomplete="email"
               id="email" required placeholder="Ton adresse e-mail" disabled class="forms-input-style" />
             <label for="email" class="forms-input-label">E-mail</label>
             <small class="info-text">✉️ Contactez-nous pour changer d’e-mail.</small>
@@ -293,8 +293,8 @@ export default {
 }
 
 /* Fix label flottant si input pré-rempli */
-.forms-input-style.has-value+.forms-input-label {
-  top: 0.1rem;
+.forms-input-style.has-value ~ .forms-input-label {
+  top: 0.2rem;
   font-size: 0.80rem;
   color: var(--color-focus);
   transform: translateY(3px);
@@ -303,6 +303,7 @@ export default {
 .forms-input-style[disabled] {
   background-color: #e7e7e7;
   cursor: not-allowed;
+  box-sizing: border-box;
 }
 
 /* DANGER ZONE */
