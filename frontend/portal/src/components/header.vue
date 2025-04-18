@@ -116,8 +116,7 @@ const userStore = useUserStore();
 // =============================================
 const menuItems = ref([
 	{ label: 'Accueil', link: '/' },
-	{ label: 'Services', link: '/register' },
-	{ label: 'Services', link: '/register' },
+	{ label: 'Services', link: '/service' },
 	{ label: 'Contactez-nous', link: '/register' },
 ]);
 
