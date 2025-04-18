@@ -8,11 +8,11 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     name: {
-      type: DataTypes.STRING(100), // prénom
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     last_name: {
-      type: DataTypes.STRING(100), // nom de famille
+      type: DataTypes.STRING(100),
       allowNull: true,
     },
     email: {
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     auth_provider: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      defaultValue: 'Local', // Local, Google, etc.
+      defaultValue: 'Local',
     },
     date_of_birth: {
       type: DataTypes.DATEONLY,
@@ -49,7 +49,11 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
-    User.hasOne(models.FidelityCard, { foreignKey: 'user_id' });
+    User.hasOne(models.FidelityCard, {
+      foreignKey: 'user_id',
+      onDelete: 'CASCADE',
+      hooks: true // 🔥 nécessaire pour que Sequelize exécute le CASCADE
+    });
   };
 
   return User;

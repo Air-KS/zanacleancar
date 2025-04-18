@@ -23,6 +23,11 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      card_id: {
+        type: Sequelize.STRING(5),
+        unique: true,
+        allowNull: false,
+      },
       password: {
         type: Sequelize.STRING(255),
         allowNull: false,

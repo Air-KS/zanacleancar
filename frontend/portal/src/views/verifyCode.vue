@@ -41,6 +41,7 @@
 
 <script>
 import axios from "axios";
+import { useUserStore } from "@/store/index.js";
 
 export default {
   name: "VerifyCode",
@@ -133,8 +134,41 @@ export default {
           { email: this.email, code },
           { withCredentials: true }
         );
+
         if (res.status === 200) {
           this.successMessage = "Code vérifié avec succès.";
+
+          // Récupération des données depuis localStorage
+          const name = localStorage.getItem("pending_name");
+          const password = localStorage.getItem("pending_password");
+
+          if (!name || !password) {
+            this.errorMessage = "Les données d'inscription sont manquantes. Réessaye depuis le début.";
+            return;
+          }
+
+          // Étape 2 : Compléter l'inscription (création carte + token)
+          const completeRes = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/complete-registration`, {
+            email: this.email,
+            name,
+            password
+          }, {
+            withCredentials: true
+          });
+
+          // Active la session côté frontend
+          const userStore = useUserStore();
+          await userStore.login({
+            id: completeRes.data.userId,
+            name,
+            email: this.email,
+          });
+
+          // Optionnel : clean le localStorage
+          localStorage.removeItem("pending_name");
+          localStorage.removeItem("pending_password");
+
+          // Redirige
           this.$router.push("/");
         }
       } catch (err) {

@@ -16,6 +16,17 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE', // 🔥 très important ici
+        onUpdate: 'CASCADE'
+      },
+      card_id: {
+        type: Sequelize.STRING(5),
+        unique: true,
+        allowNull: false,
       },
       is_completed: {
         type: Sequelize.BOOLEAN,

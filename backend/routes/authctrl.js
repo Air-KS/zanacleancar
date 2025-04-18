@@ -8,8 +8,9 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const { User, AuthVerify } = require('../models');
+const { User, AuthVerify, FidelityCard } = require('../models');
 const { sendVerificationEmail } = require('../emails/verifyCode');
+const { generateCardId } = require('../src/cardId');
 require('dotenv').config();
 
 // Validation des données avec regex
@@ -65,11 +66,19 @@ router.post('/register', async (req, res) => {
     // Hash du mot de passe pour stockage temporaire
     const hashedPassword = await bcrypt.hash(password, 15);
 
+    // ✅ Génère le numéro unique de carte
+    const cardId = await generateCardId();
+
+    console.log("📥 Données utilisateur valides");
+    console.log("🔐 Mot de passe hashé :", hashedPassword);
+    console.log("🆔 cardId généré :", cardId);
+
     // Création ou mise à jour dans la table temporaire AuthVerify
     await AuthVerify.upsert({
       email,
       name,
       password: hashedPassword,
+      card_id: cardId,
       verifyCode,
       verifyCodeExpire
     });
@@ -96,38 +105,20 @@ router.post('/register', async (req, res) => {
 */
 router.post('/verifyCode', async (req, res) => {
   const { email, code } = req.body;
+
   if (!email || !code) {
     return res.status(400).json({ error: "Les paramètres requis sont manquants." });
   }
 
-  // Vérifie que le code est valide et non expiré
   try {
     const authVerifyEntry = await AuthVerify.findOne({ where: { email, verifyCode: code } });
+
     if (!authVerifyEntry || Date.now() > authVerifyEntry.verifyCodeExpire) {
       return res.status(400).json({ error: "Code invalide ou expiré." });
     }
 
-    // Récupère les infos à transférer dans la table User
-    const { name, password: hashedPassword } = authVerifyEntry;
-    if (!name || !hashedPassword) {
-      return res.status(400).json({ error: "Les informations utilisateur requises sont manquantes." });
-    }
+    return res.status(200).json({ message: "Code vérifié avec succès." });
 
-    // Création de l'utilisateur final dans la table User
-    const newUser = await User.create({ name, email, password: hashedPassword });
-
-    // Suppression de l'entrée temporaire
-    await authVerifyEntry.destroy();
-
-    // Génération du token JWT après vérification réussie
-    const userToken = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    return res.status(200).json({
-      message: "Vérification réussie.",
-      token: userToken,
-      user: { id: newUser.id, name: newUser.name, email: newUser.email }
-    });
-
-    // Fin vérification
   } catch (error) {
     console.error("Erreur lors de la vérification :", error);
     return res.status(500).json({ error: "La vérification a échoué." });
@@ -173,30 +164,48 @@ router.post('/resend-code', async (req, res) => {
   Compléter l'inscription
 =========================================
 */
+// complète l'inscription
 router.post('/complete-registration', async (req, res) => {
-  // Mise à jour du mot de passe pour finaliser l'inscription
   try {
     const { name, email, password } = req.body;
-    const userFound = await User.findOne({ where: { email: email } });
 
-    // Vérifie si l'utilisateur existe
-    if (!userFound) {
-      return res.status(400).json({ error: "Utilisateur introuvable." });
+    const authVerifyEntry = await AuthVerify.findOne({ where: { email } });
+    if (!authVerifyEntry || !authVerifyEntry.card_id) {
+      return res.status(400).json({ error: "Numéro de carte introuvable." });
     }
 
-    // Hash du nouveau mot de passe et sauvegarde
-    const bcryptedPassword = await bcrypt.hash(password, 5);
-    userFound.password = bcryptedPassword;
-    await userFound.save();
-
-    // Génération d’un nouveau token JWT
-    const token = jwt.sign({ userId: userFound.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    return res.status(200).json({
-      userId: userFound.id,
-      token: token,
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      auth_provider: 'Local',
+      loyalty_points: 0
     });
 
-    // Fin inscription complète
+    const newCard = await FidelityCard.create({
+      user_id: newUser.id,
+      card_id: authVerifyEntry.card_id
+    });
+
+    await authVerifyEntry.destroy();
+
+    // ✅ C’est ici que la magie opère
+    req.login(newUser, (err) => {
+      if (err) {
+        console.error("Erreur login auto :", err);
+        return res.status(500).json({ error: "Erreur connexion auto après inscription." });
+      }
+
+      console.log("🎉 Utilisateur automatiquement connecté après inscription");
+
+      res.status(200).json({
+        userId: newUser.id,
+        cardId: newCard.card_id,
+        message: "Inscription complétée et session active."
+      });
+    });
+
   } catch (error) {
     console.error("Erreur lors de la complétion de l'inscription :", error);
     return res.status(500).json({ error: "Impossible de terminer l'inscription." });
