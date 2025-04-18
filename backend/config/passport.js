@@ -6,7 +6,7 @@
 // Dépendances nécessaires pour Passport, stratégie Google...
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const { User } = require('../models');
+const { User, FidelityCard } = require('../models');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 
@@ -35,6 +35,13 @@ passport.use(new GoogleStrategy({
       email: profile.emails[0].value,
       password: hashedPassword, // mot de passe généré (jamais utilisé)
       auth_provider: 'Google',
+    });
+
+    // Création automatique d'une carte fidélité
+    await FidelityCard.create({
+      user_id: newUser.id,
+      card_id: Math.floor(10000 + Math.random() * 90000).toString(), // 5 chiffres aléatoires
+      is_completed: false,
     });
 
     return done(null, newUser);
