@@ -8,27 +8,40 @@
     <div class="carte-fidelite">
       <img src="@/assets/card/card-background.png" class="carte-fond" alt="Carte de fond" />
 
-      <div class="info">
-        <p>{{ lastName }}</p>
-        <p>{{ name }}</p>
-        <p>{{ formattedBirthDate }}</p>
-      </div>
-      <div class="loyalties">{{ loyalty_points }}</div>
+      <!-- Infos utilisateur -->
+        <div class="name">{{ name }} {{ lastName }}</div>
 
+        <div v-if="props.cardId" class="card_number">
+          Carte de Fidélité : #{{ props.cardId }}
+        </div>
+
+        <div class="points_loyalties">
+          Points de Loyauté : {{ loyalty_points }}
+        </div>
+
+        <div v-if="formattedCreationDate" class="create_date">
+          {{ formattedCreationDate }}
+        </div>
+
+
+      <!-- Points fidélité -->
+
+
+      <!-- Tampons -->
       <div v-for="(slot, index) in 7" :key="index" class="slot" :style="getPositionStyle(index)">
         <img :src="isActive(index) ? getSlotFullImage(index) : emptyStamp"
-          :class="['tampon', isActive(index) && 'animate-spin-slow']" alt="tampon" />
+          :class="['tampon', { 'animate-spin-slow': isActive(index) }]" alt="tampon" />
         <img v-if="isActive(index)" :src="getIcon(index)" class="icon" alt="icon" />
       </div>
     </div>
-
   </div>
-  <div style="margin-top: 20px; display: flex; gap: 10px; align-items: center;">
+
+  <!-- Actions points -->
+  <div class="points-actions">
     <input v-model.number="pointsToChange" type="number" placeholder="Points" class="input" />
     <button @click="addPoints">➕</button>
     <button @click="removePoints">➖</button>
   </div>
-
 </template>
 
 <script setup>
@@ -50,7 +63,15 @@ const props = defineProps({
   lastName: String,
   dateOfBirth: String,
   loyalty_points: [String, Number],
-  userId: [String, Number]
+  userId: [String, Number],
+  cardId: String,
+  cardCreatedAt: String
+});
+
+const formattedCreationDate = computed(() => {
+  if (!props.cardCreatedAt) return '';
+  const date = new Date(props.cardCreatedAt);
+  return date.toLocaleDateString('fr-FR');
 });
 
 const formattedBirthDate = computed(() => {
@@ -63,13 +84,13 @@ const isActive = (index) => index < props.stamps;
 
 const getPositionStyle = (index) => {
   const positions = [
-    { top: '23%', left: '44%' },
-    { top: '23%', left: '58%' },
-    { top: '23%', left: '72%' },
-    { top: '45%', left: '44%' },
-    { top: '45%', left: '58%' },
-    { top: '45%', left: '72%' },
-    { top: '34%', left: '85%' },
+    { top: '27.5%', left: '28%' },
+    { top: '27.5%', left: '40%' },
+    { top: '27.5%', left: '52%' },
+    { top: '44%', left: '28%' },
+    { top: '44%', left: '40%' },
+    { top: '44%', left: '52%' },
+    { top: '35.6%', left: '63%' },
   ];
   return positions[index];
 };
@@ -139,7 +160,6 @@ const updateLoyalty = async (newTotal) => {
   position: relative;
   width: 100%;
   aspect-ratio: 850 / 530;
-  max-width: 850px;
   margin: auto;
   z-index: 1;
 }
@@ -151,10 +171,49 @@ const updateLoyalty = async (newTotal) => {
   display: block;
 }
 
+.name,
+.card_number,
+.points_loyalties,
+.create_date {
+  position: absolute;
+  width: 100%;
+  margin: 0 auto;
+  color: #ffffff;
+  font-size: clamp(0.8rem, 2vw, 1.5rem);
+  text-shadow: 2px 2px 4px #0a0a0a;
+  font-weight: bold;
+  text-align: center;
+}
+
+.name {
+  top: 3%;
+  font-size: clamp(0.8rem, 2vw, 2.5rem);
+  color: #ffffff;
+  text-shadow: 2px 2px 4px #4787a1;
+}
+
+.card_number {
+  font-size: clamp(0.8rem, 2vw, 1.5rem);
+  top: 14%;
+
+}
+
+.points_loyalties {
+  text-align: left;
+  bottom: 5%;
+  left: 10%
+}
+
+.create_date {
+  text-align: right;
+  bottom: 5%;
+  right: 7%
+}
+
 /* Slots tampons */
 .slot {
   position: absolute;
-  width: 13%;
+  width: 10%;
   height: auto;
 }
 
@@ -202,31 +261,6 @@ const updateLoyalty = async (newTotal) => {
   left: 650px;
 }
 
-.info {
-  position: absolute;
-  top: 25%;
-  left: 10%;
-  font-weight: bold;
-  font-size: clamp(0.8rem, 2vw, 2rem);
-  color: #1f2937;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.loyalties {
-  position: absolute;
-  top: 8.5%;
-  right: 25%;
-  /* mieux que left + transform */
-  font-size: clamp(1rem, 1.5vw, 2rem);
-  color: #1f2937;
-  z-index: 2;
-  text-align: center;
-  white-space: nowrap;
-}
-
 /* Animation lente */
 @keyframes spin {
   0% {
@@ -242,19 +276,4 @@ const updateLoyalty = async (newTotal) => {
   animation: spin 6s linear infinite;
 }
 
-@media (max-width: 500px) {
-  .loyalties {
-    position: absolute;
-    top: 7.5%;
-    font-size: clamp(0.9rem, 1.5vw, 2rem);
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1200px) {
-  .loyalties {
-    position: absolute;
-    top: 8%;
-    font-size: clamp(1.5rem, 1.5vw, 2rem);
-  }
-}
 </style>

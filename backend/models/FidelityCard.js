@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    card_id: {
+      type: DataTypes.STRING(5),
+      allowNull: false,
+      unique: true,
+    },
     is_completed: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -22,8 +27,16 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   FidelityCard.associate = (models) => {
-    FidelityCard.belongsTo(models.User, { foreignKey: 'user_id' });
-    FidelityCard.hasMany(models.Tampon, { foreignKey: 'card_id' });
+    FidelityCard.belongsTo(models.User, {
+      foreignKey: 'user_id',
+      onDelete: 'CASCADE',
+    });
+
+    FidelityCard.hasMany(models.Tampon, {
+      foreignKey: 'card_id',
+      onDelete: 'CASCADE',
+      hooks: true // 🔥 utile si tu veux aussi supprimer les tampons liés
+    });
   };
 
   return FidelityCard;

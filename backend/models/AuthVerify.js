@@ -19,6 +19,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    card_id: {
+      type: DataTypes.STRING(5),
+      allowNull: false,
+      unique: true,
+    },
     verifyCode: {
       type: DataTypes.STRING(255),
       allowNull: false,
