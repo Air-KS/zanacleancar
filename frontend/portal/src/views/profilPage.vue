@@ -114,166 +114,165 @@ import { useUserStore } from '@/store';
 import CardFidelity from '@/components/cardFidelity.vue';
 
 export default {
-  name: "Profil",
-  components: {
-    CardFidelity,
-  },
-  inject: ['toast'],
-  data() {
-    return {
-      user: {
-        name: '',
-        last_name: '',
-        email: '',
-        phone: '',
-        date_of_birth: '',
-      },
-      deleteCompte: ''
-    };
-  },
-  created() {
-    const store = useUserStore();
+	name: "Profil",
+	components: {
+		CardFidelity,
+	},
+	inject: ['toast'],
+	data() {
+		return {
+			user: {
+				name: '',
+				last_name: '',
+				email: '',
+				phone: '',
+				date_of_birth: '',
+			},
+			deleteCompte: ''
+		};
+	},
+	created() {
+		const store = useUserStore();
 
-    // si pas connecté, tente avec le cache
-    if (!store.isLoggedIn || !store.user) {
-      const cached = localStorage.getItem('user_cache');
+		if (!store.isLoggedIn || !store.user) {
+			const cached = localStorage.getItem('user_cache');
 
-      if (cached) {
-        const cachedUser = JSON.parse(cached);
-        this.user = {
-          ...this.user,
-          ...cachedUser,
-        };
-        this.toast?.info("💾 Données chargées depuis le cache.");
-      } else {
-        this.toast?.error("Tu dois être connecté.");
-        this.$router.push('/login');
-        return;
-      }
-    } else {
-      this.user = store.user;
-    }
+			if (cached) {
+				const cachedUser = JSON.parse(cached);
+				this.user = { ...this.user, ...cachedUser };
+				this.toast?.info("💾 Données chargées depuis le cache.");
+			} else {
+				this.toast?.error("Tu dois être connecté.");
+				this.$router.push('/login');
+				return;
+			}
+		} else {
+			this.user = store.user;
+		}
+	},
+	mounted() {
+		setTimeout(() => {
+			const store = useUserStore();
+			if (!store.user && localStorage.getItem('user_cache')) {
+				const cached = JSON.parse(localStorage.getItem('user_cache'));
+				this.user = cached;
+				store.login(cached);
+				this.toast?.info("💾 Données restaurées depuis le cache.");
+			}
+		}, 300);
+	},
+	watch: {
+		'$route.params.id': {
+			immediate: true,
+			handler(newId) {
+				const store = useUserStore();
+				const userId = parseInt(newId);
 
-    this.fetchUserProfil(); // on tente quand même une requête serveur
-  },
-  mounted() {
-    setTimeout(() => {
-      const store = useUserStore();
-      if (!store.user && localStorage.getItem('user_cache')) {
-        const cached = JSON.parse(localStorage.getItem('user_cache'));
-        this.user = cached;
-        store.login(cached);
-        this.toast?.info("💾 Données restaurées depuis le cache.");
-      }
-      this.fetchUserProfil();
-    }, 300); // ⏱️ petit délai pour Safari
-  },
-  methods: {
-    testToast() {
-      console.log("Toast injecté ?", this.toast);
-      this.toast?.success("🎉 Toast injecté et fonctionnel !");
-    },
-    async fetchUserProfil() {
-      const userId = parseInt(this.$route.params.id);
-      const store = useUserStore();
-      const ownId = store.user?.id;
+				if (isNaN(userId) && store.user?.id) {
+					this.$router.replace(`/profil/${store.user.id}`);
+					return;
+				}
 
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
-          {
-            withCredentials: true,
-            headers: {
-              'Content-Type': 'application/json',
-            }
-          }
-        );
+				if (isNaN(userId)) {
+					this.toast?.error("ID utilisateur invalide !");
+					this.$router.replace('/');
+					return;
+				}
 
-        // ✅ Si tout est bon, on met à jour l'utilisateur
-        this.user = response.data;
-        localStorage.setItem('user_cache', JSON.stringify(response.data));
-      } catch (error) {
-        console.error("❌ Erreur récupération profil :", error.response || error);
+				this.fetchUserProfil(userId);
+			}
+		}
+	},
+	methods: {
+		testToast() {
+			console.log("Toast injecté ?", this.toast);
+			this.toast?.success("🎉 Toast injecté et fonctionnel !");
+		},
+		async fetchUserProfil(userId) {
+			const store = useUserStore();
+			const ownId = store.user?.id;
 
-        // 🛡️ Cas où l'utilisateur essaie d'accéder à un autre ID (403)
-        if (error.response?.status === 403 && ownId) {
-          this.toast?.warning("🚫 Tu ne peux pas accéder à ce profil.");
-          this.$router.replace(`/profil/${ownId}`);
-        } else {
-          this.toast?.error("Une erreur est survenue.");
-          this.$router.replace('/');
-        }
-      }
-    },
+			try {
+				const response = await axios.get(
+					`${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
+					{
+						withCredentials: true,
+						headers: {
+							'Content-Type': 'application/json',
+						}
+					}
+				);
+				this.user = response.data;
+				localStorage.setItem('user_cache', JSON.stringify(response.data));
+			} catch (error) {
+				console.error("❌ Erreur récupération profil :", error.response || error);
 
-    async handleSave() {
-      const userId = this.$route.params.id;
+				if (error.response?.status === 403 && ownId) {
+					this.toast?.warning("🚫 Tu ne peux pas accéder à ce profil.");
+					this.$router.replace(`/profil/${ownId}`);
+				} else {
+					this.toast?.error("Une erreur est survenue.");
+					this.$router.replace('/');
+				}
+			}
+		},
+		async handleSave() {
+			const userId = this.$route.params.id;
 
-      // 🔐 Headers de base
-      const headers = {
-        'Content-Type': 'application/json'
-      };
+			const headers = { 'Content-Type': 'application/json' };
+			const token = localStorage.getItem('jwt_token');
+			if (token) {
+				headers['Authorization'] = `Bearer ${token}`;
+			}
 
-      // ✅ Si on a un JWT (fallback iOS), on l’ajoute aux headers
-      const token = localStorage.getItem('jwt_token');
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
+			try {
+				const response = await axios.put(
+					`${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
+					{
+						name: this.user.name,
+						last_name: this.user.last_name,
+						phone: this.user.phone,
+						date_of_birth: this.user.date_of_birth,
+						loyalty_points: Number(this.user.loyalty_points) || 0
+					},
+					{ withCredentials: true, headers }
+				);
 
-      try {
-        const response = await axios.put(
-          `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
-          {
-            name: this.user.name,
-            last_name: this.user.last_name,
-            phone: this.user.phone,
-            date_of_birth: this.user.date_of_birth,
-            loyalty_points: Number(this.user.loyalty_points) || 0
-          },
-          {
-            withCredentials: true,
-            headers
-          }
-        );
+				if (response.data.warning === 'Aucun changement effectué.') {
+					this.toast.warning("ℹ️ Aucun changement effectué.");
+				} else if (response.data.success) {
+					this.toast.success(response.data.message || "✅ Profil mis à jour avec succès !");
+				}
+			} catch (error) {
+				console.error("❌ Erreur lors de la mise à jour :", error);
+				this.toast.error("❌ Une erreur est survenue pendant la sauvegarde.");
+			}
+		},
+		async handleDelete() {
+			const userId = this.$route.params.id;
+			const headers = { 'Content-Type': 'application/json' };
+			const token = localStorage.getItem('jwt_token');
+			if (token) {
+				headers['Authorization'] = `Bearer ${token}`;
+			}
+			try {
+				await axios.delete(
+					`${import.meta.env.VITE_API_URL}/api/v1/user/delete/${userId}`,
+					{ withCredentials: true, headers }
+				);
 
-        if (response.data.warning === 'Aucun changement effectué.') {
-          this.toast.warning("ℹ️ Aucun changement effectué.");
-        } else if (response.data.success) {
-          this.toast.success(response.data.message || "✅ Profil mis à jour avec succès !");
-        }
-      } catch (error) {
-        console.error("❌ Erreur lors de la mise à jour :", error);
-        this.toast.error("❌ Une erreur est survenue pendant la sauvegarde.");
-      }
-    },
-
-    async handleDelete() {
-      const userId = this.$route.params.id;
-      try {
-        const headers = {
-          'Content-Type': 'application/json'
-        };
-        const token = localStorage.getItem('jwt_token');
-        if (token) {
-          headers['Authorization'] = `Bearer ${token}`;
-        }
-        await axios.delete(
-          `${import.meta.env.VITE_API_URL}/api/v1/user/delete/${userId}`,
-          { withCredentials: true, headers }
-        );
-
-        const store = useUserStore();
-        this.toast.error("Compte supprimé !");
-        await store.logout();
-        setTimeout(() => {
-          this.$router.push('/');
-        }, 1000);
-      } catch (error) {
-        console.error("Erreur suppression :", error);
-        this.toast.error("Erreur pendant la suppression du compte.");
-      }
-    },
-  }
+				const store = useUserStore();
+				this.toast.error("Compte supprimé !");
+				await store.logout();
+				setTimeout(() => {
+					this.$router.push('/');
+				}, 1000);
+			} catch (error) {
+				console.error("Erreur suppression :", error);
+				this.toast.error("Erreur pendant la suppression du compte.");
+			}
+		},
+	}
 };
 </script>
 
@@ -410,4 +409,5 @@ h2 {
     width: 80% !important;
   }
 }
+
 </style>
