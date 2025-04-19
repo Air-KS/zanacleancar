@@ -232,7 +232,7 @@ export default {
 						name: this.user.name,
 						last_name: this.user.last_name,
 						phone: this.user.phone,
-						date_of_birth: this.user.date_of_birth,
+						date_of_birth: this.user.date_of_birth || null,
 						loyalty_points: Number(this.user.loyalty_points) || 0
 					},
 					{ withCredentials: true, headers }
