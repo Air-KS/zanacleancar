@@ -289,7 +289,7 @@ const updateLoyalty = async (newTotal) => {
 }
 
 .points_loyalties {
-  font-size: clamp(0.8rem, 1.3vw, 1.8rem);
+  font-size: clamp(0.6rem, 1.3vw, 1.8rem);
 }
 
 .create_date {
