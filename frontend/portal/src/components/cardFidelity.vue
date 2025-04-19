@@ -284,7 +284,7 @@ const updateLoyalty = async (newTotal) => {
 }
 
 .card_number {
-  font-size: clamp(0.6rem, 1.3vw, 1.5rem);
+  font-size: clamp(0.7rem, 1.3vw, 1.5rem);
 
 }
 
