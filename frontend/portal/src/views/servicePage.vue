@@ -118,7 +118,7 @@
 =================================================
 ================================================= -->
     <section>
-      <p class="sub-title" style="padding-top: 50px">➕ OPTIONS À LA CARTE :</p>
+      <p class="sub-title" style="padding-top: 50px">➕ OPTIONS À LA CARTE</p>
 
       <!-- Aspiration standard -->
       <article class="service-item">
@@ -155,7 +155,7 @@
         <div class="service-header">
           <div class="service-title">
             <span class="service-name" style="margin-left: 30px"
-              >✔️ Aspiration ultra-puissante</span
+              >✔️ Aspiration puissante</span
             >
             <span class="stars" data-stars="3"></span>
           </div>
@@ -204,7 +204,7 @@
 =================================================
 ================================================= -->
     <section>
-      <p class="sub-title">🧼 ENTRETIEN & SOINS :</p>
+      <p class="sub-title">🧼 ENTRETIEN & SOINS</p>
 
       <!-- ===== RENOVATION PLASTIQUE INTERIEUR ===== -->
       <article class="service-features">
@@ -253,7 +253,7 @@
 =================================================
 ================================================= -->
     <section>
-      <div class="sub-title-bonus">⚡ BONUS :</div>
+      <div class="sub-title-bonus">⚡ BONUS</div>
       <p class="sub-title-bonus-desc">Connectez-vous pour voir votre cartes</p>
 
       <!-- ===== CARTES DE FIDELITE ===== -->
@@ -450,6 +450,29 @@ export default {
 }
 
 /* RESPONSIVE */
+
+@media (max-width: 600px) {
+  .page-container {
+    width: 80%;
+  }
+
+  .service-icon {
+    width: 50px;
+  }
+
+  .service-price,
+  .service-name,
+  .service-desc {
+    font-size: 14px;
+  }
+
+  .sub-title,
+  .sub-title-bonus,
+  .sub-title-bonus-desc {
+    font-size: 16px;
+  }
+}
+
 @media (min-width: 600px) and (max-width: 1199px) {
   .page-container {
     width: 80%;
