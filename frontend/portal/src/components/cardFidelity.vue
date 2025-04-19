@@ -9,23 +9,21 @@
       <img src="@/assets/card/card-background.png" class="carte-fond" alt="Carte de fond" />
 
       <!-- Infos utilisateur -->
-        <div class="name">{{ name }} {{ lastName }}</div>
+      <div class="name">{{ name }} {{ lastName }}</div>
 
-        <div v-if="props.cardId" class="card_number">
-          Carte de Fidélité : #{{ props.cardId }}
-        </div>
+      <div v-if="props.cardId" class="card_number">
+        Carte de Fidélité : #{{ props.cardId }}
+      </div>
 
-        <div class="points_loyalties">
-          Points de Loyauté : {{ loyalty_points }}
-        </div>
+      <!-- Points loyalty -->
+      <div class="points_loyalties">
+        💎 {{ loyalty_points }}
+      </div>
 
-        <div v-if="formattedCreationDate" class="create_date">
-          {{ formattedCreationDate }}
-        </div>
-
-
-      <!-- Points fidélité -->
-
+      <!-- Date de création -->
+      <div v-if="formattedCreationDate" class="create_date">
+        🪪 {{ formattedCreationDate }}
+      </div>
 
       <!-- Tampons -->
       <div v-for="(slot, index) in 7" :key="index" class="slot" :style="getPositionStyle(index)">
@@ -179,7 +177,6 @@ const updateLoyalty = async (newTotal) => {
   width: 100%;
   margin: 0 auto;
   color: #ffffff;
-  font-size: clamp(0.8rem, 2vw, 1.5rem);
   text-shadow: 2px 2px 4px #0a0a0a;
   font-weight: bold;
   text-align: center;
@@ -187,27 +184,29 @@ const updateLoyalty = async (newTotal) => {
 
 .name {
   top: 3%;
-  font-size: clamp(0.8rem, 2vw, 2.5rem);
+  font-size: clamp(1rem, 2vw, 2.5rem);
   color: #ffffff;
   text-shadow: 2px 2px 4px #4787a1;
 }
 
 .card_number {
-  font-size: clamp(0.8rem, 2vw, 1.5rem);
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
   top: 14%;
 
 }
 
 .points_loyalties {
-  text-align: left;
-  bottom: 5%;
-  left: 10%
+  font-size: clamp(1rem, 1.5vw, 2rem);
+  text-align: right;
+  top: 5%;
+  right: 5%
 }
 
 .create_date {
-  text-align: right;
+  font-size: clamp(1rem, 1.5vw, 2rem);
+  text-align: left;
   bottom: 5%;
-  right: 7%
+  left: 15%
 }
 
 /* Slots tampons */
@@ -276,4 +275,40 @@ const updateLoyalty = async (newTotal) => {
   animation: spin 6s linear infinite;
 }
 
+/* =============================================
+   RESPONSIVE : MOBILE (<600px)
+============================================= */
+@media (max-width: 600px) {
+  .name {
+  font-size: clamp(0.8rem, 1.5vw, 2.5rem);
+}
+
+.card_number {
+  font-size: clamp(0.7rem, 1.3vw, 1.5rem);
+
+}
+
+.points_loyalties {
+  font-size: clamp(0.6rem, 1.3vw, 1.8rem);
+}
+
+.create_date {
+  font-size: clamp(0.7rem, 1.3vw, 1.8rem);
+}
+}
+
+/* =============================================
+   RESPONSIVE : TABLETTE (769px à 1200px)
+============================================= */
+@media (min-width: 768px) and (max-width: 1200px) {
+
+  .name {
+    font-size: clamp(1rem, 2vw, 2.5rem);
+  }
+
+  .card_number {
+    font-size: clamp(0.7rem, 2vw, 1.5rem);
+  }
+
+}
 </style>
