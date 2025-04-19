@@ -19,7 +19,7 @@
     <div class="form-wrapper">
       <div>
         <h2 class="form-title">Ta cartes de Fidélité</h2>
-        <CardFidelity v-if="user.name && user.loyalty_points !== undefined" :stamps="7" :name="user.name"
+        <CardFidelity v-if="user.FidelityCard?.card_id" :stamps="7" :name="user.name"
           :lastName="user.last_name" :dateOfBirth="user.date_of_birth" :loyalty_points="user.loyalty_points"
           :userId="user.id" :cardId="user.FidelityCard?.card_id" :cardCreatedAt="user.FidelityCard?.created_at"/>
       </div>
