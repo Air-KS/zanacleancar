@@ -452,13 +452,6 @@ export default {
 /* RESPONSIVE */
 
 @media (max-width: 600px) {
-  .page-container {
-    width: 80%;
-  }
-
-  .service-icon {
-    width: 50px;
-  }
 
   .service-price,
   .service-name,
