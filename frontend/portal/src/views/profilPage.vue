@@ -19,7 +19,7 @@
     <div class="form-wrapper">
       <div>
         <h2 class="form-title">Ta cartes de Fidélité</h2>
-        <CardFidelity v-if="user.name && user.loyalty_points !== undefined" :stamps="7" :name="user.name"
+        <CardFidelity v-if="user.FidelityCard?.card_id" :stamps="7" :name="user.name"
           :lastName="user.last_name" :dateOfBirth="user.date_of_birth" :loyalty_points="user.loyalty_points"
           :userId="user.id" :cardId="user.FidelityCard?.card_id" :cardCreatedAt="user.FidelityCard?.created_at"/>
       </div>
@@ -232,7 +232,7 @@ export default {
 						name: this.user.name,
 						last_name: this.user.last_name,
 						phone: this.user.phone,
-						date_of_birth: this.user.date_of_birth,
+						date_of_birth: this.user.date_of_birth || null,
 						loyalty_points: Number(this.user.loyalty_points) || 0
 					},
 					{ withCredentials: true, headers }
@@ -277,6 +277,33 @@ export default {
 </script>
 
 <style scoped>
+
+/* 🧭 Aligne correctement le contenu sur Safari */
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+}
+
+/* Correction du champ date sur iOS et Safari */
+input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  font-size: 16px;
+  background-color: white;
+  width: 100%;
+  border: 1px solid #ccc;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* Gère le label flottant pour date si rempli */
+input[type="date"].has-value ~ .forms-input-label,
+input[type="date"]:not(:placeholder-shown) ~ .forms-input-label {
+  top: 0.2rem;
+  font-size: 0.80rem;
+  color: var(--color-focus);
+  transform: translateY(3px);
+}
+
 .page-container {
   background: transparent !important;
   box-shadow: none;

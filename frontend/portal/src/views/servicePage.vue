@@ -9,10 +9,8 @@
       </p>
       <br />
       <p class="description">
-        <strong
-          >Nous utilisons du matériel professionnel et des produits
-          adaptés</strong
-        >, pour garantir un nettoyage efficace et sans risque pour votre
+        <strong>Nous utilisons du matériel professionnel et des produits
+          adaptés</strong>, pour garantir un nettoyage efficace et sans risque pour votre
         voiture.
       </p>
     </section>
@@ -30,12 +28,8 @@
       <article class="service-card">
         <div class="service-header">
           <div class="service-info">
-            <img
-              class="service-icon"
-              src="@/assets/Pack/bronze.png"
-              alt="Pack Bronze"
-            />
-            <h2 class="service-title">Pack Express +/- 25Minutes</h2>
+            <img class="service-icon" src="@/assets/Pack/bronze.png" alt="Pack Bronze" />
+            <h2 class="service-title">Pack Express ~ 25m 🕒</h2>
           </div>
           <span class="service-price">💶 25€</span>
         </div>
@@ -55,12 +49,8 @@
       <article class="service-card">
         <div class="service-header">
           <div class="service-info">
-            <img
-              class="service-icon"
-              src="@/assets/Pack/gold.png"
-              alt="Pack Gold"
-            />
-            <h2 class="service-title">Pack Confort +/- 45Minutes</h2>
+            <img class="service-icon" src="@/assets/Pack/gold.png" alt="Pack Gold" />
+            <h2 class="service-title">Pack Confort ~ 45m 🕒</h2>
           </div>
           <span class="service-price">💶 35€</span>
         </div>
@@ -84,12 +74,8 @@
       <article class="service-card">
         <div class="service-header">
           <div class="service-info">
-            <img
-              class="service-icon"
-              src="@/assets/Pack/diamond.png"
-              alt="Pack Diamond"
-            />
-            <h2 class="service-title">Pack Premium +/- 1heure</h2>
+            <img class="service-icon" src="@/assets/Pack/diamond.png" alt="Pack Diamond" />
+            <h2 class="service-title">Pack Premium ~ 1h 🕒</h2>
           </div>
           <span class="service-price">💶 45€</span>
         </div>
@@ -118,15 +104,13 @@
 =================================================
 ================================================= -->
     <section>
-      <p class="sub-title" style="padding-top: 50px">➕ OPTIONS À LA CARTE :</p>
+      <p class="sub-title" style="padding-top: 50px">➕ OPTIONS À LA CARTE</p>
 
       <!-- Aspiration standard -->
       <article class="service-item">
         <div class="service-header">
           <div class="service-title">
-            <span class="service-name" style="margin-left: 30px"
-              >✔️ Aspiration standard</span
-            >
+            <span class="service-name" style="margin-left: 10px">✔️ Aspiration standard</span>
             <span class="stars" data-stars="1"></span>
           </div>
           <span class="service-price">💶 10€</span>
@@ -140,9 +124,7 @@
       <article class="service-item">
         <div class="service-header">
           <div class="service-title">
-            <span class="service-name" style="margin-left: 30px"
-              >✔️ Aspiration renforcée</span
-            >
+            <span class="service-name" style="margin-left: 10px">✔️ Aspiration renforcée</span>
             <span class="stars" data-stars="2"></span>
           </div>
           <span class="service-price">💶 15€</span>
@@ -154,9 +136,7 @@
       <article class="service-item">
         <div class="service-header">
           <div class="service-title">
-            <span class="service-name" style="margin-left: 30px"
-              >✔️ Aspiration ultra-puissante</span
-            >
+            <span class="service-name" style="margin-left: 10px">✔️ Aspiration puissante</span>
             <span class="stars" data-stars="3"></span>
           </div>
           <span class="service-price">💶 20€</span>
@@ -170,9 +150,7 @@
       <article class="service-item">
         <div class="service-header">
           <div class="service-title">
-            <span class="service-name" style="margin-left: 30px"
-              >✔️ Shampouineuse standard</span
-            >
+            <span class="service-name" style="margin-left: 10px">✔️ Shampouineuse standard</span>
             <span class="stars" data-stars="1"></span>
           </div>
           <span class="service-price">💶 15€</span>
@@ -186,9 +164,7 @@
       <article class="service-item">
         <div class="service-header">
           <div class="service-title">
-            <span class="service-name" style="margin-left: 30px"
-              >✔️ Shampouineuse renforcée</span
-            >
+            <span class="service-name" style="margin-left: 10px">✔️ Shampouineuse renforcée</span>
             <span class="stars" data-stars="2"></span>
           </div>
           <span class="service-price">💶 25€</span>
@@ -204,15 +180,13 @@
 =================================================
 ================================================= -->
     <section>
-      <p class="sub-title">🧼 ENTRETIEN & SOINS :</p>
+      <p class="sub-title">🧼 ENTRETIEN & SOINS</p>
 
       <!-- ===== RENOVATION PLASTIQUE INTERIEUR ===== -->
       <article class="service-features">
         <div class="service-header">
           <div class="service-title">
-            <span class="service-name" style="margin-left: 30px"
-              >✔️ Rénovation plastiques intérieurs</span
-            >
+            <span class="service-name" style="margin-left: 10px">✔️ Rénovation plastiques intérieurs</span>
           </div>
           <span class="service-price">💶 +10€</span>
         </div>
@@ -223,9 +197,7 @@
       <article class="service-features">
         <div class="service-header">
           <div class="service-title">
-            <span class="service-name" style="margin-left: 30px"
-              >✔️ Traitement cuir</span
-            >
+            <span class="service-name" style="margin-left: 10px">✔️ Traitement cuir</span>
           </div>
           <span class="service-price">💶 +10€</span>
         </div>
@@ -236,9 +208,8 @@
       <article class="service-features">
         <div class="service-header">
           <div class="service-title">
-            <span class="service-name" style="margin-left: 30px"
-              >✔️ Traitement anti-odeurs (bactéricide)</span
-            >
+            <span class="service-name" style="margin-left: 10px">✔️ Traitement anti-odeurs
+              (bactéricide)</span>
           </div>
           <span class="service-price">💶 +10€</span>
         </div>
@@ -253,16 +224,14 @@
 =================================================
 ================================================= -->
     <section>
-      <div class="sub-title-bonus">⚡ BONUS :</div>
+      <div class="sub-title-bonus">⚡ BONUS</div>
       <p class="sub-title-bonus-desc">Connectez-vous pour voir votre cartes</p>
 
       <!-- ===== CARTES DE FIDELITE ===== -->
       <article class="service-item">
         <div class="service-header">
           <div class="service-title">
-            <span class="service-name" style="margin-left: 30px"
-              >✔️ Carte de Fidélité ➕ Loyalties</span
-            >
+            <span class="service-name" style="margin-left: 10px">✔️ Carte de Fidélité ➕ Loyalties</span>
           </div>
         </div>
         <div class="service-desc">
@@ -295,6 +264,7 @@ export default {
   text-align: center;
   padding: 50px 50px;
 }
+
 .sub-title-bonus {
   font-size: 1.5rem;
   font-weight: bold;
@@ -450,6 +420,28 @@ export default {
 }
 
 /* RESPONSIVE */
+
+@media (max-width: 600px) {
+
+  .service-description,
+  .service-features,
+  .service-desc {
+    font-size: 12px;
+  }
+
+  .service-title,
+  .service-price,
+  .service-name,
+  .sub-title {
+    font-size: 14px;
+  }
+
+  .sub-title-bonus,
+  .sub-title-bonus-desc {
+    font-size: 16px;
+  }
+}
+
 @media (min-width: 600px) and (max-width: 1199px) {
   .page-container {
     width: 80%;
