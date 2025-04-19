@@ -22,7 +22,7 @@
 
       <!-- Date de création -->
       <div v-if="formattedCreationDate" class="create_date">
-        📅 {{ formattedCreationDate }}
+        🪪 {{ formattedCreationDate }}
       </div>
 
       <!-- Tampons -->
@@ -276,7 +276,7 @@ const updateLoyalty = async (newTotal) => {
 }
 
 /* =============================================
-   RESPONSIVE : MOBILE (<768px)
+   RESPONSIVE : MOBILE (<600px)
 ============================================= */
 @media (max-width: 600px) {
   .name {
@@ -284,12 +284,12 @@ const updateLoyalty = async (newTotal) => {
 }
 
 .card_number {
-  font-size: clamp(0.5rem, 1.3vw, 1.5rem);
+  font-size: clamp(0.6rem, 1.3vw, 1.5rem);
 
 }
 
 .points_loyalties {
-  font-size: clamp(0.7rem, 1.3vw, 1.8rem);
+  font-size: clamp(0.8rem, 1.3vw, 1.8rem);
 }
 
 .create_date {
