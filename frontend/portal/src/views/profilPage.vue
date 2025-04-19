@@ -277,6 +277,33 @@ export default {
 </script>
 
 <style scoped>
+
+/* 🧭 Aligne correctement le contenu sur Safari */
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+}
+
+/* Correction du champ date sur iOS et Safari */
+input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  font-size: 16px;
+  background-color: white;
+  width: 100%;
+  border: 1px solid #ccc;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* Gère le label flottant pour date si rempli */
+input[type="date"].has-value ~ .forms-input-label,
+input[type="date"]:not(:placeholder-shown) ~ .forms-input-label {
+  top: 0.2rem;
+  font-size: 0.80rem;
+  color: var(--color-focus);
+  transform: translateY(3px);
+}
+
 .page-container {
   background: transparent !important;
   box-shadow: none;
