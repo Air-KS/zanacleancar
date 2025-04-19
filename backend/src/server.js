@@ -42,7 +42,8 @@ const sessionStore = new SequelizeStore({ db: sequelize });
 // ✅ Domains autorisés
 const allowedOrigins = process.env.NODE_ENV === 'production'
   ? ['https://www.zanacleancar.fr', 'https://api.zanacleancar.fr']
-  : ['http://localhost:8080', 'http://127.0.0.1:8080'];
+  : ['http://localhost:8080', 'http://127.0.0.1:8080',
+    'http://localhost:8081', 'http://127.0.0.1:8081/'];
 
 // ✅ Middleware
 app.use(cors({
