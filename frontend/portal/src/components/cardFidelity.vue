@@ -280,20 +280,20 @@ const updateLoyalty = async (newTotal) => {
 ============================================= */
 @media (max-width: 600px) {
   .name {
-  font-size: clamp(1rem, 1.5vw, 2.5rem);
+  font-size: clamp(0.8rem, 1.5vw, 2.5rem);
 }
 
 .card_number {
-  font-size: clamp(0.8rem, 1.3vw, 1.5rem);
+  font-size: clamp(0.5rem, 1.3vw, 1.5rem);
 
 }
 
 .points_loyalties {
-  font-size: clamp(0.8rem, 1.3vw, 1.8rem);
+  font-size: clamp(0.7rem, 1.3vw, 1.8rem);
 }
 
 .create_date {
-  font-size: clamp(0.8rem, 1.3vw, 1.8rem);
+  font-size: clamp(0.7rem, 1.3vw, 1.8rem);
 }
 }
 
