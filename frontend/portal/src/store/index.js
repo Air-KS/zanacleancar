@@ -45,7 +45,7 @@ export const useUserStore = defineStore('user', {
           this.isLoggedIn = true;
           localStorage.setItem('user_cache', JSON.stringify(response.data.user));
 
-          // ✅ Récupère aussi le token si c’est un appareil iOS
+          // Pour iOS (si besoin)
           if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
             const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/auth/token`, {
               withCredentials: true
@@ -54,19 +54,16 @@ export const useUserStore = defineStore('user', {
           }
 
         } else {
-          throw new Error("Pas de session");
-        }
-      } catch (error) {
-        const cached = localStorage.getItem('user_cache');
-
-        if (cached) {
-          this.user = JSON.parse(cached);
-          this.isLoggedIn = true;
-          console.warn("⚠️ iOS fallback via localStorage");
-        } else {
           this.user = null;
           this.isLoggedIn = false;
+          localStorage.removeItem('user_cache');
         }
+
+      } catch (error) {
+        this.user = null;
+        this.isLoggedIn = false;
+        localStorage.removeItem('user_cache');
+        // Aucune alerte, aucune redirection : comportement silencieux
       }
     },
   },

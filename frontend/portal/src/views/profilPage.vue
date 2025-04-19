@@ -1,35 +1,37 @@
+<!--
+  ./frontend/portal/src/views/profilPage.vue
+-->
+
 <template>
   <div class="page-container">
-
-    <!-- Infos de confiance -->
+    <!-- Infos de confidentialité -->
     <section>
       <div class="auth-info-col">
         <h2 class="auth-title">Confidentialité des informations !</h2>
         <p>
-          Les données personnelles renseignées ici sont uniquement visibles par vous et les administrateurs du
-          site.
+          Les données personnelles renseignées ici sont uniquement visibles par vous et les administrateurs du site.<br />
           Elles ne seront jamais partagées, ni utilisées à des fins commerciales.<br /><br />
           Toutes les informations sont stockées de manière sécurisée et restent strictement à but informatif.
-          Votre vie privée est notre priorité. 🤝
         </p>
       </div>
     </section>
 
-    <!-- Formulaire de profil -->
+    <!-- Carte de fidélité + Formulaire de profil -->
     <div class="form-wrapper">
       <div>
-        <h2 class="form-title">Ta cartes de Fidélité</h2>
-        <CardFidelity v-if="user.FidelityCard?.card_id" :stamps="7" :name="user.name"
-          :lastName="user.last_name" :dateOfBirth="user.date_of_birth" :loyalty_points="user.loyalty_points"
-          :userId="user.id" :cardId="user.FidelityCard?.card_id" :cardCreatedAt="user.FidelityCard?.created_at"/>
+        <h2 class="form-title">Ta carte de Fidélité</h2>
+        <CardFidelity v-if="user.FidelityCard?.card_id" :stamps="7" :name="user.name" :lastName="user.last_name"
+          :dateOfBirth="user.date_of_birth" :loyalty_points="user.loyalty_points" :userId="user.id"
+          :cardId="user.FidelityCard?.card_id" :cardCreatedAt="user.FidelityCard?.created_at" />
       </div>
+
       <h2 class="form-title">Ton Profil</h2>
 
       <section>
         <form class="fade-in-up" @submit.prevent="handleSave">
-
           <div class="form-row">
-            <!-- Prénom -->
+
+            <!-- Champ prénom -->
             <div class="form-group">
               <div class="forms-input-container">
                 <input :class="{ 'has-value': user.name }" v-model="user.name" type="text" autocomplete="family-name"
@@ -38,7 +40,7 @@
               </div>
             </div>
 
-            <!-- Nom -->
+            <!-- Champ nom -->
             <div class="form-group">
               <div class="forms-input-container">
                 <input :class="{ 'has-value': user.last_name }" v-model="user.last_name" type="text"
@@ -49,6 +51,7 @@
           </div>
 
           <div class="form-row">
+          
             <!-- Date de naissance -->
             <div class="form-group">
               <div class="forms-input-container">
@@ -68,23 +71,23 @@
             </div>
           </div>
 
-          <!-- E-mail -->
-
+          <!-- E-mail (désactivé) -->
           <div class="forms-input-container email-input">
-            <input :class="['forms-input-style', { 'has-value': user.email }]" v-model="user.email" type="email" autocomplete="email"
-              id="email" required placeholder="Ton adresse e-mail" disabled class="forms-input-style" />
+            <input :class="['forms-input-style', { 'has-value': user.email }]" v-model="user.email" type="email"
+              autocomplete="email" id="email" required placeholder="Ton adresse e-mail" disabled
+              class="forms-input-style" />
             <label for="email" class="forms-input-label">E-mail</label>
             <small class="info-text">✉️ Contactez-nous pour changer d’e-mail.</small>
           </div>
 
-
-          <!-- Bouton -->
+          <!-- Bouton sauvegarde -->
           <button type="submit" class="forms-button">Enregistrer</button>
         </form>
       </section>
 
       <div class="separator-gradient"></div>
 
+      <!-- Zone de suppression de compte -->
       <section>
         <h2>Supprime ton Compte</h2>
         <div class="danger-zone">
@@ -114,170 +117,124 @@ import { useUserStore } from '@/store';
 import CardFidelity from '@/components/cardFidelity.vue';
 
 export default {
-	name: "Profil",
-	components: {
-		CardFidelity,
-	},
-	inject: ['toast'],
-	data() {
-		return {
-			user: {
-				name: '',
-				last_name: '',
-				email: '',
-				phone: '',
-				date_of_birth: '',
-			},
-			deleteCompte: ''
-		};
-	},
-	created() {
-		const store = useUserStore();
+  name: "Profil",
+  components: { CardFidelity },
+  inject: ['toast'],
+  data() {
+    return {
+      user: {
+        name: '',
+        last_name: '',
+        email: '',
+        phone: '',
+        date_of_birth: '',
+      },
+      deleteCompte: ''
+    };
+  },
+  created() {
+    const store = useUserStore();
 
-		if (!store.isLoggedIn || !store.user) {
-			const cached = localStorage.getItem('user_cache');
+    if (!store.isLoggedIn || !store.user) {
+      const cached = localStorage.getItem('user_cache');
+      if (cached) {
+        const cachedUser = JSON.parse(cached);
+        this.user = { ...this.user, ...cachedUser };
+      } else {
+        this.$router.push('/login');
+        return;
+      }
+    } else {
+      this.user = store.user;
+    }
+  },
+  watch: {
+    '$route.params.id': {
+      immediate: true,
+      handler(newId) {
+        const store = useUserStore();
+        const userId = parseInt(newId);
 
-			if (cached) {
-				const cachedUser = JSON.parse(cached);
-				this.user = { ...this.user, ...cachedUser };
-				this.toast?.info("💾 Données chargées depuis le cache.");
-			} else {
-				this.toast?.error("Tu dois être connecté.");
-				this.$router.push('/login');
-				return;
-			}
-		} else {
-			this.user = store.user;
-		}
-	},
-	mounted() {
-		setTimeout(() => {
-			const store = useUserStore();
-			if (!store.user && localStorage.getItem('user_cache')) {
-				const cached = JSON.parse(localStorage.getItem('user_cache'));
-				this.user = cached;
-				store.login(cached);
-				this.toast?.info("💾 Données restaurées depuis le cache.");
-			}
-		}, 300);
-	},
-	watch: {
-		'$route.params.id': {
-			immediate: true,
-			handler(newId) {
-				const store = useUserStore();
-				const userId = parseInt(newId);
+        if (isNaN(userId) && store.user?.id) {
+          this.$router.replace(`/profil/${store.user.id}`);
+          return;
+        }
 
-				if (isNaN(userId) && store.user?.id) {
-					this.$router.replace(`/profil/${store.user.id}`);
-					return;
-				}
+        if (isNaN(userId)) {
+          this.$router.replace('/');
+          return;
+        }
 
-				if (isNaN(userId)) {
-					this.toast?.error("ID utilisateur invalide !");
-					this.$router.replace('/');
-					return;
-				}
+        this.fetchUserProfil(userId);
+      }
+    }
+  },
+  methods: {
+    async fetchUserProfil(userId) {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
+          { withCredentials: true, headers: { 'Content-Type': 'application/json' } }
+        );
+        this.user = response.data;
+        localStorage.setItem('user_cache', JSON.stringify(response.data));
+      } catch (error) {
+        this.$router.replace('/');
+      }
+    },
+    async handleSave() {
+      const userId = this.$route.params.id;
+      const headers = { 'Content-Type': 'application/json' };
+      const token = localStorage.getItem('jwt_token');
+      if (token) headers['Authorization'] = `Bearer ${token}`;
 
-				this.fetchUserProfil(userId);
-			}
-		}
-	},
-	methods: {
-		testToast() {
-			console.log("Toast injecté ?", this.toast);
-			this.toast?.success("🎉 Toast injecté et fonctionnel !");
-		},
-		async fetchUserProfil(userId) {
-			const store = useUserStore();
-			const ownId = store.user?.id;
+      try {
+        const response = await axios.put(
+          `${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
+          {
+            name: this.user.name,
+            last_name: this.user.last_name,
+            phone: this.user.phone,
+            date_of_birth: this.user.date_of_birth || null,
+            loyalty_points: Number(this.user.loyalty_points) || 0
+          },
+          { withCredentials: true, headers }
+        );
 
-			try {
-				const response = await axios.get(
-					`${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
-					{
-						withCredentials: true,
-						headers: {
-							'Content-Type': 'application/json',
-						}
-					}
-				);
-				this.user = response.data;
-				localStorage.setItem('user_cache', JSON.stringify(response.data));
-			} catch (error) {
-				console.error("❌ Erreur récupération profil :", error.response || error);
+        if (response.data.warning === 'Aucun changement effectué.') {
+          this.toast.warning("ℹ️ Aucun changement effectué.");
+        } else if (response.data.success) {
+          this.toast.success(response.data.message || "✅ Profil mis à jour avec succès !");
+        }
+      } catch (error) {
+        this.toast.error("❌ Une erreur est survenue pendant la sauvegarde.");
+      }
+    },
+    async handleDelete() {
+      const userId = this.$route.params.id;
+      const headers = { 'Content-Type': 'application/json' };
+      const token = localStorage.getItem('jwt_token');
+      if (token) headers['Authorization'] = `Bearer ${token}`;
 
-				if (error.response?.status === 403 && ownId) {
-					this.toast?.warning("🚫 Tu ne peux pas accéder à ce profil.");
-					this.$router.replace(`/profil/${ownId}`);
-				} else {
-					this.toast?.error("Une erreur est survenue.");
-					this.$router.replace('/');
-				}
-			}
-		},
-		async handleSave() {
-			const userId = this.$route.params.id;
+      try {
+        await axios.delete(
+          `${import.meta.env.VITE_API_URL}/api/v1/user/delete/${userId}`,
+          { withCredentials: true, headers }
+        );
 
-			const headers = { 'Content-Type': 'application/json' };
-			const token = localStorage.getItem('jwt_token');
-			if (token) {
-				headers['Authorization'] = `Bearer ${token}`;
-			}
-
-			try {
-				const response = await axios.put(
-					`${import.meta.env.VITE_API_URL}/api/v1/user/profil/${userId}`,
-					{
-						name: this.user.name,
-						last_name: this.user.last_name,
-						phone: this.user.phone,
-						date_of_birth: this.user.date_of_birth || null,
-						loyalty_points: Number(this.user.loyalty_points) || 0
-					},
-					{ withCredentials: true, headers }
-				);
-
-				if (response.data.warning === 'Aucun changement effectué.') {
-					this.toast.warning("ℹ️ Aucun changement effectué.");
-				} else if (response.data.success) {
-					this.toast.success(response.data.message || "✅ Profil mis à jour avec succès !");
-				}
-			} catch (error) {
-				console.error("❌ Erreur lors de la mise à jour :", error);
-				this.toast.error("❌ Une erreur est survenue pendant la sauvegarde.");
-			}
-		},
-		async handleDelete() {
-			const userId = this.$route.params.id;
-			const headers = { 'Content-Type': 'application/json' };
-			const token = localStorage.getItem('jwt_token');
-			if (token) {
-				headers['Authorization'] = `Bearer ${token}`;
-			}
-			try {
-				await axios.delete(
-					`${import.meta.env.VITE_API_URL}/api/v1/user/delete/${userId}`,
-					{ withCredentials: true, headers }
-				);
-
-				const store = useUserStore();
-				this.toast.error("Compte supprimé !");
-				await store.logout();
-				setTimeout(() => {
-					this.$router.push('/');
-				}, 1000);
-			} catch (error) {
-				console.error("Erreur suppression :", error);
-				this.toast.error("Erreur pendant la suppression du compte.");
-			}
-		},
-	}
+        const store = useUserStore();
+        this.toast.error("Compte supprimé !");
+        await store.logout();
+        this.$router.push('/');
+      } catch (error) {
+        this.toast.error("Erreur pendant la suppression du compte.");
+      }
+    },
+  }
 };
 </script>
 
 <style scoped>
-
 /* 🧭 Aligne correctement le contenu sur Safari */
 input[type="date"]::-webkit-date-and-time-value {
   text-align: left;
@@ -296,8 +253,8 @@ input[type="date"] {
 }
 
 /* Gère le label flottant pour date si rempli */
-input[type="date"].has-value ~ .forms-input-label,
-input[type="date"]:not(:placeholder-shown) ~ .forms-input-label {
+input[type="date"].has-value~.forms-input-label,
+input[type="date"]:not(:placeholder-shown)~.forms-input-label {
   top: 0.2rem;
   font-size: 0.80rem;
   color: var(--color-focus);
@@ -319,7 +276,7 @@ input[type="date"]:not(:placeholder-shown) ~ .forms-input-label {
 }
 
 /* Fix label flottant si input pré-rempli */
-.forms-input-style.has-value ~ .forms-input-label {
+.forms-input-style.has-value~.forms-input-label {
   top: 0.2rem;
   font-size: 0.80rem;
   color: var(--color-focus);
@@ -436,5 +393,4 @@ h2 {
     width: 80% !important;
   }
 }
-
 </style>

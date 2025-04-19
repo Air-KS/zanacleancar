@@ -126,8 +126,8 @@ export default {
           },
           { withCredentials: true } // important pour les cookies/session
         );
-		localStorage.setItem("pending_name", this.name);
-localStorage.setItem("pending_password", this.password);
+        localStorage.setItem("pending_name", this.name);
+        localStorage.setItem("pending_password", this.password);
 
         this.$router.push({ path: "/verify-code", query: { email: this.email } });
       } catch (error) {
