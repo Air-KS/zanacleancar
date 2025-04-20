@@ -21,6 +21,11 @@ const routes = [
   },
 ]
 
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+})
+
 router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     try {
@@ -34,11 +39,6 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next()
   }
-})
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
 })
 
 export default router
