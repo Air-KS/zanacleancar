@@ -78,7 +78,6 @@
       <template v-else>
         <router-link to="/login" class="account-button account-button-x">
           <i class="fas fa-user-circle"></i>
-          <span>Compte</span>
         </router-link>
       </template>
 
@@ -574,7 +573,6 @@ onUnmounted(() => {
   .nav-menu-link {
     display: none;
   }
-
   .nav-full {
     padding: 40px;
     background: linear-gradient(to right, #c8ddebe0, #ffffffb0, #c8ddebe0);
@@ -653,7 +651,6 @@ onUnmounted(() => {
     transform: translateY(-12px) rotate(-45deg);
   }
 
-
   .dropdown-menu {
     right: 0px;
   }
@@ -667,7 +664,6 @@ onUnmounted(() => {
   }
 
   .dropdown-item {
-
     background-color: transparent;
   }
 }
