@@ -1,14 +1,19 @@
 <template>
   <div ref="menuContainer">
     <button class="floating-btn" @click="toggleMenu">
-      ☎️
+      <img src="@/assets/phone-menu.png" alt="Téléphone" class="phone-icon" />
     </button>
 
     <transition name="fade">
       <div v-show="isOpen" class="contact-menu">
-        <p>📞 <strong>Téléphone :</strong> 06.10.42.12.72</p>
+        <p>📞 <strong>Téléphone :</strong> <a href="tel:0610421272">06.10.42.12.72</a></p>
+        <p>📧 <strong>Email :</strong> <a href="mailto:zanacleancar@gmail.com">zanacleancar@gmail.com</a></p>
         <p>📍 <strong>Zone :</strong> Roubaix & Alentours</p>
-        <p>📧 <strong>Email :</strong> zanacleancar@gmail.com</p>
+        <div class="map">
+          <iframe src="https://www.google.com/maps?q=Roubaix,France&output=embed" allowfullscreen="" loading="lazy">
+          </iframe>
+        </div>
+        <p style="font-size: 15px; color: #555;">🚗 Basé à Roubaix — Déplacements dans toute la métropole Lilloise</p>
       </div>
     </transition>
   </div>
@@ -41,6 +46,21 @@ onBeforeUnmount(() => {
 
 <style scoped>
 
+.map {
+  width: 95%;
+  height: 250px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 18s ease;
@@ -59,18 +79,22 @@ onBeforeUnmount(() => {
 
 .floating-btn {
   position: fixed;
-  top: -5px;
-  left: 120px;
+  top: 5px;
+  left: 100px;
   padding: 12px 15px;
-  font-size: 50px;
   cursor: pointer;
   z-index: 1000;
   transition: background-color 0.2s ease;
-  background-color: transparent; /* ou #fff si tu veux un fond clair */
+  background-color: transparent;
   border: none;
-  box-shadow: none; /* supprime l'ombre */
+  box-shadow: none;
   outline: none;
   text-shadow: 2px 2px 8px #0a0a0a;
+}
+
+.phone-icon {
+  width: 90px;
+  height: auto;
 }
 
 .contact-menu {
@@ -82,7 +106,7 @@ onBeforeUnmount(() => {
   border-radius: 8px;
   padding: 30px 0px 0px 15px;
   width: 300px;
-  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   z-index: 999;
   transition: opacity 0.2s ease;
   text-shadow: 2px 2px 8px #0a0a0a9d;
