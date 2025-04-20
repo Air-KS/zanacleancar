@@ -5,17 +5,23 @@
     <input v-model="search" type="text" placeholder="🔍 Rechercher" class="search-bar" />
 
     <div class="user-card" v-for="user in filteredUsers" :key="user.id">
-      <p><strong>Carte :</strong>{{ user.FidelityCard.card_id }}</p>
+      <p><strong>🪪 </strong>{{ user.FidelityCard.card_id }}</p>
       <p><strong>Email :</strong> {{ user.email }}</p>
-      <p><strong>Prénom :</strong> {{ user.name }}</p>
-      <p><strong>Nom :</strong> {{ user.last_name }}</p>
+      <p><strong>Nom :</strong> {{ user.name }} {{ user.last_name }}</p>
       <p><strong>Téléphone :</strong> {{ user.phone || '-' }}</p>
-      <p><strong>Points :</strong> {{ user.loyalty_points }}
+      <p><strong>💎</strong> {{ user.loyalty_points }}
         <input type="number" v-model.number="pointsInput[user.id]" class="points-input" placeholder="Ajout" />
         <button @click="addPoints(user)" class="points-btn">+</button>
         <button @click="removePoints(user)" class="points-btn">-</button>
       </p>
-      <p><strong>Nombre de Tampons :</strong> {{ user.FidelityCard?.Tampons?.length || 0 }}</p>
+      <div class="tampons-container">
+        <img v-for="i in 7" :key="i" :src="getTamponImage(i, user)" class="tampon-image" alt="tampon" />
+
+        <div class="tampon-actions">
+          <button @click="addTampon(user)" class="points-btn">➕</button>
+          <button @click="resetTampons(user)" class="points-btn reset">♻️</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -23,6 +29,9 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
 import axios from 'axios'
+import tamponPlein from '@/assets/tampon-plein.png'
+import tamponVide from '@/assets/tampon-vide.png'
+import tamponGold from '@/assets/tampon-gold.png'
 
 const adminEmail = import.meta.env.VITE_ADMIN_EMAIL
 const users = ref([])
@@ -37,6 +46,17 @@ const filteredUsers = computed(() =>
       .toLowerCase().includes(search.value.toLowerCase())
   )
 )
+
+onMounted(async () => {
+  try {
+    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/admin/users`, {
+      withCredentials: true,
+    })
+    users.value = data
+  } catch (error) {
+    console.error("Erreur chargement des utilisateurs :", error)
+  }
+})
 
 // ✅ Fonction pour ajouter des points
 const addPoints = async (user) => {
@@ -76,17 +96,46 @@ const removePoints = async (user) => {
   }
 }
 
-onMounted(async () => {
+const getTamponImage = (index, user) => {
+  const count = user.FidelityCard?.Tampons?.length || 0;
+  if (index <= count) {
+    return index === 7 ? tamponGold : tamponPlein;
+  }
+  return tamponVide;
+};
+
+const addTampon = async (user) => {
+  try {
+    await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/admin/user/${user.id}/tampons`, {}, {
+      withCredentials: true
+    });
+    await reloadUsers(); // Pour mettre à jour les tampons affichés
+  } catch (error) {
+    console.error("❌ Erreur ajout tampon :", error);
+  }
+};
+
+const resetTampons = async (user) => {
+  try {
+    await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/admin/user/${user.id}/tampons`, {
+      withCredentials: true
+    });
+    await reloadUsers();
+  } catch (error) {
+    console.error("❌ Erreur reset tampons :", error);
+  }
+};
+
+const reloadUsers = async () => {
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/admin/users`, {
-      withCredentials: true,
-    })
-    users.value = data
+      withCredentials: true
+    });
+    users.value = data;
   } catch (error) {
-    console.error("Erreur chargement des utilisateurs :", error)
+    console.error("Erreur rechargement des utilisateurs :", error);
   }
-})
-
+};
 </script>
 
 <style scoped>
@@ -144,6 +193,24 @@ th {
 
 .user-card p {
   margin: 10px 0;
+}
+
+.tampons-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tampon-image {
+  width: 40px;
+  height: 40px;
+}
+
+.tampon-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
 }
 
 @media (max-width: 600px) {

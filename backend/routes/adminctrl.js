@@ -31,6 +31,13 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.post('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.clearCookie('connect.sid')
+    res.status(200).json({ message: 'Déconnexion réussie' })
+  });
+});
+
 // Route pour récupérer les utilisateurs (côté admin)
 router.get('/users', async (req, res) => {
   try {
@@ -66,11 +73,61 @@ router.put('/user/:id/points', async (req, res) => {
   }
 })
 
-router.post('/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.clearCookie('connect.sid')
-    res.status(200).json({ message: 'Déconnexion réussie' })
-  });
+router.post('/user/:id/tampons', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findByPk(id, { include: 'FidelityCard' });
+    if (!user || !user.FidelityCard) {
+      return res.status(404).json({ message: "Carte non trouvée" });
+    }
+
+    // Vérifie combien il en a déjà
+    const currentCount = await Tampon.count({ where: { card_id: user.FidelityCard.id } });
+    if (currentCount >= 7) {
+      return res.status(400).json({ message: "Carte déjà complète" });
+    }
+
+    // Crée un tampon
+    await Tampon.create({
+      card_id: user.FidelityCard.id,
+      date: new Date(),
+      description: 'Ajout manuel par admin'
+    });
+
+    // Met à jour total_tampons
+    user.FidelityCard.total_tampons = currentCount + 1;
+    user.FidelityCard.is_completed = currentCount + 1 >= 7;
+    await user.FidelityCard.save();
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error("Erreur ajout tampon :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+router.delete('/user/:id/tampons', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findByPk(id, { include: 'FidelityCard' });
+    if (!user || !user.FidelityCard) {
+      return res.status(404).json({ message: "Carte non trouvée" });
+    }
+
+    await Tampon.destroy({ where: { card_id: user.FidelityCard.id } });
+
+    // Reset le total et completed
+    user.FidelityCard.total_tampons = 0;
+    user.FidelityCard.is_completed = false;
+    await user.FidelityCard.save();
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error("Erreur reset tampons :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
 });
 
 module.exports = router;

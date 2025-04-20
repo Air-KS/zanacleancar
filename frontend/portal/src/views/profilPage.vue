@@ -9,7 +9,8 @@
       <div class="auth-info-col">
         <h2 class="auth-title">Confidentialité des informations !</h2>
         <p>
-          Les données personnelles renseignées ici sont uniquement visibles par vous et les administrateurs du site.<br />
+          Les données personnelles renseignées ici sont uniquement visibles par vous et les administrateurs du
+          site.<br />
           Elles ne seront jamais partagées, ni utilisées à des fins commerciales.<br /><br />
           Toutes les informations sont stockées de manière sécurisée et restent strictement à but informatif.
         </p>
@@ -20,9 +21,10 @@
     <div class="form-wrapper">
       <div>
         <h2 class="form-title">Ta carte de Fidélité</h2>
-        <CardFidelity v-if="user.FidelityCard?.card_id" :stamps="7" :name="user.name" :lastName="user.last_name"
-          :dateOfBirth="user.date_of_birth" :loyalty_points="user.loyalty_points" :userId="user.id"
-          :cardId="user.FidelityCard?.card_id" :cardCreatedAt="user.FidelityCard?.created_at" />
+        <CardFidelity v-if="user.FidelityCard?.card_id" :stamps="user.FidelityCard?.total_tampons || 0"
+          :name="user.name" :lastName="user.last_name" :dateOfBirth="user.date_of_birth"
+          :loyalty_points="user.loyalty_points" :userId="user.id" :cardId="user.FidelityCard?.card_id"
+          :cardCreatedAt="user.FidelityCard?.created_at" />
       </div>
 
       <h2 class="form-title">Ton Profil</h2>
@@ -51,7 +53,7 @@
           </div>
 
           <div class="form-row">
-          
+
             <!-- Date de naissance -->
             <div class="form-group">
               <div class="forms-input-container">
