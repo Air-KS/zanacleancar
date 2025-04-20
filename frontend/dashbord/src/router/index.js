@@ -1,12 +1,23 @@
 // ./frontend/dashbord/src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
-import AdminView from '@/views/adminPage.vue'
+import AdminLogin from '@/views/adminLogin.vue'
+import AdminPage from '@/views/adminPage.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'admin',
-    component: AdminView,
+    redirect: '/admin-login'
+  },
+  {
+    path: '/admin-login',
+    name: 'AdminLogin',
+    component: AdminLogin
+  },
+  {
+    path: '/dashboard',
+    name: 'AdminPage',
+    component: AdminPage,
+    meta: { requiresAuth: true }
   },
 ]
 

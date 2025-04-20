@@ -28,6 +28,10 @@ module.exports = {
         unique: true,
         allowNull: false,
       },
+      total_tampons: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+      },
       is_completed: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,

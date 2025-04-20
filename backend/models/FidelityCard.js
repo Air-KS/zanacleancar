@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
     },
+    total_tampons: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
     is_completed: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,

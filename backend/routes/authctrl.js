@@ -276,7 +276,17 @@ router.get('/checkSession', (req, res) => {
   }
 });
 
-module.exports = router;
+/*
+=========================================
+  Session Admin
+=========================================
+*/
+router.get('/checkAdmin', (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.status(200).json({ connected: true });
+  }
+  return res.status(401).json({ connected: false });
+});
 
 /*
 =========================================
@@ -300,3 +310,5 @@ router.get('/logout', (req, res) => {
     });
   });
 });
+
+module.exports = router;
