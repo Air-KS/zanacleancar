@@ -281,7 +281,7 @@ router.get('/checkSession', (req, res) => {
   Session Admin
 =========================================
 */
-app.get('/checkAdmin', (req, res) => {
+router.get('/checkAdmin', (req, res) => {
   if (req.isAuthenticated()) {
     return res.status(200).json({ connected: true });
   }
