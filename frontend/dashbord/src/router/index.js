@@ -28,24 +28,4 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach(async (to, from, next) => {
-  if (to.meta.requiresAuth) {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/auth/checkAdmin`, {
-        withCredentials: true
-      });
-
-      if (res.data.connected) {
-        next(); // ✅ ok, connecté
-      } else {
-        next('/admin-login');
-      }
-    } catch (err) {
-      next('/admin-login');
-    }
-  } else {
-    next();
-  }
-});
-
 export default router
