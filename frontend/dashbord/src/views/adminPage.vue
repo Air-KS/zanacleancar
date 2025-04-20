@@ -55,27 +55,16 @@ const filteredUsers = computed(() =>
 
 onMounted(async () => {
   try {
-    const session = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/auth/checkAdmin`, {
-      withCredentials: true
-    });
-
-    if (!session.data.connected) {
-      router.push('/admin-login');
-      return;
-    }
-
-    // ✅ Session OK → on récupère les users
     const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/admin/users`, {
       withCredentials: true,
-    });
-
-    users.value = data;
-
+    })
+    users.value = data
   } catch (error) {
-    console.error("🔒 Erreur de session ou de chargement :", error);
-    router.push('/admin-login');
+    if (error.response?.status === 401) {
+      router.push('/admin-login')
+    }
   }
-});
+})
 
 const logout = async () => {
   try {
