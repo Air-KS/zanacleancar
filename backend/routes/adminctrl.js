@@ -6,6 +6,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const { Admin, User, FidelityCard, Tampon } = require('../models');
+const adminAuth = require('../middlewares/admin')
 
 // Route de connexion admin
 router.post('/login', async (req, res) => {
@@ -13,10 +14,10 @@ router.post('/login', async (req, res) => {
 
   try {
     const admin = await Admin.findOne({ where: { email } });
-    if (!admin) return res.status(401).json({ message: 'Admin non trouvé' });
+    if (!admin) return res.status(401).json({ message: 'Failed' });
 
     const valid = await bcrypt.compare(password, admin.password);
-    if (!valid) return res.status(401).json({ message: 'Mot de passe incorrect' });
+    if (!valid) return res.status(401).json({ message: 'Failed' });
 
     // ✅ Enregistre l'admin en session
     req.session.adminId = admin.id;
@@ -39,7 +40,7 @@ router.post('/logout', (req, res) => {
 });
 
 // Route pour récupérer les utilisateurs (côté admin)
-router.get('/users', async (req, res) => {
+router.get('/users', adminAuth, async (req, res) => {
   try {
     const users = await User.findAll({
       include: {
@@ -55,7 +56,7 @@ router.get('/users', async (req, res) => {
   }
 });
 
-router.put('/user/:id/points', async (req, res) => {
+router.put('/user/:id/points', adminAuth, async (req, res) => {
   const { id } = req.params
   const { loyalty_points } = req.body
 
@@ -73,7 +74,7 @@ router.put('/user/:id/points', async (req, res) => {
   }
 })
 
-router.post('/user/:id/tampons', async (req, res) => {
+router.post('/user/:id/tampons', adminAuth, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -107,7 +108,7 @@ router.post('/user/:id/tampons', async (req, res) => {
   }
 });
 
-router.delete('/user/:id/tampons', async (req, res) => {
+router.delete('/user/:id/tampons', adminAuth, async (req, res) => {
   const { id } = req.params;
 
   try {

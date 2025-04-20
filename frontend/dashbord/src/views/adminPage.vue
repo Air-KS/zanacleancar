@@ -1,5 +1,7 @@
 <template>
   <div class="admin-container">
+    <button class="logout-btn" @click="logout">Déconnexion</button>
+
     <h1>Panel Admin</h1>
 
     <input v-model="search" type="text" placeholder="🔍 Rechercher" class="search-bar" />
@@ -15,12 +17,14 @@
         <button @click="removePoints(user)" class="points-btn">-</button>
       </p>
       <div class="tampons-container">
-        <img v-for="i in 7" :key="i" :src="getTamponImage(i, user)" class="tampon-image" alt="tampon" />
-
         <div class="tampon-actions">
           <button @click="addTampon(user)" class="points-btn">➕</button>
           <button @click="resetTampons(user)" class="points-btn reset">♻️</button>
         </div>
+        <div class="tampons-icon">
+          <img v-for="i in 7" :key="i" :src="getTamponImage(i, user)" class="tampon-image" alt="tampon" />
+        </div>
+
       </div>
     </div>
   </div>
@@ -29,6 +33,7 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
 import axios from 'axios'
+import { useRouter } from 'vue-router'
 import tamponPlein from '@/assets/tampon-plein.png'
 import tamponVide from '@/assets/tampon-vide.png'
 import tamponGold from '@/assets/tampon-gold.png'
@@ -36,6 +41,7 @@ import tamponGold from '@/assets/tampon-gold.png'
 const adminEmail = import.meta.env.VITE_ADMIN_EMAIL
 const users = ref([])
 const search = ref('')
+const router = useRouter()
 const pointsInput = ref({})
 
 // 🔁 Filtrage des utilisateurs sauf admin
@@ -57,6 +63,17 @@ onMounted(async () => {
     console.error("Erreur chargement des utilisateurs :", error)
   }
 })
+
+const logout = async () => {
+  try {
+    await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/admin/logout`, {}, {
+      withCredentials: true
+    });
+    router.push('/admin-login');
+  } catch (err) {
+    console.error("❌ Erreur déconnexion :", err);
+  }
+};
 
 // ✅ Fonction pour ajouter des points
 const addPoints = async (user) => {
@@ -141,9 +158,25 @@ const reloadUsers = async () => {
 <style scoped>
 .admin-container {
   max-width: 600px;
-  margin: auto;
+  margin: 0 auto;
   padding: 30px;
   font-family: sans-serif;
+}
+
+.logout-btn {
+  margin: 0 auto;
+  display: block;
+  padding: 8px 14px;
+  background-color: #d62828;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.logout-btn:hover {
+  background-color: #b71c1c;
 }
 
 h1 {
@@ -195,7 +228,14 @@ th {
   margin: 10px 0;
 }
 
-.tampons-container {
+.tampon-actions {
+  margin: 20px;
+  display: flex;
+  gap: 10px;
+  text-align: center;
+}
+
+.tampons-icon {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -205,12 +245,6 @@ th {
 .tampon-image {
   width: 40px;
   height: 40px;
-}
-
-.tampon-actions {
-  margin-left: auto;
-  display: flex;
-  gap: 8px;
 }
 
 @media (max-width: 600px) {

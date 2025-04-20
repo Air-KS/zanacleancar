@@ -28,7 +28,7 @@
 	  // Tu peux stocker le token si tu en reçois un
 	  // localStorage.setItem('admin_token', data.token)
 
-	  router.push('/admin')
+	  router.push('/')
 	} catch (err) {
 	  error.value = err.response?.data?.message || 'Erreur lors de la connexion'
 	}
