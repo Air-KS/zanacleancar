@@ -28,7 +28,7 @@ const login = async () => {
 		// stocker le token si on en reçois un
 		// localStorage.setItem('admin_token', data.token)
 
-		router.push('/dashboard')
+		window.location.href = '/dashboard'
 	} catch (err) {
 		error.value = err.response?.data?.message || 'Erreur lors de la connexion'
 	}
