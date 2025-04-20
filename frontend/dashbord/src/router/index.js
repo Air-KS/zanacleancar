@@ -5,16 +5,36 @@ import AdminPage from '@/views/adminPage.vue'
 
 const routes = [
   {
+    path: '/',
+    redirect: '/admin-login'
+  },
+  {
     path: '/admin-login',
     name: 'AdminLogin',
     component: AdminLogin
   },
   {
-    path: '/',
-    name: 'admin',
+    path: '/dashboard',
+    name: 'AdminPage',
     component: AdminPage,
+    meta: { requiresAuth: true }
   },
 ]
+
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.requiresAuth) {
+    try {
+      await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/admin/users`, {
+        withCredentials: true
+      })
+      next()
+    } catch (err) {
+      next('/admin-login')
+    }
+  } else {
+    next()
+  }
+})
 
 const router = createRouter({
   history: createWebHistory(),

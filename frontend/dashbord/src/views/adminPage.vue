@@ -60,7 +60,9 @@ onMounted(async () => {
     })
     users.value = data
   } catch (error) {
-    console.error("Erreur chargement des utilisateurs :", error)
+    if (error.response?.status === 401) {
+      router.push('/admin-login')
+    }
   }
 })
 
@@ -83,7 +85,7 @@ const addPoints = async (user) => {
   const newTotal = user.loyalty_points + value
 
   try {
-    await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/user/profil/${user.id}`, {
+    await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/admin/user/${user.id}/points`, {
       loyalty_points: newTotal
     }, { withCredentials: true })
 

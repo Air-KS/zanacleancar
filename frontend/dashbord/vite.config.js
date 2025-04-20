@@ -1,5 +1,5 @@
 /*
-  /frontend/portal/vite.config.js
+  /frontend/dashbord/vite.config.js
 */
 
 import { defineConfig } from 'vite'
