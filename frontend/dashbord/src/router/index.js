@@ -3,8 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AdminLogin from '@/views/adminLogin.vue'
 import AdminPage from '@/views/adminPage.vue'
 
-import axios from 'axios'
-
 const routes = [
   {
     path: '/',
