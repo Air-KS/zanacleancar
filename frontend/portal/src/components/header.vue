@@ -116,7 +116,7 @@ const userStore = useUserStore();
 const menuItems = ref([
   { label: 'Accueil', link: '/' },
   { label: 'Services', link: '/service' },
-  { label: 'Contactez-nous', link: '/register' },
+  { label: 'Boutique', link: '/service' },
 ]);
 
 const showFullMenu = ref(true);
@@ -687,7 +687,7 @@ onUnmounted(() => {
 
   .nav-full {
     justify-content: flex-start;
-    padding-left: 3rem;
+    padding-left: 13rem;
   }
 }
 </style>
