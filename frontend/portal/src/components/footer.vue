@@ -3,47 +3,47 @@
 -->
 
 <template>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-<!-- Footer -->
-<footer class="footer-container">
-  <div class="footer-banner"></div>
-  <div class="footer-content">
-    <img src="@/assets/produit-footer.png" class="footer-image" alt="car" loading="lazy" />
-    <div class="footer-links-container">
-      <div class="footer-links">
-        <div class="footer-section">
-          <h4>Qui sommes-nous</h4>
-          <p><a id="about-footer" class="footer-link">À propos</a></p>
-          <p><a id="howItWorks-footer" class="footer-link">Comment ça marche</a></p>
-          <p><a id="contact-footer" class="footer-link"> Contact </a></p>
-        </div>
-        <div class="footer-section">
-          <h4>Ressources</h4>
-          <p><a id="privacyPolicy-footer" class="footer-link"> Politique de confidentialité </a></p>
-          <p><a id="cancellationPolicy-footer" class="footer-link"> Politique d’annulation </a></p>
-          <p><a id="faq-footer" class="footer-link"> FAQ </a></p>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <!-- Footer -->
+  <footer class="footer-container">
+    <div class="footer-banner"></div>
+    <div class="footer-content">
+      <img src="@/assets/produit-footer.png" class="footer-image" alt="car" loading="lazy" />
+      <div class="footer-links-container">
+        <div class="footer-links">
+          <div class="footer-section">
+            <h4 class="size">Qui sommes-nous</h4>
+            <p><a id="about-footer" class="footer-link">À propos</a></p>
+            <p><a id="howItWorks-footer" class="footer-link">Comment ça marche</a></p>
+            <p><a id="contact-footer" class="footer-link"> Contact </a></p>
+          </div>
+          <div class="footer-section">
+            <h4 class="size">Ressources</h4>
+            <p><a id="privacyPolicy-footer" class="footer-link"> Politique de confidentialité </a></p>
+            <p><a id="cancellationPolicy-footer" class="footer-link"> Politique d’annulation </a></p>
+            <p><a id="faq-footer" class="footer-link"> FAQ </a></p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <p class="footer-contact">Besoin d’aide ? contact.zanaa@gmail.com</p>
-    <div class="footer-icons">
-      <a href="https://www.tiktok.com/@zanacleacar" target="_blank">
-        <i class="fa-brands fa-tiktok"></i>
-      </a>
-      <a href="https://www.facebook.com/profile.php?id=61573004206051&locale=fr_FR" target="_blank">
-        <i class="fa-brands fa-facebook"></i>
-      </a>
-      <a href="https://www.instagram.com/zanaa.contact" target="_blink">
-        <i class="fa-brands fa-instagram"></i>
-      </a>
+    <div class="footer-bottom">
+      <p class="footer-contact">Besoin d’aide ? <a href="mailto:contact@zanacleancar.fr">contact@zanacleancar.fr</a></p>
+      <div class="footer-icons">
+        <a href="https://www.tiktok.com/@zanacleacar" target="_blank">
+          <i class="fa-brands fa-tiktok"></i>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61573004206051&locale=fr_FR" target="_blank">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <a href="https://www.instagram.com/zanaa.contact" target="_blink">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="footer-copyright">
-    <p>&copy; 2025 Zana Clean Car. Tous droits réservés.</p>
-  </div>
-</footer>
+    <div class="footer-copyright">
+      <p>&copy; 2025 Zana Clean Car. Tous droits réservés.</p>
+    </div>
+  </footer>
 </template>
 
 <script>
@@ -51,7 +51,6 @@
 </script>
 
 <style scoped>
-
 .footer-container {
   background: linear-gradient(to bottom, #4687af 30%, #0a101d 70%);
   padding: 20px;
@@ -119,6 +118,19 @@
   margin-bottom: 10px;
 }
 
+.footer-contact {
+  color: var(--color-bg);
+  margin: 25px;
+}
+
+.footer-contact a {
+  color: var(--color-bg);
+}
+
+.footer-contact a:hover {
+  color: var(--nav-color-hover);
+}
+
 .footer-links h4 {
   margin-top: 0px;
   margin-bottom: 5px;
@@ -145,8 +157,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 50px; /* Espace entre les icônes */
+  gap: 50px;
+  /* Espace entre les icônes */
   text-shadow: 2px 2px 4px #fd0000;
+  margin-bottom: 25px;
 }
 
 .footer-icons a {
@@ -198,6 +212,25 @@
     justify-content: space-between;
     padding: 10px 10%;
     align-items: center;
+  }
+
+  .footer-icons {
+    margin: 25px;
+  }
+}
+
+@media (max-width: 450px) {
+  .footer-copyright {
+    font-size: 12px;
+  }
+
+  .size {
+    font-size: 20px !important;
+  }
+
+  .footer-contact {
+    font-size: 15px;
+
   }
 }
 </style>
