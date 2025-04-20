@@ -33,18 +33,10 @@
       </div>
     </div>
   </div>
-
-  <!-- Actions points -->
-  <div class="points-actions">
-    <input v-model.number="pointsToChange" type="number" placeholder="Points" class="input" />
-    <button @click="addPoints">➕</button>
-    <button @click="removePoints">➖</button>
-  </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import axios from 'axios';
+import { computed } from 'vue';
 
 import emptyStamp from '@/assets/card/tampon-vide.png';
 import fullStamp from '@/assets/card/tampon-plein.png';
@@ -102,32 +94,6 @@ const getIcon = (index) => {
 
 const getSlotFullImage = (index) => (index === 6 ? goldStamp : fullStamp);
 
-// Valeur à modifier
-const pointsToChange = ref(0);
-
-// Ajoute des points
-const addPoints = async () => {
-  await updateLoyalty(props.loyalty_points + pointsToChange.value);
-};
-
-// Retire des points (sans aller en négatif)
-const removePoints = async () => {
-  const newValue = Math.max(0, props.loyalty_points - pointsToChange.value);
-  await updateLoyalty(newValue);
-};
-
-// Appelle l’API avec la nouvelle valeur
-const updateLoyalty = async (newTotal) => {
-  try {
-    await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/user/profil/${props.userId}`, {
-      loyalty_points: newTotal
-    }, { withCredentials: true });
-
-    window.location.reload();
-  } catch (err) {
-    console.error("❌ Erreur MAJ des points :", err);
-  }
-};
 </script>
 
 <style scoped>
@@ -152,6 +118,7 @@ const updateLoyalty = async (newTotal) => {
   overflow: hidden;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   background-color: #fff;
+  margin-bottom: 50px;
 }
 
 .carte-fidelite {

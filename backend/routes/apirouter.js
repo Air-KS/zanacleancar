@@ -16,7 +16,7 @@ exports.router = (function () {
   // Montage des routes liées à l'authentification sous /auth
   apiRouter.use('/auth', authctrl);
   apiRouter.use('/user', userctrl);
-  apiRouter.use('/users', adminctrl);
+  apiRouter.use('/admin', adminctrl);
 
   return apiRouter;
 })();
