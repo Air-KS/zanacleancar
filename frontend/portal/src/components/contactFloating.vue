@@ -114,7 +114,7 @@ onBeforeUnmount(() => {
   .floating-btn {
     left: 50%;
     transform: translateX(-50%);
-    top: -10px;
+    top: 0px;
   }
 
   .contact-menu {
