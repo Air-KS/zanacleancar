@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AdminLogin from '@/views/adminLogin.vue'
 import AdminPage from '@/views/adminPage.vue'
 
+import axios from 'axios'
+
 const routes = [
   {
     path: '/',
@@ -29,16 +31,21 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     try {
-      await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/admin/users`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/auth/checkAdmin`, {
         withCredentials: true
-      })
-      next()
+      });
+
+      if (res.data.connected) {
+        next(); // ✅ ok, connecté
+      } else {
+        next('/admin-login');
+      }
     } catch (err) {
-      next('/admin-login')
+      next('/admin-login');
     }
   } else {
-    next()
+    next();
   }
-})
+});
 
 export default router
