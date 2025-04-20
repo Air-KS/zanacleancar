@@ -13,15 +13,29 @@
         <div class="footer-links">
           <div class="footer-section">
             <h4 class="size">Qui sommes-nous</h4>
-            <p><a id="about-footer" class="footer-link">À propos</a></p>
-            <p><a id="howItWorks-footer" class="footer-link">Comment ça marche</a></p>
-            <p><a id="contact-footer" class="footer-link"> Contact </a></p>
+            <p>
+              <router-link class="footer-link" to="/about">
+                À propos
+              </router-link>
+            </p>
+            <p>
+              <router-link class="footer-link" to="/howItWorks">
+                Comment ça marche
+              </router-link>
+            </p>
           </div>
           <div class="footer-section">
             <h4 class="size">Ressources</h4>
-            <p><a id="privacyPolicy-footer" class="footer-link"> Politique de confidentialité </a></p>
-            <p><a id="cancellationPolicy-footer" class="footer-link"> Politique d’annulation </a></p>
-            <p><a id="faq-footer" class="footer-link"> FAQ </a></p>
+            <p>
+              <router-link class="footer-link" to="/privacyPolicy">
+                Politique de confidentialité
+              </router-link>
+            </p>
+            <p>
+              <router-link class="footer-link" to="/cancellationPolicy">
+                Politique d’annulation
+              </router-link>
+            </p>
           </div>
         </div>
       </div>
