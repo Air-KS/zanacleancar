@@ -19,19 +19,25 @@ const error = ref('')
 const router = useRouter()
 
 const login = async () => {
-	try {
-		const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/admin/login`, {
-			email: email.value,
-			password: password.value
-		}, { withCredentials: true })
+  try {
+    await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/admin/login`, {
+      email: email.value,
+      password: password.value
+    }, { withCredentials: true })
 
-		// stocker le token si on en reçois un
-		// localStorage.setItem('admin_token', data.token)
+    // Attendre que la session soit bien enregistrée
+    const check = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/auth/checkAdmin`, {
+      withCredentials: true
+    })
 
-		window.location.href = '/dashboard'
-	} catch (err) {
-		error.value = err.response?.data?.message || 'Erreur lors de la connexion'
-	}
+    if (check.data.connected) {
+      window.location.href = '/dashboard'
+    } else {
+      error.value = 'Connexion échouée (session non active)'
+    }
+  } catch (err) {
+    error.value = err.response?.data?.message || 'Erreur lors de la connexion'
+  }
 }
 </script>
 
