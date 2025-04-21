@@ -8,7 +8,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const { User, AuthVerify, FidelityCard } = require('../models');
+const { User, AuthVerify, FidelityCard, Admin } = require('../models');
 const { sendVerificationEmail } = require('../emails/verifyCode');
 const { generateCardId } = require('../src/cardId');
 require('dotenv').config();
@@ -281,11 +281,20 @@ router.get('/checkSession', (req, res) => {
   Session Admin
 =========================================
 */
-router.get('/checkAdmin', (req, res) => {
-  if (req.isAuthenticated()) {
+router.get('/checkAdmin', async (req, res) => {
+  try {
+    const adminId = req.session?.adminId;
+
+    if (!adminId) return res.status(401).json({ connected: false });
+
+    const admin = await Admin.findByPk(adminId);
+    if (!admin) return res.status(403).json({ connected: false });
+
     return res.status(200).json({ connected: true });
+  } catch (err) {
+    console.error("❌ Erreur checkAdmin :", err);
+    res.status(500).json({ connected: false });
   }
-  return res.status(401).json({ connected: false });
 });
 
 /*

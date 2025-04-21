@@ -1,4 +1,5 @@
 <template>
+  <div class="login-wrapper" >
 	<div class="login-admin">
 		<h1>Connexion Admin</h1>
 		<input v-model="email" type="email" placeholder="Email" class="input" />
@@ -6,6 +7,7 @@
 		<button @click="login" class="btn">Se connecter</button>
 		<p v-if="error" class="error">{{ error }}</p>
 	</div>
+</div>
 </template>
 
 <script setup>
@@ -28,7 +30,7 @@ const login = async () => {
 		// stocker le token si on en reçois un
 		// localStorage.setItem('admin_token', data.token)
 
-		window.location.href = '/dashboard'
+		window.location.href = '/admin'
 	} catch (err) {
 		error.value = err.response?.data?.message || 'Erreur lors de la connexion'
 	}
@@ -36,9 +38,17 @@ const login = async () => {
 </script>
 
 <style scoped>
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #fff;
+}
+
 .login-admin {
 	max-width: 400px;
-	margin: auto;
 	padding: 30px;
 	border: 1px solid #ccc;
 	border-radius: 12px;
@@ -48,7 +58,8 @@ const login = async () => {
 
 .input {
 	display: block;
-	width: 100%;
+	width: 90%;
+  margin: 0 auto;
 	padding: 10px;
 	margin-bottom: 15px;
 	font-size: 1rem;

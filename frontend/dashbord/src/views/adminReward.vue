@@ -1,5 +1,5 @@
 <!--
-	./view/adminPage.vue
+	./view/adminReward.vue
 -->
 
 <template>
