@@ -10,9 +10,10 @@
 
       <!-- Condition selon la connexion -->
       <p class="info-user" v-if="isLoggedIn">
-        Hey <strong>{{ user?.name }}</strong>, tu as <span class="nb-loyalties"><strong>{{ loyaltyPoints }} <span class="diamond">💎</span></strong></span>
+        Hey <strong>{{ user?.name }}</strong>, tu as <span class="nb-loyalties"><strong>{{ loyaltyPoints }}
+            <span class="diamond">💎</span></strong></span>
       </p>
-      <p class="nb-loyalties" v-else>
+      <p class="info-user" v-else>
         Tu n'es pas
         <router-link class="shop-link" to="/login">
           connecté.
@@ -135,14 +136,14 @@ onMounted(async () => {
   text-decoration: none;
 }
 
-.reward{
+.reward {
   text-align: center;
 }
+
 .reward-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
   margin-top: 20px;
 }
-
 </style>
