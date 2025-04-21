@@ -28,8 +28,8 @@
     </section>
     <div class="separator-gradient"></div>
 
-    <h2 class="reward">📦 Récompenses existantes</h2>
-    <div cclass="reward" v-if="rewards.length === 0">Aucune récompense pour le moment.</div>
+    <h2 class="reward">📦 Récompenses</h2>
+    <div class="reward" v-if="rewards.length === 0">Chargement...</div>
     <div v-else class="reward-grid">
       <ShopCard v-for="item in rewards" :key="item.id" :item="item" />
     </div>

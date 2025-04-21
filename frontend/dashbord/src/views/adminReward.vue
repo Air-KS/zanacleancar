@@ -19,8 +19,8 @@
 
 		<hr />
 
-		<h2>📦 Récompenses existantes</h2>
-		<div v-if="rewards.length === 0">Aucune récompense pour le moment.</div>
+		<h2 class="reward">📦 Récompenses</h2>
+		<div class="reward" v-if="rewards.length === 0">Aucune récompense pour le moment.</div>
 		<div v-else class="reward-grid">
 			<RewardCard v-for="item in rewards" :key="item.id" :item="item" @edit="editReward" @delete="deleteReward" />
 		</div>
@@ -162,6 +162,10 @@ button {
 
 button:hover {
 	background: #2980b9;
+}
+
+.reward {
+  text-align: center;
 }
 
 .reward-grid {
