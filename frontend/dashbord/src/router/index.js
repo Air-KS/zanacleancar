@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AdminLogin from '@/views/adminLogin.vue'
 import AdminCard from '@/views/adminCard.vue'
 import AdminReward from '@/views/adminReward.vue'
-import AdminPage from '@/views/adminPage.vue'
+
 import AdminLayout from '@/layouts/adminLayout.vue'
 
 const routes = [
@@ -23,17 +23,12 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       {
-        path: 'page',
-        name: 'AdminPage',
-        component: AdminPage
-      },
-      {
-        path: 'adminCards',
+        path: 'cards',
         name: 'AdminCard',
         component: AdminCard
       },
       {
-        path: 'adminRewards',
+        path: 'rewards',
         name: 'AdminReward',
         component: AdminReward
       }

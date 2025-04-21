@@ -1,7 +1,0 @@
-<!--
-	./view/adminPage.vue
--->
-
-<template>
-
-</template>

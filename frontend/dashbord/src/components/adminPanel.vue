@@ -10,8 +10,8 @@
     <button class="logout-btn" @click="logout">Déconnexion</button>
 
     <div class="admin-links">
-      <router-link to="/admin/adminCards" class="admin-btn">Cartes de Fidélité</router-link>
-      <router-link to="/admin/adminRewards" class="admin-btn">Récompenses</router-link>
+      <router-link to="/admin/cards" class="admin-btn">Cartes de Fidélité</router-link>
+      <router-link to="/admin/rewards" class="admin-btn">Récompenses</router-link>
     </div>
   </div>
 </template>
