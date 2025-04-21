@@ -13,15 +13,29 @@
         <div class="footer-links">
           <div class="footer-section">
             <h4 class="size">Qui sommes-nous</h4>
-            <p><a id="about-footer" class="footer-link">À propos</a></p>
-            <p><a id="howItWorks-footer" class="footer-link">Comment ça marche</a></p>
-            <p><a id="contact-footer" class="footer-link"> Contact </a></p>
+            <p>
+              <router-link class="footer-link" to="/about">
+                À propos
+              </router-link>
+            </p>
+            <p>
+              <router-link class="footer-link" to="/howItWorks">
+                Comment ça marche
+              </router-link>
+            </p>
           </div>
           <div class="footer-section">
             <h4 class="size">Ressources</h4>
-            <p><a id="privacyPolicy-footer" class="footer-link"> Politique de confidentialité </a></p>
-            <p><a id="cancellationPolicy-footer" class="footer-link"> Politique d’annulation </a></p>
-            <p><a id="faq-footer" class="footer-link"> FAQ </a></p>
+            <p>
+              <router-link class="footer-link" to="/privacyPolicy">
+                Politique de confidentialité
+              </router-link>
+            </p>
+            <p>
+              <router-link class="footer-link" to="/cancellationPolicy">
+                Politique d’annulation
+              </router-link>
+            </p>
           </div>
         </div>
       </div>
@@ -115,7 +129,9 @@
   text-align: center;
   border-bottom: 1px solid var(--color-bg);
   /* Ajouter une bordure horizontale par défaut */
-  margin-bottom: 10px;
+  margin-bottom: 25px;
+  padding: 0px 0px 25px 0;
+  line-height: 2rem;
 }
 
 .footer-contact {
@@ -142,6 +158,7 @@
 /* Supprimer la bordure du dernier et de l'avant-dernier élément */
 .footer-section:last-child {
   border-bottom: none;
+  padding: 0px;
 }
 
 .footer-bottom {
@@ -185,6 +202,9 @@
   padding: 20px;
 }
 
+.size {
+  padding-bottom: 15px
+}
 /* Responsiveness */
 @media (min-width: 1200px) {
   .footer-links {

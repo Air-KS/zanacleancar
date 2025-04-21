@@ -28,6 +28,9 @@ p.description {
   margin: 0px;
 }
 
+ul {
+  padding-left: 30px;
+}
 .center-bold {
   display: block;
   font-weight: bold;
