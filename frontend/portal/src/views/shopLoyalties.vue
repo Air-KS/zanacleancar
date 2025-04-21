@@ -9,8 +9,8 @@
       <div class="sub-title-desc">Accumule, choisis, savoure. Simple comme bonjour.</div>
 
       <!-- Condition selon la connexion -->
-      <p class="nb-loyalties" v-if="isLoggedIn">
-        Hey <strong>{{ user?.name }}</strong>, tu as <strong>{{ loyaltyPoints }}</strong> 💎
+      <p class="info-user" v-if="isLoggedIn">
+        Hey <strong>{{ user?.name }}</strong>, tu as <span class="nb-loyalties"><strong>{{ loyaltyPoints }} <span class="diamond">💎</span></strong></span>
       </p>
       <p class="nb-loyalties" v-else>
         Tu n'es pas
@@ -19,21 +19,20 @@
         </router-link>
       </p>
       <p class="description">
-        Ton espace Loyauté, où chaque 💎 a de la valeur !<br>
         Ici, pas de paiement, pas de panier : seulement des récompenses à débloquer grâce à ta fidélité.<br>
         Accumule des 💎 en utilisant nos services et échange-les contre des avantages réservés, des
         réductions, ou de petites surprises rien que pour toi.
         Tout est pensé pour te remercier.
       </p>
     </section>
+    <div class="separator-gradient"></div>
 
-    <section class="shop-grid">
-    <ShopCard
-      v-for="(item, index) in items"
-      :key="index"
-      v-bind="item"
-    />
-  </section>
+    <h2 class="reward">📦 Récompenses existantes</h2>
+    <div cclass="reward" v-if="rewards.length === 0">Aucune récompense pour le moment.</div>
+    <div v-else class="reward-grid">
+      <ShopCard v-for="item in rewards" :key="item.id" :item="item" />
+    </div>
+
 
   </div>
 </template>
@@ -49,6 +48,7 @@ const isLoggedIn = computed(() => store.isLoggedIn);
 const user = computed(() => store.user); // 👈 manquant
 
 const loyaltyPoints = ref(0);
+const rewards = ref([])
 
 const fetchUserProfile = async () => {
   try {
@@ -66,120 +66,24 @@ const fetchUserProfile = async () => {
   }
 };
 
+const fetchRewards = async () => {
+  try {
+    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/reward`, {
+      withCredentials: true
+    })
+    rewards.value = data
+  } catch (err) {
+    console.error('❌ Erreur récupération récompenses :', err)
+  }
+}
+
 onMounted(async () => {
   await store.checkLoginState();
   if (store.isLoggedIn) {
     await fetchUserProfile();
   }
+  await fetchRewards()
 });
-
-// Item
-const items = [
-  {
-    title:
-    "Sapin en forme de sapin Sapin en forme de sapin \
-    Sapin en forme de sapin Sapin en forme de sapin \
-    Sapin en forme de sapin",
-    description: "Parfum voiture Parfum voiture Parfum voiture Parfum voiture \
-    Parfum voiture Parfum voiture Parfum voiture Parfum voiture",
-    price: 12,
-    image: "img/shop/sapin/sapin1.png"
-  },
-
-  {
-    title: "Capsule en forme de coeur, Capsule en forme de coeur, Capsule en forme de coeur \
-    Capsule en forme de coeur, Capsule en forme de coeur, Capsule en forme de coeur ",
-    description: "Parfum voiture, Parfum voiture, Parfum voiture, Parfum voiture, \
-    Parfum voiture, Parfum voiture, Parfum voiture, Parfum voiture, Parfum voiture, ",
-    price: 12,
-    image: "img/shop/capsule/capsule1.png"
-  },
-  {
-    title: "Sapin",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/sapin/sapin1.png"
-  },
-
-  {
-    title: "Capsule en forme de coeur",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/capsule/capsule1.png"
-  },
-  {
-    title: "Sapin",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/sapin/sapin1.png"
-  },
-
-  {
-    title: "Capsule en forme de coeur",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/capsule/capsule1.png"
-  },
-  {
-    title: "Sapin",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/sapin/sapin1.png"
-  },
-
-  {
-    title: "Capsule en forme de coeur",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/capsule/capsule1.png"
-  },
-  {
-    title: "Sapin",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/sapin/sapin1.png"
-  },
-
-  {
-    title: "Capsule en forme de coeur",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/capsule/capsule1.png"
-  },
-  {
-    title: "Sapin",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/sapin/sapin1.png"
-  },
-
-  {
-    title: "Capsule en forme de coeur",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/capsule/capsule1.png"
-  },
-  {
-    title: "Sapin",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/sapin/sapin1.png"
-  },
-
-  {
-    title: "Capsule en forme de coeur",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/capsule/capsule1.png"
-  },
-  {
-    title: "Sapin",
-    description: "Parfum voiture.",
-    price: 12,
-    image: "img/shop/sapin/sapin1.png"
-  },
-];
-
 
 </script>
 
@@ -204,11 +108,22 @@ const items = [
   padding-bottom: 50px;
 }
 
-.nb-loyalties {
+.info-user {
   font-size: 25px;
   text-align: center;
   padding-bottom: 50px;
 }
+
+.nb-loyalties {
+  color: #3498db;
+  font-weight: bold;
+}
+
+.diamond {
+  position: relative;
+  top: -3px;
+}
+
 .shop-link {
   text-decoration: none;
   text-shadow: 1px 1px 9px var(--color-border-shadow);
@@ -220,11 +135,14 @@ const items = [
   text-decoration: none;
 }
 
-.shop-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: center;
-  margin-top: 5rem;
+.reward{
+  text-align: center;
 }
+.reward-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
 </style>

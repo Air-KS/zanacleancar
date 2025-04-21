@@ -2,6 +2,9 @@ Ajouter des migration et seeder de toutes les tables de la base de donnée
 yarn sequelize-cli db:migrate
 yarn sequelize-cli db:seed:all
 
+supprimer uniquement la dernière migration
+npx sequelize db:migrate:undo
+
 Ajoute rune migration, seeders précise
 yarn sequelize-cli db:migrate --to 20240713120532-nomMigrationFile.js
 yarn sequelize-cli db:seed --seed 20240615-nomSeederFile.js
@@ -12,7 +15,6 @@ Exécute des seeders précis.
 
 Supprimer une migration précise
 DELETE FROM `SequelizeMeta` WHERE name = '20240616170130-nom-migration.js';
-
 
 
 npx sequelize-cli db:drop

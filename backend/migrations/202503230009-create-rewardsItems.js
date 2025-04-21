@@ -1,5 +1,5 @@
 /*
-  ./backend/migrations/202503230009-create-rewardItems.js
+  ./backend/migrations/202503230009-create-rewardsItems.js
 */
 
 'use strict';
@@ -13,7 +13,7 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      title: {
+      name: {
         type: Sequelize.STRING(255),
         allowNull: false,
       },

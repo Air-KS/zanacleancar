@@ -6,7 +6,7 @@
 
 module.exports = (sequelize, DataTypes) => {
   const RewardItem = sequelize.define('RewardItem', {
-    title: {
+    name: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },

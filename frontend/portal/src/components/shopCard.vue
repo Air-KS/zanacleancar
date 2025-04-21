@@ -1,73 +1,124 @@
-<!-- ./components/ShopCard.vue -->
+<!--
+	./frontend/portal/src/components/shopCard.vue
+-->
+
 <template>
-	<div class="shop-card">
-	  <img :src="image" alt="Image article" class="card-image" />
-	  <div class="card-content">
-		<h3 class="card-title">{{ title }}</h3>
-		<p class="card-description">{{ description }}</p>
-		<div class="card-footer">
-		  <span class="price">{{ price }} 💎</span>
-		  <button class="claim-btn">Obtenir</button>
-		</div>
-	  </div>
-	</div>
-  </template>
+  <div class="card">
+    <img :src="item.images[0]" alt="image" class="card-img" v-if="item.images?.length" />
+    <div class="card-body">
+      <h3 class="title">{{ truncate(item.name, 70) }}</h3>
+      <p class="desc">{{ truncate(item.description, 200) }}</p>
+      <div class="footer">
+        <span class="price">{{ item.price }} <span class="diamond">💎</span></span>
+        <span class="stock" :class="item.stock > 0 ? 'available' : 'unavailable'">
+          <i class="fa-solid" :class="item.stock > 0 ? 'fa-check-circle' : 'fa-times-circle'"></i>
+          {{ item.stock > 0 ? item.stock : '' }}
+        </span>
+      </div>
+    </div>
+  </div>
+</template>
 
-  <script setup>
-  defineProps({
-	title: String,
-	description: String,
-	image: String,
-	price: Number
-  });
-  </script>
+<script setup>
 
-  <style scoped>
-  .shop-card {
-	width: 250px;
-	max-height: 400px;
-	border: 1px solid #ccc;
-	border-radius: 10px;
-	overflow: hidden;
-	box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-	transition: transform 0.2s ease;
-	background: white;
-  }
-  .shop-card:hover {
-	transform: translateY(-5px);
-  }
-  .card-image {
-	width: 100%;
-	height: 150px;
-	object-fit: cover;
-  }
-  .card-content {
-	padding: 1rem;
-  }
-  .card-title {
-	font-weight: bold;
-	font-size: 1.1rem;
-  }
-  .card-description {
-	font-size: 0.9rem;
-	color: #555;
-  }
-  .card-footer {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-top: 10px;
-  }
-  .price {
-	font-weight: bold;
-	color: #2d7f0b;
-  }
-  .claim-btn {
-	background: #2d7f0b;
-	color: white;
-	padding: 0.3rem 0.6rem;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-  }
-  </style>
+const props = defineProps({
+  item: Object
+})
+
+const truncate = (text, max) => {
+  if (!text) return ''
+  return text.length > max ? text.substring(0, max) + '…' : text
+}
+</script>
+
+<style scoped>
+.card {
+  display: block;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 400px;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-img {
+  border-bottom: 1px solid #dbdbdb;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  height: 200px;
+  /* fixe la hauteur */
+  object-fit: fill;
+  /* déforme pour remplir l’espace */
+}
+
+.card-body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.title {
+  font-size: 1rem;
+  color: #222;
+  margin: 0px;
+  /* encore moins d’espace */
+  height: 50px;
+  overflow: hidden;
+}
+
+.desc {
+  font-size: 0.85rem;
+  color: #666;
+  height: 90px;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  color: #3498db;
+  font-weight: bold;
+}
+
+.diamond {
+  position: relative;
+  top: -2px;
+}
+
+.stock {
+  font-size: 1rem;
+}
+
+.available {
+  color: #2ecc71;
+  /* vert */
+}
+
+.unavailable {
+  color: #e74c3c;
+  font-size: 1.5rem;
+  /* rouge */
+}
+</style>
