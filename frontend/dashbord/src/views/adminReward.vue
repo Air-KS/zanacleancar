@@ -1,3 +1,7 @@
+<!--
+	./frontend/dashbord/src/views/adminReward
+-->
+
 <template>
 	<div class="admin-rewards">
 		<form @submit.prevent="handleCreate" class="form">
