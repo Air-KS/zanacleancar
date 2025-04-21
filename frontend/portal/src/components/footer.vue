@@ -129,7 +129,9 @@
   text-align: center;
   border-bottom: 1px solid var(--color-bg);
   /* Ajouter une bordure horizontale par défaut */
-  margin-bottom: 10px;
+  margin-bottom: 25px;
+  padding: 0px 0px 25px 0;
+  line-height: 2rem;
 }
 
 .footer-contact {
@@ -156,6 +158,7 @@
 /* Supprimer la bordure du dernier et de l'avant-dernier élément */
 .footer-section:last-child {
   border-bottom: none;
+  padding: 0px;
 }
 
 .footer-bottom {
@@ -199,6 +202,9 @@
   padding: 20px;
 }
 
+.size {
+  padding-bottom: 15px
+}
 /* Responsiveness */
 @media (min-width: 1200px) {
   .footer-links {
