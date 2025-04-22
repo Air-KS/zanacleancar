@@ -285,13 +285,14 @@ button:hover {
 
 .close-btn {
   position: absolute;
-  top: 0px;
-  right: 0px;
+  right: 20px;
+  top: -20px;
   background: transparent;
+  border: none;
   color: white;
   font-size: 2rem;
-  border: none;
   cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0);
 }
 
 @keyframes fadeIn {
@@ -355,6 +356,30 @@ button:hover {
 }
 
 @media(max-width: 800px) {
+	.modal-img-container {
+  width: 100%;
+
+}
+	.modal-img {
+  width: 100%;
+}
+
+.modal-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  border: none;
+  font-size: 1.5rem;
+  border-radius: 25px;
+  padding: 70px 8px;
+  cursor: pointer;
+  z-index: 2;
+  color: #ffffff;
+  opacity: 1;
+}
+
   .modal-arrow.left {
     left: -35px;
   }
@@ -364,7 +389,8 @@ button:hover {
   }
 
   .close-btn {
-    right: -10px;
+    right: -30px;
+	top: -70px;
   }
 }
 </style>
