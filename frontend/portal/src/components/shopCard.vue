@@ -133,7 +133,7 @@ const truncate = (text, max) => {
   z-index: 2;
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
-  color: #0000009f;
+  color: rgba(0, 0, 0, 0.624);
 }
 
 .card:hover .arrow {
@@ -141,7 +141,7 @@ const truncate = (text, max) => {
 }
 
 button:hover {
-  filter: brightness(0.85);
+  filter: brightness(0.50);
 }
 
 .left {
@@ -235,7 +235,7 @@ button:hover {
 
 .modal-img-container {
   position: relative;
-  width: 80%;
+  width: 100%;
   height: auto;
   max-height: 800px;
   display: flex;
@@ -245,7 +245,7 @@ button:hover {
 }
 
 .modal-img {
-  width: 80%;
+  width: 100%;
   height: auto;
   max-height: 800px;
   border-radius: 12px;
@@ -260,36 +260,38 @@ button:hover {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   border: none;
-  font-size: 2rem;
-  border-radius: 50%;
-  padding: 15px;
-  color: white;
+  font-size: 1.5rem;
+  border-radius: 25px;
+  padding: 70px 8px;
+  color: rgba(0, 0, 0, 0.624);
   cursor: pointer;
   z-index: 1001;
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 .modal-arrow:hover {
   opacity: 1;
+  background: rgba(212, 212, 212, 0.8);
 }
 
 .modal-arrow.left {
-  left: -10px;
+  left: -70px;
 }
 
 .modal-arrow.right {
-  right: -10px;
+  right: -70px;
 }
 
 .close-btn {
   position: absolute;
-  right: 20px;
+  right: -110px;
   top: -20px;
   background: transparent;
   border: none;
-  color: white;
+  color: rgb(255, 255, 255);
   font-size: 2rem;
   cursor: pointer;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0);
@@ -390,7 +392,8 @@ button:hover {
 
   .close-btn {
     right: -30px;
-	top: -70px;
+	top: -90px;
   }
 }
+
 </style>
