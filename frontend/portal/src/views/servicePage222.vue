@@ -23,91 +23,8 @@
     <div class="arrow-down">
       <img src="@/assets/arrow-down.png" alt="arrow-down" />
     </div>
-
     <section class="service-list">
-      <!-- Service 1 - Pack Eclat -->
-      <article class="service-card">
-        <div class="service-header">
-          <div class="service-info">
-            <img class="service-icon" src="@/assets/Pack/bronze.png" alt="Pack Bronze" />
-            <h2 class="service-title">Pack Éclat</h2>
-          </div>
-          <span class="service-price">💶 60€</span>
-        </div>
-        <p class="service-description">
-        <p><strong>Intérieur complet – Léger entretien</strong></p>
-        <p>Parfait pour les véhicules du quotidien qui ont simplement besoin d’un petit rafraîchissement.</p>
-        <p>Ce pack est idéal si tu veux retrouver un habitacle propre et agréable sans y consacrer trop de temps.</p>
-        <p>C’est le bon compromis entre rapidité et efficacité pour garder ta voiture toujours présentable.
-          Un service discret mais qui fait toute la différence au quotidien.</p>
-        </p>
-      </article>
-
-      <!-- Service 2 - Pack Brillance -->
-      <article class="service-card">
-        <div class="service-header">
-          <div class="service-info">
-            <img class="service-icon" src="@/assets/Pack/bronze.png" alt="Pack Bronze" />
-            <h2 class="service-title">Pack Brillance</h2>
-          </div>
-          <span class="service-price">💶 90€</span>
-        </div>
-        <p class="service-description">
-        <p><strong>Nettoyage intérieur complet – Soin approfondi</strong></p>
-        <p>Conçu pour les véhicules qui montrent clairement les signes du quotidien : poussière incrustée, taches
-          visibles, traces de vie.</p>
-        <p>Ce pack va bien plus loin qu’un simple rafraîchissement : il redonne une vraie allure à ton intérieur, avec
-          une finition soignée et durable.</p>
-        <p>Idéal si tu veux retrouver le plaisir d’un habitacle net, propre, accueillant.</p>
-        <p>Une transformation notable, sans aller jusqu’à la rénovation complète.</p>
-        </p>
-      </article>
-
-      <!-- Service 3 - Pack Prestige -->
-      <article class="service-card">
-        <div class="service-header">
-          <div class="service-info">
-            <img class="service-icon" src="@/assets/Pack/bronze.png" alt="Pack Bronze" />
-            <h2 class="service-title">Pack Préstige</h2>
-          </div>
-          <span class="service-price">💶 130€</span>
-        </div>
-        <p class="service-description">
-        <p><strong>Nettoyage intérieur complet – Traitement intensif</strong></p>
-        <p>Parfait pour les intérieurs très sales, négligés ou laissés à l’abandon.</p>
-        <p>Ici, on parle d’une rénovation complète pour redonner vie à un habitacle abîmé par le temps, les enfants, les
-          animaux ou les oublis.</p>
-        <p>Ce pack va au bout des choses : chaque recoin est traité avec minutie pour un résultat spectaculaire.</p>
-        <p>Si tu veux rouler dans une voiture propre comme au premier jour, c’est ce qu’il te faut.</p>
-        <p><strong>Un nettoyage poussé, visible, radical.</strong></p>
-        </p>
-      </article>
-
-      <!-- Service 4 - Pack Spécial avant-vente -->
-      <article class="service-card">
-        <div class="service-header">
-          <div class="service-info">
-            <img class="service-icon" src="@/assets/Pack/bronze.png" alt="Pack Bronze" />
-            <h2 class="service-title">Pack Spécial Avant-Vente</h2>
-          </div>
-          <span class="service-price">💶 170€</span>
-        </div>
-        <p class="service-description">
-        <p><strong>Rénovation complète pour la revente</strong></p>
-        <p>Pensé pour ceux qui veulent vendre leur véhicule rapidement et au meilleur prix.</p>
-        <p>Ce pack offre une présentation irréprochable de l’intérieur, pour séduire l’acheteur dès l’ouverture des
-          portes.</p>
-        <p>Chaque détail compte : propreté, odeur, aspect visuel… tout est fait pour inspirer confiance et créer le
-          coupde cœur.</p>
-        <p><strong>Un vrai coup de boost à la revente, sans tricher.</strong></p>
-        </p>
-      </article>
-
-      <p class="sub-title" style="padding-top: 50px">💼 Petits budgets & entretiens rapides</p>
-
-      <p>💡 Ces packs express sont pensés pour les besoins simples ou ponctuels.
-        Pas de nettoyage en profondeur ici — juste l’essentiel pour garder votre voiture présentable au quotidien.</p>
-      <!-- Service 5 - Pack Bronze -->
+      <!-- Service 1 - Pack Bronze -->
       <article class="service-card">
         <div class="service-header">
           <div class="service-info">
@@ -117,9 +34,8 @@
           <span class="service-price">💶 25€</span>
         </div>
         <p class="service-description">
-          <p>Rapide et efficace pour un coup de propre immédiat.</p>
-          <p>Parfait pour les gens pressés ou les entretiens réguliers.</p>
-          <p><strong><em>⚠️ Ne comprend pas les prestations complètes des grands packs.</em></strong></p>
+          Rapide et efficace pour un coup de propre immédiat.<br />
+          Parfait pour les gens pressés ou les entretiens réguliers.
         </p>
         <ul class="service-features">
           <li>
@@ -129,7 +45,7 @@
           <li>✔️ Nettoyage rapide des plastiques</li>
         </ul>
       </article>
-      <!-- Service 6 - Pack Gold -->
+      <!-- Service 2 - Pack Gold -->
       <article class="service-card">
         <div class="service-header">
           <div class="service-info">
@@ -139,9 +55,9 @@
           <span class="service-price">💶 35€</span>
         </div>
         <p class="service-description">
-          <p>Un nettoyage simple et soigné, pour garder un intérieur agréable sans y passer des heures.</p>
-<p>Idéal pour les véhicules du quotidien, ce pack couvre les bases essentielles sans traitement en profondeur.</p>
-<p><strong><em>⚠️ Ne comprend pas les prestations complètes des grands packs.</em></strong></p>
+          Un nettoyage complet et soigné pour un intérieur propre et
+          agréable.<br />
+          Idéal pour un véhicule utilisé au quotidien.
         </p>
         <ul class="service-features">
           <li>
@@ -154,19 +70,18 @@
         </ul>
       </article>
 
-      <!-- Service 7 - Pack Diamond -->
+      <!-- Service 3 - Pack Diamond -->
       <article class="service-card">
         <div class="service-header">
           <div class="service-info">
             <img class="service-icon" src="@/assets/Pack/diamond.png" alt="Pack Diamond" />
-            <h2 class="service-title">Pack Premium ~ 60m 🕒</h2>
+            <h2 class="service-title">Pack Premium ~ 1h 🕒</h2>
           </div>
           <span class="service-price">💶 45€</span>
         </div>
         <p class="service-description">
-          <p>Pensé pour rafraîchir un habitacle visiblement sale, sans aller jusqu’à la rénovation totale.</p>
-          <p>Un bon compromis pour les petits budgets qui veulent un résultat propre et net.</p>
-          <p><strong><em>⚠️ Ce pack reste une version allégée, sans nettoyage intégral ou ultra-détaillé.</em></strong></p>
+          Un nettoyage en profondeur pour un habitacle comme neuf.<br />
+          Parfait pour les voitures très sales ou avant revente.
         </p>
         <ul class="service-features">
           <li>
