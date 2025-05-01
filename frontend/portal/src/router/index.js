@@ -11,10 +11,12 @@ import LoginPage from '@/views/LoginPage.vue';
 import VerifyCode from '@/views/verifyCode.vue';
 import ProfilPage from '@/views/profilPage.vue';
 import ServicePage from '@/views/servicePage.vue';
+import CancellationPolicyPage from '@/views/cancellationPolicy.vue';
+
 import AboutPage from '@/views/about.vue';
 import HowItWorksPage from '@/views/howItWorks.vue';
 import PrivacyPolicyPage from '@/views/privacyPolicy.vue';
-import CancellationPolicyPage from '@/views/cancellationPolicy.vue';
+import ShopLoyalties from '@/views/shopLoyalties.vue';
 
 // Déclaration des routes avec leur composant associé
 const routes = [
@@ -24,11 +26,13 @@ const routes = [
   { path: '/verify-code', name: 'VerifyCode', component: VerifyCode },
   { path: '/profil/:id', name: 'Profil', component: ProfilPage },
   { path: '/service', name: 'Service', component: ServicePage },
+  { path: '/shopLoyalties', name: 'ShopLoyalties', component: ShopLoyalties },
 
   { path: '/about', name: 'About', component: AboutPage },
   { path: '/howItWorks', name: 'HowItWorks', component: HowItWorksPage },
   { path: '/privacyPolicy', name: 'PrivacyPolicy', component: PrivacyPolicyPage },
   { path: '/cancellationPolicy', name: 'CancellationPolicy', component: CancellationPolicyPage },
+
   // autres routes ici...
 
   // Page non trouvé ou existe pas

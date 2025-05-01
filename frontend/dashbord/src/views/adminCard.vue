@@ -1,6 +1,5 @@
 <template>
   <div class="admin-container">
-    <button class="logout-btn" @click="logout">Déconnexion</button>
 
     <h1>Panel Admin</h1>
 
@@ -65,17 +64,6 @@ onMounted(async () => {
     }
   }
 })
-
-const logout = async () => {
-  try {
-    await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/admin/logout`, {}, {
-      withCredentials: true
-    });
-    router.push('/admin-login');
-  } catch (err) {
-    console.error("❌ Erreur déconnexion :", err);
-  }
-};
 
 // ✅ Fonction pour ajouter des points
 const addPoints = async (user) => {
@@ -163,22 +151,6 @@ const reloadUsers = async () => {
   margin: 0 auto;
   padding: 30px;
   font-family: sans-serif;
-}
-
-.logout-btn {
-  margin: 0 auto;
-  display: block;
-  padding: 8px 14px;
-  background-color: #d62828;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.logout-btn:hover {
-  background-color: #b71c1c;
 }
 
 h1 {

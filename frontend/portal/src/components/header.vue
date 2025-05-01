@@ -115,7 +115,7 @@ const userStore = useUserStore();
 const menuItems = ref([
   { label: 'Accueil', link: '/' },
   { label: 'Services', link: '/service' },
-  { label: 'Boutique', link: '/service' },
+  { label: 'Boutique', link: '/shopLoyalties' },
 ]);
 
 const showFullMenu = ref(true);
