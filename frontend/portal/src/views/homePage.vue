@@ -167,6 +167,12 @@
         <img src="@/assets/step/number4.svg" alt="number3" loading="lazy" />
       </div>
     </div>
+
+    <!-- SECTION AVIS GOOGLE -->
+    <section id="avis-google">
+      <div class="elfsight-app-d9b72142-4d5e-4e85-af2a-e4a6732451d9" data-elfsight-app-lazy></div>
+    </section>
+
   </div>
 </template>
 
@@ -194,6 +200,12 @@ export default {
       ],
     };
   },
+  mounted() {
+    const script = document.createElement("script");
+    script.src = "https://static.elfsight.com/platform/platform.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }
 }
 
 </script>
