@@ -15,7 +15,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-  
+
   <!-- Connexion -->
   <url>
     <loc>https://www.zanacleancar.fr/login</loc>
@@ -23,20 +23,46 @@
     <priority>0.5</priority>
   </url>
 
-  <!-- page de contact -->
+  <!-- Page de contact -->
   <url>
     <loc>https://www.zanacleancar.fr/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- page services -->
+  <!-- Page services -->
   <url>
     <loc>https://www.zanacleancar.fr/services</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- d'autres pages ici -->
+  <!-- À propos -->
+  <url>
+    <loc>https://www.zanacleancar.fr/about</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Fonctionnement -->
+  <url>
+    <loc>https://www.zanacleancar.fr/howItWorks</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Politique de confidentialité -->
+  <url>
+    <loc>https://www.zanacleancar.fr/privacyPolicy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- Politique d'annulation -->
+  <url>
+    <loc>https://www.zanacleancar.fr/cancellationPolicy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
 
 </urlset>
