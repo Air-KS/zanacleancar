@@ -6,7 +6,7 @@
 
     <transition name="fade">
       <div v-show="isOpen" class="contact-menu">
-        <p>📞 <strong>Téléphone :</strong> <a href="tel:0610421272">06.10.42.12.72</a></p>
+        <!-- <p>📞 <strong>Téléphone :</strong> <a href="tel:0610421272">06.07.08.09.00</a></p> -->
         <p>📧 <strong>Email :</strong> <a href="mailto:contact@zanacleancar.fr">contact@zanacleancar.fr</a></p>
         <p>📍 <strong>Zone :</strong> Roubaix & Alentours</p>
         <div class="map">
